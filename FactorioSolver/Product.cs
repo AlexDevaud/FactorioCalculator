@@ -15,14 +15,14 @@ namespace FactorioSolver
         public double TimeToProduce { get; }
         public int TotalCreated { get; } // The number of this type of item that are created when it is crafted.
         public List<Ingredient> Ingredients { get; set; }
-        public bool UsesBelt { get; }
+        public Factory Producer { get; }
 
-        public Product (string name, double timeToProduce, int totalCreated, bool usesBelt)
+        public Product (string name, double timeToProduce, int totalCreated, Factory producer)
         {
             Name = name;
             TimeToProduce = timeToProduce;
             TotalCreated = totalCreated;
-            UsesBelt = usesBelt;
+            Producer = producer;
             Ingredients = new List<Ingredient>();
         }
 
@@ -40,6 +40,23 @@ namespace FactorioSolver
         {
             Product = product;
             Amount = amount;
+        }
+    }
+
+    /// <summary>
+    /// Used to track the building that is used to craft a product.
+    /// </summary>
+    class Factory
+    {
+        public string Name { get; }
+        public bool UsesBelt { get; }
+        public double CraftSpeed { get; }
+
+        public Factory(string name, bool usesBelt, double craftSpeed)
+        {
+            Name = name;
+            UsesBelt = usesBelt;
+            CraftSpeed = craftSpeed;
         }
     }
 }

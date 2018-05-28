@@ -10,7 +10,7 @@ namespace FactorioSolver
     {
         private AllProducts products;
         private IUiInterface view;
-        private double craftSpeed;
+        //private double craftSpeed;
         private double largestBeltLoad;
 
         public Controller(IUiInterface uiInterface)
@@ -18,7 +18,7 @@ namespace FactorioSolver
             view = uiInterface;
             products = new AllProducts();
             products.CreateDefaultProducts();
-            craftSpeed = 2;
+            //craftSpeed = 2;
             largestBeltLoad = 0;
 
             view.ClickCalculate += HandleCalculate;
@@ -26,7 +26,7 @@ namespace FactorioSolver
         }
 
 
-        public void HandleCalculate()
+        private void HandleCalculate()
         {
             view.TextReport.Text = "";
             largestBeltLoad = 0;
@@ -54,22 +54,29 @@ namespace FactorioSolver
             
         }
 
-        public void PrintFactoryCosts(Product product, double count)
+        /// <summary>
+        /// Count is the amount of this item we need to produce at the given rate.
+        /// </summary>
+        /// <param name="product"></param>
+        /// <param name="count"></param>
+        private void PrintFactoryCosts(Product product, double count)
         {
             // Cost of this item.
-            double factoriesNeeded = (1.0 * count * product.TimeToProduce) / (1.0 * product.TotalCreated * craftSpeed);
+            double factoriesNeeded = (1.0 * count * product.TimeToProduce) / (1.0 * product.TotalCreated * product.Producer.CraftSpeed);
+            string factoriesNeededString = TrimDoubleLength(factoriesNeeded);
             
             if (view.TextReport.Text.Length > 0)
             {
                 view.TextReport.AppendText("\n");
             }
-            view.TextReport.AppendText("Factories for " + product.Name + " = " + factoriesNeeded);
+            view.TextReport.AppendText(product.Producer.Name + " for " + product.Name + " = " + factoriesNeededString);
 
             // Report on the load it will place on the belt.
-            if (product.UsesBelt)
+            if (product.Producer.UsesBelt)
             {
-                double beltLoad = 1.0 * product.TotalCreated * craftSpeed * factoriesNeeded / product.TimeToProduce;
-                view.TextReport.AppendText(" Belt load = " + beltLoad);
+                double beltLoad = 1.0 * product.TotalCreated * product.Producer.CraftSpeed * factoriesNeeded / product.TimeToProduce;
+                string beltLoadString = TrimDoubleLength(beltLoad);
+                view.TextReport.AppendText(" Belt load = " + beltLoadString);
 
                 // Store the largest belt load.
                 if (beltLoad > largestBeltLoad)
@@ -83,12 +90,12 @@ namespace FactorioSolver
             {
                 foreach (Ingredient ingredient in product.Ingredients)
                 {
-                    PrintFactoryCosts(ingredient.Product, (ingredient.Amount * count));
+                    PrintFactoryCosts(ingredient.Product, (1.0 * ingredient.Amount * count) / product.TotalCreated);
                 }
             }
         }
 
-        public void HandleOptimizeBeltLoad()
+        private void HandleOptimizeBeltLoad()
         {
             view.TextTotalPerSecond.Text = "" + 1;
             HandleCalculate();
@@ -97,6 +104,21 @@ namespace FactorioSolver
             view.TextTotalPerSecond.Text = "" + optimalRate;
 
             HandleCalculate();
+        }
+
+        /// <summary>
+        /// Trims the length of a double.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private string TrimDoubleLength(double value)
+        {
+            string valueString = "" + value;
+            if (valueString.Length > 5)
+            {
+                valueString = valueString.Substring(0, 5);
+            }
+            return valueString;
         }
     }
 }
