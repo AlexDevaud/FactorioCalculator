@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace FactorioSolver
 {
-    static class Program
+    static class Launcher
     {
         /// <summary>
         /// The main entry point for the application.
@@ -16,7 +16,11 @@ namespace FactorioSolver
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            Ui ui = new Ui();
+            Controller controller = new Controller(ui);
+
+            Application.Run(ui);
         }
     }
 }
