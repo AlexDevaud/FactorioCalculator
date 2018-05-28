@@ -15,12 +15,14 @@ namespace FactorioSolver
         public double TimeToProduce { get; }
         public int TotalCreated { get; } // The number of this type of item that are created when it is crafted.
         public List<Ingredient> Ingredients { get; set; }
+        public bool UsesBelt { get; }
 
-        public Product (string name, double timeToProduce, int totalCreated)
+        public Product (string name, double timeToProduce, int totalCreated, bool usesBelt)
         {
             Name = name;
             TimeToProduce = timeToProduce;
             TotalCreated = totalCreated;
+            UsesBelt = usesBelt;
             Ingredients = new List<Ingredient>();
         }
 

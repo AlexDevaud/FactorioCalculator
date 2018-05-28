@@ -36,10 +36,16 @@ namespace FactorioSolver
 
 
         public event Action ClickCalculate;
+        public event Action ClickOptimizeBeltLoad;
 
         private void ButtonCalculate_Click(object sender, EventArgs e)
         {
             ClickCalculate?.Invoke();
+        }
+
+        private void ButtonOptimizeBeltLoad_Click(object sender, EventArgs e)
+        {
+            ClickOptimizeBeltLoad?.Invoke();
         }
     }
 }

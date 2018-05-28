@@ -14,5 +14,6 @@ namespace FactorioSolver
         TextBox TextTotalPerSecond { get; set; }
 
         event Action ClickCalculate;
+        event Action ClickOptimizeBeltLoad;
     }
 }

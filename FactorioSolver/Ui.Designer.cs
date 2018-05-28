@@ -34,6 +34,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.boxTotalPerSecond = new System.Windows.Forms.TextBox();
+            this.ButtonOptimizeBeltLoad = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ButtonCalculate
@@ -51,7 +52,7 @@
             this.boxDebug.Location = new System.Drawing.Point(245, 12);
             this.boxDebug.Multiline = true;
             this.boxDebug.Name = "boxDebug";
-            this.boxDebug.Size = new System.Drawing.Size(572, 1135);
+            this.boxDebug.Size = new System.Drawing.Size(1012, 1135);
             this.boxDebug.TabIndex = 2;
             // 
             // boxIngredient
@@ -84,15 +85,26 @@
             // 
             this.boxTotalPerSecond.Location = new System.Drawing.Point(25, 91);
             this.boxTotalPerSecond.Name = "boxTotalPerSecond";
-            this.boxTotalPerSecond.Size = new System.Drawing.Size(100, 20);
+            this.boxTotalPerSecond.Size = new System.Drawing.Size(174, 20);
             this.boxTotalPerSecond.TabIndex = 6;
             this.boxTotalPerSecond.Text = "1";
+            // 
+            // ButtonOptimizeBeltLoad
+            // 
+            this.ButtonOptimizeBeltLoad.Location = new System.Drawing.Point(90, 163);
+            this.ButtonOptimizeBeltLoad.Name = "ButtonOptimizeBeltLoad";
+            this.ButtonOptimizeBeltLoad.Size = new System.Drawing.Size(109, 23);
+            this.ButtonOptimizeBeltLoad.TabIndex = 7;
+            this.ButtonOptimizeBeltLoad.Text = "Optimize Belt Load";
+            this.ButtonOptimizeBeltLoad.UseVisualStyleBackColor = true;
+            this.ButtonOptimizeBeltLoad.Click += new System.EventHandler(this.ButtonOptimizeBeltLoad_Click);
             // 
             // Ui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1127, 1187);
+            this.ClientSize = new System.Drawing.Size(1348, 1187);
+            this.Controls.Add(this.ButtonOptimizeBeltLoad);
             this.Controls.Add(this.boxTotalPerSecond);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -113,6 +125,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox boxTotalPerSecond;
+        private System.Windows.Forms.Button ButtonOptimizeBeltLoad;
     }
 }
 
