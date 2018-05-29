@@ -59,4 +59,24 @@ namespace FactorioSolver
             CraftSpeed = craftSpeed;
         }
     }
+
+    /// <summary>
+    /// Object to track the stats we generate.
+    /// So, those stats can be sorted before they are displayed.
+    /// </summary>
+    class IngredientStats
+    {
+        public Product Ingredient { get; }
+        public double ExactFactories { get; }
+        public int RoundedFactories { get; }
+        public double BeltLoad { get; set; }
+
+        public IngredientStats(Product ingredient, double exactFactories)
+        {
+            Ingredient = ingredient;
+            ExactFactories = exactFactories;
+
+            RoundedFactories = (int)Math.Ceiling(exactFactories);
+        }
+    }
 }

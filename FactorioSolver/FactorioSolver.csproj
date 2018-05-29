@@ -54,7 +54,7 @@
       <DependentUpon>Ui.cs</DependentUpon>
     </Compile>
     <Compile Include="IUiInterface.cs" />
-    <Compile Include="Product.cs" />
+    <Compile Include="Objects.cs" />
     <Compile Include="Launcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Ui.resx">

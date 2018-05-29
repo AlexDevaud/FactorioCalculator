@@ -51,9 +51,15 @@ namespace FactorioSolver
             Product sciencePack1 = new Product("Science Pack 1", 5, 1, assemblingMachine);
             Product ironGearWheel = new Product("Iron Gear Wheel", 0.5, 1, assemblingMachine);
 
+            Product sciencePack2 = new Product("Science Pack 2", 6, 1, assemblingMachine);
+            Product inserter = new Product("Inserter", 0.5, 1, assemblingMachine);
+            Product transportBelt = new Product("Transport Belt", 0.5, 2, assemblingMachine);
+
             // Resources that don't have real stats yet.
             Product coal = new Product("Coal", 1, 1, electricMiningDrill);
-            
+            Product ironOre = new Product("Iron Ore", 1, 1, electricMiningDrill);
+            Product copperOre = new Product("Copper Ore", 1, 1, electricMiningDrill);
+
 
             // Add ingredients
             highTechPack.Ingredients.Add(new Ingredient(battery, 1));
@@ -95,6 +101,18 @@ namespace FactorioSolver
             sciencePack1.Ingredients.Add(new Ingredient(ironGearWheel, 1));
 
             ironGearWheel.Ingredients.Add(new Ingredient(ironPlate, 2));
+            ironPlate.Ingredients.Add(new Ingredient(ironOre, 1));
+            copperPlate.Ingredients.Add(new Ingredient(copperOre, 1));
+
+            sciencePack2.Ingredients.Add(new Ingredient(inserter, 1));
+            sciencePack2.Ingredients.Add(new Ingredient(transportBelt, 1));
+
+            inserter.Ingredients.Add(new Ingredient(electronicCircuit, 1));
+            inserter.Ingredients.Add(new Ingredient(ironGearWheel, 1));
+            inserter.Ingredients.Add(new Ingredient(ironPlate, 1));
+
+            transportBelt.Ingredients.Add(new Ingredient(ironGearWheel, 1));
+            transportBelt.Ingredients.Add(new Ingredient(ironPlate, 1));
 
             // Add all to the list.
             products.Add(highTechPack);
@@ -115,9 +133,15 @@ namespace FactorioSolver
             products.Add(water);
 
             products.Add(coal);
+            products.Add(ironOre);
+            products.Add(copperOre);
 
             products.Add(sciencePack1);
             products.Add(ironGearWheel);
+
+            products.Add(sciencePack2);
+            products.Add(inserter);
+            products.Add(transportBelt);
 
             // Add all to the dictionary
             foreach (Product product in products)
