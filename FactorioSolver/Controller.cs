@@ -38,7 +38,7 @@ namespace FactorioSolver
                 {
                     // Built a list of sets of factories we will need.
                     List<IngredientStats> ingredientsList = new List<IngredientStats>();
-                    PrintFactoryCosts(product, totalPerSecond, ingredientsList);
+                    ComputeFactoryCosts(product, totalPerSecond, ingredientsList, "Root");
 
                     // Sort the factories list into sub lists.
                     List<IngredientStats> ironFurnace = new List<IngredientStats>();
@@ -108,7 +108,7 @@ namespace FactorioSolver
                 {
                     view.TextReport.AppendText("\n");
                 }
-                view.TextReport.AppendText("Build " + stats.RoundedFactories + " " + stats.Ingredient.Producer.Name + "s for " + stats.Ingredient.Name);
+                view.TextReport.AppendText("Build " + stats.RoundedFactories + " " + stats.Ingredient.Producer.Name + "s for " + stats.Ingredient.Name + " Feed this to " + stats.ParentName);
                 if (stats.BeltLoad > 0)
                 {
                     string beltLoadString = "" + stats.BeltLoad;
@@ -130,11 +130,11 @@ namespace FactorioSolver
         /// </summary>
         /// <param name="product"></param>
         /// <param name="count"></param>
-        private List<IngredientStats> PrintFactoryCosts(Product product, double count, List<IngredientStats> ingredientsList)
+        private List<IngredientStats> ComputeFactoryCosts(Product product, double count, List<IngredientStats> ingredientsList, string parentName)
         {
             
             double factoriesNeeded = (1.0 * count * product.TimeToProduce) / (1.0 * product.TotalCreated * product.Producer.CraftSpeed);
-            IngredientStats ingredientStats = new IngredientStats(product, factoriesNeeded);
+            IngredientStats ingredientStats = new IngredientStats(product, factoriesNeeded, parentName);
             double beltLoad = 0;
             if (product.Producer.UsesBelt)
             {
@@ -155,42 +155,11 @@ namespace FactorioSolver
                 foreach (Ingredient ingredient in product.Ingredients)
                 {
                     double newCost = 1.0 * (1.0 * ingredient.Amount * count) / product.TotalCreated;
-                    PrintFactoryCosts(ingredient.Product, newCost, ingredientsList);
+                    ComputeFactoryCosts(ingredient.Product, newCost, ingredientsList, product.Name);
                 }
             }
 
             return ingredientsList;
-
-                /*
-                // Cost of this item.
-                double factoriesNeeded = (1.0 * count * product.TimeToProduce) / (1.0 * product.TotalCreated * product.Producer.CraftSpeed);
-                string factoriesNeededString = TrimDoubleLength(factoriesNeeded);
-
-                if (view.TextReport.Text.Length > 0)
-                {
-                    view.TextReport.AppendText("\n");
-                }
-                view.TextReport.AppendText(product.Producer.Name + " for " + product.Name + " = " + factoriesNeededString);
-
-                // Report on the load it will place on the belt.
-                if (product.Producer.UsesBelt)
-                {
-                    double beltLoad = 1.0 * product.TotalCreated * product.Producer.CraftSpeed * factoriesNeeded / product.TimeToProduce;
-                    string beltLoadString = TrimDoubleLength(beltLoad);
-                    view.TextReport.AppendText(" Belt load = " + beltLoadString);
-
-                   
-
-                }
-
-                if (product.Ingredients.Count > 0)
-                {
-                    foreach (Ingredient ingredient in product.Ingredients)
-                    {
-                        PrintFactoryCosts(ingredient.Product, (1.0 * ingredient.Amount * count) / product.TotalCreated);
-                    }
-                }
-                */
             }
 
         private void HandleOptimizeBeltLoad()

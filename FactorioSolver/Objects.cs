@@ -70,11 +70,13 @@ namespace FactorioSolver
         public double ExactFactories { get; }
         public int RoundedFactories { get; }
         public double BeltLoad { get; set; }
+        public string ParentName { get; }
 
-        public IngredientStats(Product ingredient, double exactFactories)
+        public IngredientStats(Product ingredient, double exactFactories, string parentName)
         {
             Ingredient = ingredient;
             ExactFactories = exactFactories;
+            ParentName = parentName;
 
             RoundedFactories = (int)Math.Ceiling(exactFactories);
         }
