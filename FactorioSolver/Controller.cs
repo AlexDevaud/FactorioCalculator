@@ -108,7 +108,7 @@ namespace FactorioSolver
                 {
                     view.TextReport.AppendText("\n");
                 }
-                view.TextReport.AppendText("Build " + stats.RoundedFactories + " " + stats.Ingredient.Producer.Name + "s for " + stats.Ingredient.Name + " Feed this to " + stats.ParentName);
+                view.TextReport.AppendText("Build " + stats.RoundedFactories + " " + stats.Ingredient.Producer.Name + "s for " + stats.Ingredient.Name + " that feeds to " + stats.ParentName);
                 if (stats.BeltLoad > 0)
                 {
                     string beltLoadString = "" + stats.BeltLoad;
@@ -155,7 +155,7 @@ namespace FactorioSolver
                 foreach (Ingredient ingredient in product.Ingredients)
                 {
                     double newCost = 1.0 * (1.0 * ingredient.Amount * count) / product.TotalCreated;
-                    ComputeFactoryCosts(ingredient.Product, newCost, ingredientsList, product.Name);
+                    ComputeFactoryCosts(ingredient.Product, newCost, ingredientsList, product.Name + " that feeds to " + parentName);
                 }
             }
 

@@ -31,6 +31,7 @@ namespace FactorioSolver
             Factory offshorePump = new Factory("Offshore Pump", false, 1);
             Factory electricMiningDrill = new Factory("Electric Mining Drill", true, 0.5);
 
+            // High tech pack
             Product highTechPack = new Product("High Tech Pack", 14, 2, assemblingMachine);
             Product battery = new Product("Battery", 5, 1, chemicalPlantBelt);
             Product sulfuricAcid = new Product("Sulfuric Acid", 1, 50, chemicalPlantPipe);
@@ -48,12 +49,21 @@ namespace FactorioSolver
             Product copperPlate = new Product("Copper Plate", 3.5, 1, electricFurnace);
             Product water = new Product("Water", 1, 1200, offshorePump);
 
+            // Science pack 1
             Product sciencePack1 = new Product("Science Pack 1", 5, 1, assemblingMachine);
             Product ironGearWheel = new Product("Iron Gear Wheel", 0.5, 1, assemblingMachine);
 
+            // Science pack 2
             Product sciencePack2 = new Product("Science Pack 2", 6, 1, assemblingMachine);
             Product inserter = new Product("Inserter", 0.5, 1, assemblingMachine);
             Product transportBelt = new Product("Transport Belt", 0.5, 2, assemblingMachine);
+
+            // Science pack 3
+
+            // Miltitary science pack
+
+            // Production science pack
+
 
             // Resources that don't have real stats yet.
             Product coal = new Product("Coal", 1, 1, electricMiningDrill);
