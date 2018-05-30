@@ -36,7 +36,7 @@ namespace FactorioSolver
             Product battery = new Product("Battery", 5, 1, facChemicalPlantBelt);
             Product sulfuricAcid = new Product("Sulfuric Acid", 1, 50, facChemicalPlantPipe);
             Product sulfur = new Product("Sulfur", 1, 2, facChemicalPlantBelt);
-            Product petroleumGas = new Product("Petroleum Gas", 5, 55, facOilRefinery);
+            Product petroleumGas = new Product("Petroleum Gas", 5, 90, facOilRefinery);
             Product lightOil = new Product("Light Oil", 5, 45, facOilRefinery);
             Product heavyOil = new Product("Heavy Oil", 5, 10, facOilRefinery);
             Product copperCable = new Product("CopperCable", 0.5, 2, facAssemblingMachine);

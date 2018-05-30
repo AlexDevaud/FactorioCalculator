@@ -109,6 +109,15 @@ namespace FactorioSolver
                     view.TextReport.AppendText("\n");
                 }
                 view.TextReport.AppendText("Build " + stats.RoundedFactories + " " + stats.Ingredient.Producer.Name + "s for " + stats.Ingredient.Name + " that feeds to " + stats.ParentName);
+                if (stats.Ingredient.Name == "Petroleum Gas")
+                {
+                    double refineriesPerHeavyCracking = 25.0 / 21;
+                    double refineriesPerLightCracking = 25.0 / 3;
+                    int heavyCrackingPlants = (int)Math.Ceiling(stats.RoundedFactories / refineriesPerHeavyCracking);
+                    int lightCrackingPlants = (int)Math.Ceiling(stats.RoundedFactories / refineriesPerLightCracking);
+                    view.TextReport.AppendText("\n");
+                    view.TextReport.AppendText("For the last refinery also build " + heavyCrackingPlants + " chemical plants to crack heavy oil to light oil. Also build " + lightCrackingPlants + " chemical plants to crack light oil to pertroleum gas.");
+                }
                 if (stats.BeltLoad > 0)
                 {
                     string beltLoadString = "" + stats.BeltLoad;
