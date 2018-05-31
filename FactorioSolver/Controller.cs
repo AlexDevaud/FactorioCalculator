@@ -25,7 +25,9 @@ namespace FactorioSolver
             view.ClickOptimizeBeltLoad += HandleOptimizeBeltLoad;
         }
 
-
+        /// <summary>
+        /// Calculated the factories needed to produce the given item at the given rate.
+        /// </summary>
         private void HandleCalculate()
         {
             view.TextReport.Text = "";
@@ -136,6 +138,7 @@ namespace FactorioSolver
 
                     view.TextReport.AppendText(". This will create a belt load of " + beltLoadString);
                 }
+                view.TextReport.AppendText("\n");
             }
             
 
