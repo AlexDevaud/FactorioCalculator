@@ -43,6 +43,7 @@ namespace FactorioSolver
                     // Sort the factories list into sub lists.
                     List<IngredientStats> ironFurnace = new List<IngredientStats>();
                     List<IngredientStats> copperFurnace = new List<IngredientStats>();
+                    List<IngredientStats> steelFurnace = new List<IngredientStats>();
                     List<IngredientStats> assemblingMachines = new List<IngredientStats>();
                     List<IngredientStats> chemicalPlants = new List<IngredientStats>();
                     List<IngredientStats> refineries = new List<IngredientStats>();
@@ -60,7 +61,11 @@ namespace FactorioSolver
                                 {
                                     copperFurnace.Add(ingredientStats);
                                 }
-                                break;
+                                else if (ingredientStats.Ingredient.Name == "Steel Plate")
+                                {
+                                    steelFurnace.Add(ingredientStats);
+                                }
+                                    break;
                             case "Assembling Machine":
                                 assemblingMachines.Add(ingredientStats);
                                 break;
@@ -75,10 +80,11 @@ namespace FactorioSolver
 
                     // Display all the lists.
                     DisplayListOfFactories(ironFurnace);
+                    DisplayListOfFactories(steelFurnace);
                     DisplayListOfFactories(copperFurnace);
-                    DisplayListOfFactories(assemblingMachines);
-                    DisplayListOfFactories(chemicalPlants);
                     DisplayListOfFactories(refineries);
+                    DisplayListOfFactories(chemicalPlants);
+                    DisplayListOfFactories(assemblingMachines);
 
                     view.TextReport.AppendText("\n");
                     view.TextReport.AppendText("\n");
@@ -91,7 +97,7 @@ namespace FactorioSolver
             }
             else
             {
-                view.TextReport.Text = "Not found";
+                view.TextReport.Text = "Item not found";
             }
             
         }
@@ -102,17 +108,19 @@ namespace FactorioSolver
         /// <param name="list"></param>
         private void DisplayListOfFactories(List<IngredientStats> list)
         {
+            list.Reverse();
+
             foreach (IngredientStats stats in list)
             {
                 if (view.TextReport.Text.Length > 0)
                 {
                     view.TextReport.AppendText("\n");
                 }
-                view.TextReport.AppendText("Build " + stats.RoundedFactories + " " + stats.Ingredient.Producer.Name + "s for " + stats.Ingredient.Name + " that feeds to " + stats.ParentName);
+                view.TextReport.AppendText("Build " + stats.RoundedFactories + " " + stats.Ingredient.Producer.Name + "s for " + stats.Ingredient.Name + " that feeds to make " + stats.ParentName);
                 if (stats.Ingredient.Name == "Petroleum Gas")
                 {
-                    double refineriesPerHeavyCracking = 25.0 / 21;
-                    double refineriesPerLightCracking = 25.0 / 3;
+                    double refineriesPerHeavyCracking = 25.0 / 3;
+                    double refineriesPerLightCracking = 25.0 / 21;
                     int heavyCrackingPlants = (int)Math.Ceiling(stats.RoundedFactories / refineriesPerHeavyCracking);
                     int lightCrackingPlants = (int)Math.Ceiling(stats.RoundedFactories / refineriesPerLightCracking);
                     view.TextReport.AppendText("\n");
@@ -164,7 +172,7 @@ namespace FactorioSolver
                 foreach (Ingredient ingredient in product.Ingredients)
                 {
                     double newCost = 1.0 * (1.0 * ingredient.Amount * count) / product.TotalCreated;
-                    ComputeFactoryCosts(ingredient.Product, newCost, ingredientsList, product.Name + " that feeds to " + parentName);
+                    ComputeFactoryCosts(ingredient.Product, newCost, ingredientsList, product.Name + " that feeds to make " + parentName);
                 }
             }
 

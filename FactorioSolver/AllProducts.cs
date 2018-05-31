@@ -151,6 +151,10 @@ namespace FactorioSolver
             engineUnit.Ingredients.Add(new Ingredient(pipe, 2));
             engineUnit.Ingredients.Add(new Ingredient(steelPlate, 1));
 
+            pipe.Ingredients.Add(new Ingredient(ironPlate, 1));
+
+            steelPlate.Ingredients.Add(new Ingredient(ironPlate, 5));
+
             militarySciencePack.Ingredients.Add(new Ingredient(piercingRoundsMagazine, 1));
             militarySciencePack.Ingredients.Add(new Ingredient(grenade, 1));
             militarySciencePack.Ingredients.Add(new Ingredient(gunTurret, 1));
