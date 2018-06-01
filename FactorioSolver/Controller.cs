@@ -12,6 +12,7 @@ namespace FactorioSolver
         private IUiInterface view;
         //private double craftSpeed;
         private double largestBeltLoad;
+        private string largestBeltProduct;
 
         public Controller(IUiInterface uiInterface)
         {
@@ -20,6 +21,7 @@ namespace FactorioSolver
             products.CreateDefaultProducts();
             //craftSpeed = 2;
             largestBeltLoad = 0;
+            largestBeltProduct = "";
 
             view.ClickCalculate += HandleCalculate;
             view.ClickOptimizeBeltLoad += HandleOptimizeBeltLoad;
@@ -74,7 +76,10 @@ namespace FactorioSolver
                             case "Chemical Plant":
                                 chemicalPlants.Add(ingredientStats);
                                 break;
-                            case "Oil Refinery":
+                            case "Basic Processing Oil Refinerie":
+                                refineries.Add(ingredientStats);
+                                break;
+                            case "Advanced Processing Oil Refinerie":
                                 refineries.Add(ingredientStats);
                                 break;
                         }
@@ -89,8 +94,7 @@ namespace FactorioSolver
                     DisplayListOfFactories(assemblingMachines);
 
                     view.TextReport.AppendText("\n");
-                    view.TextReport.AppendText("\n");
-                    view.TextReport.AppendText("The largest belt load is " + largestBeltLoad);
+                    view.TextReport.AppendText("The largest belt load is " + largestBeltLoad + " for " + largestBeltProduct);
                 }
                 else
                 {
@@ -126,7 +130,22 @@ namespace FactorioSolver
                     int heavyCrackingPlants = (int)Math.Ceiling(stats.RoundedFactories / refineriesPerHeavyCracking);
                     int lightCrackingPlants = (int)Math.Ceiling(stats.RoundedFactories / refineriesPerLightCracking);
                     view.TextReport.AppendText("\n");
-                    view.TextReport.AppendText("For the last refinery also build " + heavyCrackingPlants + " chemical plants to crack heavy oil to light oil. Also build " + lightCrackingPlants + " chemical plants to crack light oil to pertroleum gas.");
+                    view.TextReport.AppendText("\n");
+                    view.TextReport.AppendText("For the last set of refineries also build " + heavyCrackingPlants + " chemical plants to crack heavy oil to light oil.");
+                    view.TextReport.AppendText("\n");
+                    view.TextReport.AppendText("Also build " + lightCrackingPlants + " chemical plants to crack light oil to pertroleum gas.");
+                }
+                else if (stats.Ingredient.Name == "Heavy Oil")
+                {
+                    double refineriesPerLightToSolid = 2.25;
+                    double refineriesPerGasToSolid = 1.5;
+                    int lightToSolidPlants = (int)Math.Ceiling(stats.RoundedFactories * refineriesPerLightToSolid);
+                    int gasToSolidPlants = (int)Math.Ceiling(stats.RoundedFactories * refineriesPerGasToSolid);
+                    view.TextReport.AppendText("\n");
+                    view.TextReport.AppendText("\n");
+                    view.TextReport.AppendText("For the last set of refineries also build " + lightToSolidPlants + " chemical plants to turn excess light oil into solid fuel.");
+                    view.TextReport.AppendText("\n");
+                    view.TextReport.AppendText("Also build " + gasToSolidPlants + " chemical plants to turn the excess petroleum gas to solid fuel.");
                 }
                 if (stats.BeltLoad > 0)
                 {
@@ -164,6 +183,7 @@ namespace FactorioSolver
                 if (beltLoad > largestBeltLoad)
                 {
                     largestBeltLoad = beltLoad;
+                    largestBeltProduct = product.Name;
                 }
             }
             ingredientStats.BeltLoad = beltLoad;

@@ -26,7 +26,8 @@ namespace FactorioSolver
             Factory facAssemblingMachine = new Factory("Assembling Machine", true, 1.25);
             Factory facChemicalPlantBelt = new Factory("Chemical Plant", true, 1.25);
             Factory facChemicalPlantPipe = new Factory("Chemical Plant", false, 1.25);
-            Factory facOilRefinery = new Factory("Oil Refinery", false, 1);
+            Factory facOilRefineryAdvanced = new Factory("Advanced Processing Oil Refinerie", false, 1);
+            Factory facOilRefineryBasic = new Factory("Basic Processing Oil Refinerie", false, 1);
             Factory facElectricFurnace = new Factory("Electric Furnace", true, 2);
             Factory facOffshorePump = new Factory("Offshore Pump", false, 1);
             Factory facElectricMiningDrill = new Factory("Electric Mining Drill", true, 0.5);
@@ -36,18 +37,20 @@ namespace FactorioSolver
             Product battery = new Product("Battery", 5, 1, facChemicalPlantBelt);
             Product sulfuricAcid = new Product("Sulfuric Acid", 1, 50, facChemicalPlantPipe);
             Product sulfur = new Product("Sulfur", 1, 2, facChemicalPlantBelt);
-            Product petroleumGas = new Product("Petroleum Gas", 5, 90, facOilRefinery);
-            Product lightOil = new Product("Light Oil", 5, 45, facOilRefinery);
-            Product heavyOil = new Product("Heavy Oil", 5, 10, facOilRefinery);
             Product copperCable = new Product("CopperCable", 0.5, 2, facAssemblingMachine);
             Product processingUnit = new Product("Processing Unit", 10, 1, facAssemblingMachine);
             Product electronicCircuit = new Product("Electronic Circuit", 0.5, 1, facAssemblingMachine);
             Product advancedCircuit = new Product("Advanced Circuit", 6, 1, facAssemblingMachine);
-            Product plasticBar = new Product("Plastic Bar", 1, 1, facChemicalPlantBelt);
+            Product plasticBar = new Product("Plastic Bar", 1, 2, facChemicalPlantBelt);
             Product speedModule = new Product("Speed Module", 15, 1, facAssemblingMachine);
             Product ironPlate = new Product("Iron Plate", 3.5, 1, facElectricFurnace);
             Product copperPlate = new Product("Copper Plate", 3.5, 1, facElectricFurnace);
             Product water = new Product("Water", 1, 1200, facOffshorePump);
+
+            // Oil processing
+            Product petroleumGas = new Product("Petroleum Gas", 5, 90, facOilRefineryAdvanced);
+            Product lightOil = new Product("Light Oil", 5, 45, facOilRefineryAdvanced);
+            Product heavyOil = new Product("Heavy Oil", 5, 30, facOilRefineryBasic);
 
             // Science pack 1
             Product sciencePack1 = new Product("Science Pack 1", 5, 1, facAssemblingMachine);

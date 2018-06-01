@@ -52,7 +52,8 @@
             this.boxDebug.Location = new System.Drawing.Point(245, 12);
             this.boxDebug.Multiline = true;
             this.boxDebug.Name = "boxDebug";
-            this.boxDebug.Size = new System.Drawing.Size(1493, 1135);
+            this.boxDebug.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.boxDebug.Size = new System.Drawing.Size(1339, 677);
             this.boxDebug.TabIndex = 2;
             // 
             // boxIngredient
@@ -103,7 +104,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1776, 1187);
+            this.ClientSize = new System.Drawing.Size(1591, 701);
             this.Controls.Add(this.ButtonOptimizeBeltLoad);
             this.Controls.Add(this.boxTotalPerSecond);
             this.Controls.Add(this.label2);
