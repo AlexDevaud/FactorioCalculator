@@ -32,6 +32,8 @@ namespace FactorioSolver
             Factory facOffshorePump = new Factory("Offshore Pump", false, 1);
             Factory facElectricMiningDrill = new Factory("Electric Mining Drill", true, 0.5);
 
+            // All products
+
             // High tech science pack
             Product highTechSciencePack = new Product("High Tech Science Pack", 14, 2, facAssemblingMachine);
             Product battery = new Product("Battery", 5, 1, facChemicalPlantBelt);
@@ -88,8 +90,16 @@ namespace FactorioSolver
             Product copperOre = new Product("Copper Ore", 1, 1, facElectricMiningDrill);
             Product stone = new Product("Stone", 1, 1, facElectricMiningDrill);
 
+            // Cliff explosives
+            Product cliffExplosives = new Product("Cliff Explosives", 8, 1, facAssemblingMachine);
+            Product emptyBarell = new Product("Empty Barrel", 1, 1, facAssemblingMachine);
+            Product explosives = new Product("Explosives", 5, 2, facChemicalPlantBelt);
+
+
 
             // Add ingredients
+
+            // High tech science pack
             highTechSciencePack.Ingredients.Add(new Ingredient(battery, 1));
             highTechSciencePack.Ingredients.Add(new Ingredient(copperCable, 30));
             highTechSciencePack.Ingredients.Add(new Ingredient(processingUnit, 3));
@@ -190,6 +200,16 @@ namespace FactorioSolver
 
             stoneBrick.Ingredients.Add(new Ingredient(stone, 2));
 
+            cliffExplosives.Ingredients.Add(new Ingredient(emptyBarell, 1));
+            cliffExplosives.Ingredients.Add(new Ingredient(explosives, 10));
+            cliffExplosives.Ingredients.Add(new Ingredient(grenade, 1));
+
+            emptyBarell.Ingredients.Add(new Ingredient(steelPlate, 1));
+
+            explosives.Ingredients.Add(new Ingredient(coal, 1));
+            explosives.Ingredients.Add(new Ingredient(sulfur, 1));
+            explosives.Ingredients.Add(new Ingredient(water, 10));
+
             // Add all to the list.
             products.Add(highTechSciencePack);
             products.Add(battery);
@@ -237,6 +257,10 @@ namespace FactorioSolver
             products.Add(lubricant);
             products.Add(electricFurnace);
             products.Add(stoneBrick);
+
+            products.Add(cliffExplosives);
+            products.Add(emptyBarell);
+            products.Add(explosives);
 
             // Add all to the dictionary
             foreach (Product product in products)
