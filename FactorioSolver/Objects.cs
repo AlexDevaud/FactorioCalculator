@@ -12,10 +12,10 @@ namespace FactorioSolver
     class Product
     {
         public string Name { get; }
-        public double TimeToProduce { get; }
-        public int TotalCreated { get; } // The number of this type of item that are created when it is crafted.
+        public double TimeToProduce { get; set; }
+        public int TotalCreated { get; set; } // The number of this type of item that are created when it is crafted.
         public List<Ingredient> Ingredients { get; set; }
-        public Factory Producer { get; }
+        public Factory Producer { get; set; }
 
         public Product (string name, double timeToProduce, int totalCreated, Factory producer)
         {
@@ -23,6 +23,12 @@ namespace FactorioSolver
             TimeToProduce = timeToProduce;
             TotalCreated = totalCreated;
             Producer = producer;
+            Ingredients = new List<Ingredient>();
+        }
+
+        public Product(string name)
+        {
+            Name = name;
             Ingredients = new List<Ingredient>();
         }
 

@@ -32,183 +32,319 @@ namespace FactorioSolver
             Factory facOffshorePump = new Factory("Offshore Pump", false, 1);
             Factory facElectricMiningDrill = new Factory("Electric Mining Drill", true, 0.5);
 
-            // All products
+            // Create all products
 
             // High tech science pack
-            Product highTechSciencePack = new Product("High Tech Science Pack", 14, 2, facAssemblingMachine);
-            Product battery = new Product("Battery", 5, 1, facChemicalPlantBelt);
-            Product sulfuricAcid = new Product("Sulfuric Acid", 1, 50, facChemicalPlantPipe);
-            Product sulfur = new Product("Sulfur", 1, 2, facChemicalPlantBelt);
-            Product copperCable = new Product("CopperCable", 0.5, 2, facAssemblingMachine);
-            Product processingUnit = new Product("Processing Unit", 10, 1, facAssemblingMachine);
-            Product electronicCircuit = new Product("Electronic Circuit", 0.5, 1, facAssemblingMachine);
-            Product advancedCircuit = new Product("Advanced Circuit", 6, 1, facAssemblingMachine);
-            Product plasticBar = new Product("Plastic Bar", 1, 2, facChemicalPlantBelt);
-            Product speedModule = new Product("Speed Module", 15, 1, facAssemblingMachine);
-            Product ironPlate = new Product("Iron Plate", 3.5, 1, facElectricFurnace);
-            Product copperPlate = new Product("Copper Plate", 3.5, 1, facElectricFurnace);
-            Product water = new Product("Water", 1, 1200, facOffshorePump);
+            Product highTechSciencePack = new Product("High Tech Science Pack");
+            Product battery = new Product("Battery");
+            Product sulfuricAcid = new Product("Sulfuric Acid");
+            Product sulfur = new Product("Sulfur");
+            Product copperCable = new Product("CopperCable");
+            Product processingUnit = new Product("Processing Unit");
+            Product electronicCircuit = new Product("Electronic Circuit");
+            Product advancedCircuit = new Product("Advanced Circuit");
+            Product plasticBar = new Product("Plastic Bar");
+            Product speedModule = new Product("Speed Module");
+            Product ironPlate = new Product("Iron Plate");
+            Product copperPlate = new Product("Copper Plate");
+            Product water = new Product("Water");
 
             // Oil processing
-            Product petroleumGas = new Product("Petroleum Gas", 5, 90, facOilRefineryAdvanced);
-            Product lightOil = new Product("Light Oil", 5, 45, facOilRefineryAdvanced);
-            Product heavyOil = new Product("Heavy Oil", 5, 30, facOilRefineryBasic);
+            Product petroleumGas = new Product("Petroleum Gas");
+            Product lightOil = new Product("Light Oil");
+            Product heavyOil = new Product("Heavy Oil");
 
             // Science pack 1
-            Product sciencePack1 = new Product("Science Pack 1", 5, 1, facAssemblingMachine);
-            Product ironGearWheel = new Product("Iron Gear Wheel", 0.5, 1, facAssemblingMachine);
+            Product sciencePack1 = new Product("Science Pack 1");
+            Product ironGearWheel = new Product("Iron Gear Wheel");
 
             // Science pack 2
-            Product sciencePack2 = new Product("Science Pack 2", 6, 1, facAssemblingMachine);
-            Product inserter = new Product("Inserter", 0.5, 1, facAssemblingMachine);
-            Product transportBelt = new Product("Transport Belt", 0.5, 2, facAssemblingMachine);
+            Product sciencePack2 = new Product("Science Pack 2");
+            Product inserter = new Product("Inserter");
+            Product transportBelt = new Product("Transport Belt");
 
             // Science pack 3
-            Product sciencePack3 = new Product("Science Pack 3", 12, 1, facAssemblingMachine);
-            Product electricMiningDrill = new Product("Electric Mining Drill", 2, 1, facAssemblingMachine);
-            Product engineUnit = new Product("Engine Unit", 10, 1, facAssemblingMachine);
-            Product pipe = new Product("Pipe", 0.5, 1, facAssemblingMachine);
-            Product steelPlate = new Product("Steel Plate", 17.5, 1, facElectricFurnace);
+            Product sciencePack3 = new Product("Science Pack 3");
+            Product electricMiningDrill = new Product("Electric Mining Drill");
+            Product engineUnit = new Product("Engine Unit");
+            Product pipe = new Product("Pipe");
+            Product steelPlate = new Product("Steel Plate");
 
             // Miltitary science pack
-            Product militarySciencePack = new Product("Military Science Pack", 10, 2, facAssemblingMachine);
-            Product piercingRoundsMagazine = new Product("Piercing Rounds Magazine", 3, 1, facAssemblingMachine);
-            Product firearmMagazine = new Product("Firearm Magazine", 1, 1, facAssemblingMachine);
-            Product grenade = new Product("Grenade", 8, 1, facAssemblingMachine);
-            Product gunTurret = new Product("Gun Turret", 8, 1, facAssemblingMachine);
+            Product militarySciencePack = new Product("Military Science Pack");
+            Product piercingRoundsMagazine = new Product("Piercing Rounds Magazine");
+            Product firearmMagazine = new Product("Firearm Magazine");
+            Product grenade = new Product("Grenade");
+            Product gunTurret = new Product("Gun Turret");
 
             // Production science pack
-            Product productionSciencePack = new Product("Production Science Pack", 14, 2, facAssemblingMachine);
-            Product electricEngineUnit = new Product("Electric Engine Unit", 10, 1, facAssemblingMachine);
-            Product lubricant = new Product("Lubricant", 1, 10, facChemicalPlantPipe);
-            Product electricFurnace = new Product("Electric Furnace", 5, 1, facAssemblingMachine);
-            Product stoneBrick = new Product("Stone Brick", 3.5, 1, facElectricFurnace);
+            Product productionSciencePack = new Product("Production Science Pack");
+            Product electricEngineUnit = new Product("Electric Engine Unit");
+            Product lubricant = new Product("Lubricant");
+            Product electricFurnace = new Product("Electric Furnace");
+            Product stoneBrick = new Product("Stone Brick");
 
             // Mined resources that don't have real stats yet.
-            Product coal = new Product("Coal", 1, 1, facElectricMiningDrill);
-            Product ironOre = new Product("Iron Ore", 1, 1, facElectricMiningDrill);
-            Product copperOre = new Product("Copper Ore", 1, 1, facElectricMiningDrill);
-            Product stone = new Product("Stone", 1, 1, facElectricMiningDrill);
+            Product coal = new Product("Coal");
+            Product ironOre = new Product("Iron Ore");
+            Product copperOre = new Product("Copper Ore");
+            Product stone = new Product("Stone");
 
             // Cliff explosives
-            Product cliffExplosives = new Product("Cliff Explosives", 8, 1, facAssemblingMachine);
-            Product emptyBarell = new Product("Empty Barrel", 1, 1, facAssemblingMachine);
-            Product explosives = new Product("Explosives", 5, 2, facChemicalPlantBelt);
+            Product cliffExplosives = new Product("Cliff Explosives");
+            Product emptyBarell = new Product("Empty Barrel");
+            Product explosives = new Product("Explosives");
 
 
-
-            // Add ingredients
-
-            // High tech science pack
+            // Add ingredients and stats
+            highTechSciencePack.Producer = facAssemblingMachine;
+            highTechSciencePack.TimeToProduce = 14;
+            highTechSciencePack.TotalCreated = 2;
             highTechSciencePack.Ingredients.Add(new Ingredient(battery, 1));
             highTechSciencePack.Ingredients.Add(new Ingredient(copperCable, 30));
             highTechSciencePack.Ingredients.Add(new Ingredient(processingUnit, 3));
             highTechSciencePack.Ingredients.Add(new Ingredient(speedModule, 1));
 
+            battery.Producer = facChemicalPlantBelt;
+            battery.TimeToProduce = 5;
+            battery.TotalCreated = 1;
             battery.Ingredients.Add(new Ingredient(ironPlate, 1));
             battery.Ingredients.Add(new Ingredient(copperPlate, 1));
             battery.Ingredients.Add(new Ingredient(sulfuricAcid, 20));
 
+            sulfuricAcid.Producer = facChemicalPlantPipe;
+            sulfuricAcid.TimeToProduce = 1;
+            sulfuricAcid.TotalCreated = 50;
             sulfuricAcid.Ingredients.Add(new Ingredient(ironPlate, 1));
             sulfuricAcid.Ingredients.Add(new Ingredient(sulfur, 5));
             sulfuricAcid.Ingredients.Add(new Ingredient(water, 100));
 
+            sulfur.Producer = facChemicalPlantBelt;
+            sulfur.TimeToProduce = 1;
+            sulfur.TotalCreated = 2;
             sulfur.Ingredients.Add(new Ingredient(water, 30));
             sulfur.Ingredients.Add(new Ingredient(petroleumGas, 30));
 
+            copperCable.Producer = facAssemblingMachine;
+            copperCable.TimeToProduce = 0.5;
+            copperCable.TotalCreated = 2;
             copperCable.Ingredients.Add(new Ingredient(copperPlate, 1));
 
-            processingUnit.Ingredients.Add(new Ingredient(electronicCircuit, 20));
+            processingUnit.Producer = facAssemblingMachine;
+            processingUnit.TimeToProduce = 10;
+            processingUnit.TotalCreated = 1;
             processingUnit.Ingredients.Add(new Ingredient(advancedCircuit, 2));
+            processingUnit.Ingredients.Add(new Ingredient(electronicCircuit, 20));
             processingUnit.Ingredients.Add(new Ingredient(sulfuricAcid, 5));
 
-            electronicCircuit.Ingredients.Add(new Ingredient(ironPlate, 1));
+            electronicCircuit.Producer = facAssemblingMachine;
+            electronicCircuit.TimeToProduce = 0.5;
+            electronicCircuit.TotalCreated = 1;
             electronicCircuit.Ingredients.Add(new Ingredient(copperCable, 3));
+            electronicCircuit.Ingredients.Add(new Ingredient(ironPlate, 1));
 
+            advancedCircuit.Producer = facAssemblingMachine;
+            advancedCircuit.TimeToProduce = 6;
+            advancedCircuit.TotalCreated = 1;
             advancedCircuit.Ingredients.Add(new Ingredient(plasticBar, 2));
             advancedCircuit.Ingredients.Add(new Ingredient(copperCable, 4));
             advancedCircuit.Ingredients.Add(new Ingredient(electronicCircuit, 2));
 
+            plasticBar.Producer = facChemicalPlantBelt;
+            plasticBar.TimeToProduce = 1;
+            plasticBar.TotalCreated = 2;
             plasticBar.Ingredients.Add(new Ingredient(coal, 1));
             plasticBar.Ingredients.Add(new Ingredient(petroleumGas, 20));
 
+            speedModule.Producer = facAssemblingMachine;
+            speedModule.TimeToProduce = 15;
+            speedModule.TotalCreated = 1;
             speedModule.Ingredients.Add(new Ingredient(electronicCircuit, 5));
             speedModule.Ingredients.Add(new Ingredient(advancedCircuit, 5));
 
+            sciencePack1.Producer = facAssemblingMachine;
+            sciencePack1.TimeToProduce = 5;
+            sciencePack1.TotalCreated = 1;
             sciencePack1.Ingredients.Add(new Ingredient(copperPlate, 1));
             sciencePack1.Ingredients.Add(new Ingredient(ironGearWheel, 1));
 
+            ironGearWheel.Producer = facAssemblingMachine;
+            ironGearWheel.TimeToProduce = 0.5;
+            ironGearWheel.TotalCreated = 1;
             ironGearWheel.Ingredients.Add(new Ingredient(ironPlate, 2));
+
+            ironPlate.Producer = facElectricFurnace;
+            ironPlate.TimeToProduce = 3.5;
+            ironPlate.TotalCreated = 1;
             ironPlate.Ingredients.Add(new Ingredient(ironOre, 1));
+
+            copperPlate.Producer = facElectricFurnace;
+            copperPlate.TimeToProduce = 3.5;
+            copperPlate.TotalCreated = 1;
             copperPlate.Ingredients.Add(new Ingredient(copperOre, 1));
 
+            sciencePack2.Producer = facAssemblingMachine;
+            sciencePack2.TimeToProduce = 6;
+            sciencePack2.TotalCreated = 1;
             sciencePack2.Ingredients.Add(new Ingredient(inserter, 1));
             sciencePack2.Ingredients.Add(new Ingredient(transportBelt, 1));
 
+            inserter.Producer = facAssemblingMachine;
+            inserter.TimeToProduce = 0.5;
+            inserter.TotalCreated = 1;
             inserter.Ingredients.Add(new Ingredient(electronicCircuit, 1));
             inserter.Ingredients.Add(new Ingredient(ironGearWheel, 1));
             inserter.Ingredients.Add(new Ingredient(ironPlate, 1));
 
+            transportBelt.Producer = facAssemblingMachine;
+            transportBelt.TimeToProduce = 0.5;
+            transportBelt.TotalCreated = 2;
             transportBelt.Ingredients.Add(new Ingredient(ironGearWheel, 1));
             transportBelt.Ingredients.Add(new Ingredient(ironPlate, 1));
 
+            sciencePack3.Producer = facAssemblingMachine;
+            sciencePack3.TimeToProduce = 12;
+            sciencePack3.TotalCreated = 1;
             sciencePack3.Ingredients.Add(new Ingredient(electricMiningDrill, 1));
             sciencePack3.Ingredients.Add(new Ingredient(advancedCircuit, 1));
             sciencePack3.Ingredients.Add(new Ingredient(engineUnit, 1));
 
+            electricMiningDrill.Producer = facAssemblingMachine;
+            electricMiningDrill.TimeToProduce = 2;
+            electricMiningDrill.TotalCreated = 1;
             electricMiningDrill.Ingredients.Add(new Ingredient(electronicCircuit, 3));
             electricMiningDrill.Ingredients.Add(new Ingredient(ironGearWheel, 5));
             electricMiningDrill.Ingredients.Add(new Ingredient(ironPlate, 10));
 
+            engineUnit.Producer = facAssemblingMachine;
+            engineUnit.TimeToProduce = 10;
+            engineUnit.TotalCreated = 1;
             engineUnit.Ingredients.Add(new Ingredient(ironGearWheel, 1));
             engineUnit.Ingredients.Add(new Ingredient(pipe, 2));
             engineUnit.Ingredients.Add(new Ingredient(steelPlate, 1));
 
+            pipe.Producer = facAssemblingMachine;
+            pipe.TimeToProduce = 0.5;
+            pipe.TotalCreated = 1;
             pipe.Ingredients.Add(new Ingredient(ironPlate, 1));
 
+            steelPlate.Producer = facElectricFurnace;
+            steelPlate.TimeToProduce = 17.5;
+            steelPlate.TotalCreated = 1;
             steelPlate.Ingredients.Add(new Ingredient(ironPlate, 5));
 
+            militarySciencePack.Producer = facAssemblingMachine;
+            militarySciencePack.TimeToProduce = 10;
+            militarySciencePack.TotalCreated = 2;
             militarySciencePack.Ingredients.Add(new Ingredient(piercingRoundsMagazine, 1));
             militarySciencePack.Ingredients.Add(new Ingredient(grenade, 1));
             militarySciencePack.Ingredients.Add(new Ingredient(gunTurret, 1));
 
+            piercingRoundsMagazine.Producer = facAssemblingMachine;
+            piercingRoundsMagazine.TimeToProduce = 3;
+            piercingRoundsMagazine.TotalCreated = 1;
             piercingRoundsMagazine.Ingredients.Add(new Ingredient(copperPlate, 5));
             piercingRoundsMagazine.Ingredients.Add(new Ingredient(firearmMagazine, 1));
             piercingRoundsMagazine.Ingredients.Add(new Ingredient(steelPlate, 1));
 
+            firearmMagazine.Producer = facAssemblingMachine;
+            firearmMagazine.TimeToProduce = 1;
+            firearmMagazine.TotalCreated = 1;
             firearmMagazine.Ingredients.Add(new Ingredient(ironPlate, 4));
 
+            grenade.Producer = facAssemblingMachine;
+            grenade.TimeToProduce = 8;
+            grenade.TotalCreated = 1;
             grenade.Ingredients.Add(new Ingredient(coal, 10));
             grenade.Ingredients.Add(new Ingredient(ironPlate, 5));
 
+            gunTurret.Producer = facAssemblingMachine;
+            gunTurret.TimeToProduce = 8;
+            gunTurret.TotalCreated = 1;
             gunTurret.Ingredients.Add(new Ingredient(copperPlate, 10));
             gunTurret.Ingredients.Add(new Ingredient(ironGearWheel, 10));
             gunTurret.Ingredients.Add(new Ingredient(ironPlate, 20));
 
+            productionSciencePack.Producer = facAssemblingMachine;
+            productionSciencePack.TimeToProduce = 14;
+            productionSciencePack.TotalCreated = 2;
             productionSciencePack.Ingredients.Add(new Ingredient(electricEngineUnit, 1));
             productionSciencePack.Ingredients.Add(new Ingredient(electricFurnace, 1));
 
+            electricEngineUnit.Producer = facAssemblingMachine;
+            electricEngineUnit.TimeToProduce = 10;
+            electricEngineUnit.TotalCreated = 1;
             electricEngineUnit.Ingredients.Add(new Ingredient(electronicCircuit, 2));
             electricEngineUnit.Ingredients.Add(new Ingredient(engineUnit, 1));
             electricEngineUnit.Ingredients.Add(new Ingredient(lubricant, 15));
 
+            lubricant.Producer = facChemicalPlantPipe;
+            lubricant.TimeToProduce = 1;
+            lubricant.TotalCreated = 10;
             lubricant.Ingredients.Add(new Ingredient(heavyOil, 10));
 
+            electricFurnace.Producer = facAssemblingMachine;
+            electricFurnace.TimeToProduce = 5;
+            electricFurnace.TotalCreated = 1;
             electricFurnace.Ingredients.Add(new Ingredient(advancedCircuit, 5));
             electricFurnace.Ingredients.Add(new Ingredient(steelPlate, 10));
             electricFurnace.Ingredients.Add(new Ingredient(stoneBrick, 10));
 
+            stoneBrick.Producer = facElectricFurnace;
+            stoneBrick.TimeToProduce = 3.5;
+            stoneBrick.TotalCreated = 1;
             stoneBrick.Ingredients.Add(new Ingredient(stone, 2));
 
+            cliffExplosives.Producer = facAssemblingMachine;
+            cliffExplosives.TimeToProduce = 8;
+            cliffExplosives.TotalCreated = 1;
             cliffExplosives.Ingredients.Add(new Ingredient(emptyBarell, 1));
             cliffExplosives.Ingredients.Add(new Ingredient(explosives, 10));
             cliffExplosives.Ingredients.Add(new Ingredient(grenade, 1));
 
+            emptyBarell.Producer = facAssemblingMachine;
+            emptyBarell.TimeToProduce = 1;
+            emptyBarell.TotalCreated = 1;
             emptyBarell.Ingredients.Add(new Ingredient(steelPlate, 1));
 
+            explosives.Producer = facChemicalPlantBelt;
+            explosives.TimeToProduce = 5;
+            explosives.TotalCreated = 2;
             explosives.Ingredients.Add(new Ingredient(coal, 1));
             explosives.Ingredients.Add(new Ingredient(sulfur, 1));
             explosives.Ingredients.Add(new Ingredient(water, 10));
+
+            ironOre.Producer = facElectricMiningDrill;
+            ironOre.TimeToProduce = 2;
+            ironOre.TotalCreated = 1;
+
+            copperOre.Producer = facElectricMiningDrill;
+            copperOre.TimeToProduce = 2;
+            copperOre.TotalCreated = 1;
+
+            coal.Producer = facElectricMiningDrill;
+            coal.TimeToProduce = 2;
+            coal.TotalCreated = 1;
+
+            stone.Producer = facElectricMiningDrill;
+            stone.TimeToProduce = 2;
+            stone.TotalCreated = 1;
+
+            water.Producer = facOffshorePump;
+            water.TimeToProduce = 1;
+            water.TotalCreated = 1200;
+
+            petroleumGas.Producer = facOilRefineryAdvanced;
+            petroleumGas.TimeToProduce = 5;
+            petroleumGas.TotalCreated = 90;
+
+            lightOil.Producer = facOilRefineryAdvanced;
+            lightOil.TimeToProduce = 5;
+            lightOil.TotalCreated = 45;
+
+            heavyOil.Producer = facOilRefineryBasic;
+            heavyOil.TimeToProduce = 5;
+            heavyOil.TotalCreated = 30;
 
             // Add all to the list.
             products.Add(highTechSciencePack);
@@ -227,37 +363,30 @@ namespace FactorioSolver
             products.Add(ironPlate);
             products.Add(copperPlate);
             products.Add(water);
-
             products.Add(coal);
             products.Add(ironOre);
             products.Add(copperOre);
             products.Add(stone);
-
             products.Add(sciencePack1);
             products.Add(ironGearWheel);
-
             products.Add(sciencePack2);
             products.Add(inserter);
             products.Add(transportBelt);
-
             products.Add(sciencePack3);
             products.Add(electricMiningDrill);
             products.Add(engineUnit);
             products.Add(pipe);
             products.Add(steelPlate);
-
             products.Add(militarySciencePack);
             products.Add(piercingRoundsMagazine);
             products.Add(firearmMagazine);
             products.Add(grenade);
             products.Add(gunTurret);
-
             products.Add(productionSciencePack);
             products.Add(electricEngineUnit);
             products.Add(lubricant);
             products.Add(electricFurnace);
             products.Add(stoneBrick);
-
             products.Add(cliffExplosives);
             products.Add(emptyBarell);
             products.Add(explosives);
