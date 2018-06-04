@@ -32,71 +32,266 @@ namespace FactorioSolver
             Factory facOffshorePump = new Factory("Offshore Pump", false, 1);
             Factory facElectricMiningDrill = new Factory("Electric Mining Drill", true, 0.5);
 
-            // Create all products
+            // Create all product objects.
+            // From left to right, top to bottom.
+            // Logistics
+            Product woodenChest = new Product("Wooden Chest");
+            Product ironChest = new Product("Iron Chest");
+            Product steelChest = new Product("Steel Chest");
+            Product storageTank = new Product("Storage Tank");
 
-            // High tech science pack
-            Product highTechSciencePack = new Product("High Tech Science Pack");
-            Product battery = new Product("Battery");
-            Product sulfuricAcid = new Product("Sulfuric Acid");
-            Product sulfur = new Product("Sulfur");
-            Product copperCable = new Product("CopperCable");
-            Product processingUnit = new Product("Processing Unit");
-            Product electronicCircuit = new Product("Electronic Circuit");
-            Product advancedCircuit = new Product("Advanced Circuit");
-            Product plasticBar = new Product("Plastic Bar");
-            Product speedModule = new Product("Speed Module");
-            Product ironPlate = new Product("Iron Plate");
-            Product copperPlate = new Product("Copper Plate");
-            Product water = new Product("Water");
-
-            // Oil processing
-            Product petroleumGas = new Product("Petroleum Gas");
-            Product lightOil = new Product("Light Oil");
-            Product heavyOil = new Product("Heavy Oil");
-
-            // Science pack 1
-            Product sciencePack1 = new Product("Science Pack 1");
-            Product ironGearWheel = new Product("Iron Gear Wheel");
-
-            // Science pack 2
-            Product sciencePack2 = new Product("Science Pack 2");
-            Product inserter = new Product("Inserter");
             Product transportBelt = new Product("Transport Belt");
+            Product fastTransportBelt = new Product("Fast Transport Belt");
+            Product expressTransportBelt = new Product("Express Transport Belt");
+            Product undergroundBelt = new Product("Underground Belt");
+            Product fastUndergroundBelt = new Product("Fast Underground Belt");
+            Product expressUndergroundBelt = new Product("Express Underground Belt");
+            Product splitter = new Product("Splitter");
+            Product fastSplitter = new Product("Fast Splitter");
+            Product expressSplitter = new Product("Express Splitter");
 
-            // Science pack 3
-            Product sciencePack3 = new Product("Science Pack 3");
-            Product electricMiningDrill = new Product("Electric Mining Drill");
-            Product engineUnit = new Product("Engine Unit");
+            Product burnerInserter = new Product("Burner Inserter");
+            Product inserter = new Product("Inserter");
+            Product longHandedInserter = new Product("Long Handed Inserter");
+            Product fastInserter = new Product("Fast Inserter");
+            Product filterInserter = new Product("Filter Inserter");
+            Product stackInserter = new Product("Stack Inserter");
+            Product stackFilterInserter = new Product("Stack Filter Inserter");
+
+            Product smallElectricPole = new Product("Small Electric Pole");
+            Product mediumElectricPole = new Product("Medium Electric Pole");
+            Product bigElectricPole = new Product("Big Electric Pole");
+            Product substation = new Product("Substation");
             Product pipe = new Product("Pipe");
-            Product steelPlate = new Product("Steel Plate");
+            Product pipeToGround = new Product("Pipe To Ground");
+            Product pump = new Product("Pump");
 
-            // Miltitary science pack
-            Product militarySciencePack = new Product("Military Science Pack");
-            Product piercingRoundsMagazine = new Product("Piercing Rounds Magazine");
-            Product firearmMagazine = new Product("Firearm Magazine");
-            Product grenade = new Product("Grenade");
-            Product gunTurret = new Product("Gun Turret");
+            Product rail = new Product("Rail");
+            Product trainStop = new Product("Train Stop");
+            Product railSignal = new Product("Rail Signal");
+            Product railChainSignal = new Product("Rail Chain Signal");
+            Product locomotive = new Product("Locomotive");
+            Product cargoWagon = new Product("Cargo Wagon");
+            Product fluidWagon = new Product("Fluid Wagon");
+            Product artilleryWagon = new Product("Artillery Wagon");
+            Product car = new Product("Car");
+            Product tank = new Product("Tank");
 
-            // Production science pack
-            Product productionSciencePack = new Product("Production Science Pack");
-            Product electricEngineUnit = new Product("Electric Engine Unit");
-            Product lubricant = new Product("Lubricant");
-            Product electricFurnace = new Product("Electric Furnace");
+            Product logisticRobot = new Product("Logistic Robot");
+            Product constructionRobot = new Product("Construction Robot");
+            Product activeProviderChest = new Product("Active Provider Chest");
+            Product passiveProviderChest = new Product("Passive Provider Chest");
+            Product storageChest = new Product("Storage Chest");
+            Product bufferChest = new Product("Buffer Chest");
+            Product requesterChest = new Product("Requester Chest");
+            Product roboport = new Product("Roboport");
+
+            Product lamp = new Product("Lamp");
+            Product redWire = new Product("Red Wire");
+            Product greenWire = new Product("Green Wire");
+            Product arithmeticCombinator = new Product("Arithmetic Combinator");
+            Product deciderCombinator = new Product("Decider Combinator");
+            Product constantCombinator = new Product("Constant Combinator");
+            Product powerSwitch = new Product("Power Switch");
+            Product programmableSpeaker = new Product("Programmable Speaker");
+
             Product stoneBrick = new Product("Stone Brick");
+            Product concrete = new Product("Concrete");
+            Product hazardConcrete = new Product("Hazard Concrete");
+            Product refinedConcrete = new Product("Refined Concrete");
+            Product refinedHazardConcrete = new Product("Refined Hazard Concrete");
+            Product landfill = new Product("Landfill");
+            Product cliffExplosives = new Product("Cliff Explosives");
 
-            // Mined resources that don't have real stats yet.
+            // Production
+            Product ironAxe = new Product("Iron Axe");
+            Product steelAxe = new Product("Steel Axe");
+            Product repairPack = new Product("Repair Pack");
+            Product blueprint = new Product("Blueprint");
+            Product deconstructionPlanner = new Product("Deconstruction Planner");
+            Product blueprintBook = new Product("Blueprint Book");
+
+            Product boiler = new Product("Boiler");
+            Product steamEngine = new Product("Steam Engine");
+            Product steamTurbine = new Product("Steam Turbine");
+            Product solarPanel = new Product("Solar Panel");
+            Product accumulator = new Product("Accumulator");
+            Product nuclearReactor = new Product("NuclearReactor");
+            Product heatExchanger = new Product("Heat Exchanger");
+            Product heatPipe = new Product("Heat Pipe");
+
+            Product burnerMiningDrill = new Product("Burner Mining Drill");
+            Product electricMiningDrill = new Product("Electric Mining Drill");
+            Product offshorePump = new Product("Offshore Pump");
+            Product pumpjack = new Product("Pumpjack");
+
+            Product stoneFurnace = new Product("Stone Furnace");
+            Product steelFurnace = new Product("Steel Furnace");
+            Product electricFurnace = new Product("Electric Furnace");
+
+            Product assemblineMachine1 = new Product("Assembling Machine 1");
+            Product assemblineMachine2 = new Product("Assembling Machine 2");
+            Product assemblineMachine3 = new Product("Assembling Machine 3");
+            Product oilRefinery = new Product("Oil Refinery");
+            Product chemicalPlant = new Product("Chemical Plant");
+            Product centrifuge = new Product("Centrifuge");
+            Product lab = new Product("Lab");
+
+            Product beacon = new Product("Beacon");
+            Product speedModule = new Product("Speed Module");
+            Product speedModule2 = new Product("Speed Module 2");
+            Product speedModule3 = new Product("Speed Module 3");
+            Product efficiencyModule = new Product("Efficiency Module");
+            Product efficiencyModule2 = new Product("Efficiency Module 2");
+            Product efficiencyModule3 = new Product("Efficiency Module 3");
+            Product productivityModule = new Product("Productivity Module");
+            Product productivityModule2 = new Product("Productivity Module 2");
+            Product productivityModule3 = new Product("Productivity Module 3");
+
+            // Intermediate Product
+            Product rawWood = new Product("Raw Wood");
             Product coal = new Product("Coal");
+            Product stone = new Product("Stone");
             Product ironOre = new Product("Iron Ore");
             Product copperOre = new Product("Copper Ore");
-            Product stone = new Product("Stone");
+            Product uraniumOre = new Product("Uranium Ore");
+            Product rawFish = new Product("Raw Fish");
+            Product crudeOil = new Product("Crude Oil");
+            Product heavyOil = new Product("Heavy Oil");
+            Product lightOil = new Product("Light Oil");
+            Product lubricant = new Product("Lubricant");
+            Product petroleumGas = new Product("Petroleum Gas");
+            Product sulfuricAcid = new Product("Sulfuric Acid");
+            Product water = new Product("Water");
+            Product steam = new Product("Steam");
 
-            // Cliff explosives
-            Product cliffExplosives = new Product("Cliff Explosives");
-            Product emptyBarell = new Product("Empty Barrel");
+            Product wood = new Product("Wood");
+            Product ironPlate = new Product("Iron Plate");
+            Product copperPlate = new Product("Copper Plate");
+            Product solidFuel = new Product("Solid Fuel");
+            Product steelPlate = new Product("Steel Plate");
+            Product plasticBar = new Product("Plastic Bar");
+            Product sulfur = new Product("Sulfur");
+            Product battery = new Product("Battery");
             Product explosives = new Product("Explosives");
+            Product uraniumProcessing = new Product("Uranium Processing");
+
+            Product crudeOilBarrel = new Product("Curde Oil Barrel");
+            Product heavyOilBarrel = new Product("Heavy Oil Barrel");
+            Product lightOilBarrel = new Product("Light Oil Barrel");
+            Product lubricantBarrel = new Product("Lubricant Barrel");
+            Product petroleumGasBarrel = new Product("Petroleum Gas Barrel");
+            Product sulfuricAcidBarrel = new Product("SulfuricAcidBarrel");
+            Product waterBarrel = new Product("Water Barrel");
+
+            Product copperCable = new Product("CopperCable");
+            Product ironStick = new Product("Iron Stick");
+            Product ironGearWheel = new Product("Iron Gear Wheel");
+            Product emptyBarell = new Product("Empty Barrel");
+            Product electronicCircuit = new Product("Electronic Circuit");
+            Product advancedCircuit = new Product("Advanced Circuit");
+            Product processingUnit = new Product("Processing Unit");
+            Product engineUnit = new Product("Engine Unit");
+            Product electricEngineUnit = new Product("Electric Engine Unit");
+            Product flyingRobotFrame = new Product("Flying Robot Frame");
+            Product satellite = new Product("Satellite");
+            Product rocketPart = new Product("Rocket Part");
+            Product rocketControlUnit = new Product("RocketControlUnit");
+            Product lowDensityStructure = new Product("Low Density Structure");
+            Product rocketFuel = new Product("Rocket Fuel");
+            Product nuclearFuel = new Product("Nuclear Fuel");
+            Product uranium235 = new Product("Uranium-235");
+            Product uranium238 = new Product("Uranium-238");
+
+            Product uraniumFuelCell = new Product("Uranium Fuel Cell");
+            Product usedUpUraniumFuelCell = new Product("Used Up Uranium Fuel Cell");
+            Product nuclearFuelReprocessing = new Product("Nuclear Fuel Reprocessing");
+            Product kovarexEnrichmentProcess = new Product("Kovarex Enrichment Process");
+
+            Product sciencePack1 = new Product("Science Pack 1");
+            Product sciencePack2 = new Product("Science Pack 2");
+            Product sciencePack3 = new Product("Science Pack 3");
+            Product militarySciencePack = new Product("Military Science Pack");
+            Product productionSciencePack = new Product("Production Science Pack");
+            Product highTechSciencePack = new Product("High Tech Science Pack");
+            Product spaceSciencePack = new Product("Space Science Pack");
+
+            // Combat
+            Product pistol = new Product("Pistol");
+            Product submachineGun = new Product("Submachine Gun");
+            Product shotgun = new Product("Shotgun");
+            Product combatShotgun = new Product("Combat Shotgun");
+            Product rocketLauncher = new Product("Rocket Launcher");
+            Product flamethrower = new Product("Flamethrower");
+            Product landMine = new Product("Land Mine");
+
+            Product firearmMagazine = new Product("Firearm Magazine");
+            Product piercingRoundsMagazine = new Product("Piercing Rounds Magazine");
+            Product uraniumRoundsMagazine = new Product("Uranium Rounds Magazine");
+            Product shotgunShells = new Product("Shotgun Shells");
+            Product piercingShotgunShells = new Product("Piercing Shotgun Shells");
+            Product cannonShell = new Product("Cannon Shell");
+            Product explosiveCannonShell = new Product("Explosive Cannon Shell");
+            Product uraniumCannonShell = new Product("Uranium Cannon Shell");
+            Product explosiveUraniumCannonShell = new Product("Explosive Uranium Cannon Shell");
+            Product artilleyShell = new Product("Artillery Shell");
+            Product rocket = new Product("Rocket");
+            Product explosiveRocket = new Product("Explosive Rocket");
+            Product atomicBomb = new Product("Atomic Bomb");
+            Product flamethrowerAmmo = new Product("Flamethrower Ammo");
+
+            Product grenade = new Product("Grenade");
+            Product clusterGrenade = new Product("Cluster Grenade");
+            Product poisonCapsule = new Product("Poison Capsule");
+            Product slowdownCapsule = new Product("Slowdown Capsule");
+            Product defenderCapsule = new Product("Defender Capsule");
+            Product distractorCapsule = new Product("Distractor Capsule");
+            Product destroyerCapsule = new Product("Destroyer Capsule");
+            Product dischargeDefenseRemote = new Product("Dischange Defense Remote");
+            Product artilleryTargetingRemote = new Product("Artillery Targeting Remote");
+
+            Product lightArmor = new Product("Light Armor");
+            Product heavyArmor = new Product("Heavy Armor");
+            Product modularArmor = new Product("Modular Armor");
+            Product powerArmor = new Product("Power Armor");
+            Product powerArmorMK2 = new Product("Power Armor MK2");
+
+            Product portableSolarPanel = new Product("Portable Solar Panel");
+            Product portableFusionReactor = new Product("Portable Fusion Reactor");
+            Product energyShield = new Product("Engergy Shield");
+            Product energyShieldMK2 = new Product("Engergy Shield MK2");
+            Product batteryMK1 = new Product("Battery MK1");
+            Product batteryMK2 = new Product("Battery MK2");
+            Product personalLaserDefense = new Product("Personal Laser Defense");
+            Product dischargeDefense = new Product("Discharge Defense");
+            Product exoskeleton = new Product("Exoskeleton");
+            Product personalRoboport = new Product("Personal Roboport");
+            Product personalRoboportMK2 = new Product("Personal Roboport MK2");
+            Product nightvision = new Product("Nightvision");
+
+            Product stoneWall = new Product("Stone Wall");
+            Product gate = new Product("Gate");
+            Product gunTurret = new Product("Gun Turret");
+            Product laserTurret = new Product("Laser Turret");
+            Product flamethrowerTurret = new Product("flamethrowerTurret");
+            Product artilleryTurret = new Product("Artillery Turret");
+            Product radar = new Product("Radar");
+            Product rocketSilo = new Product("Rocket Silo");
 
 
-            // Add ingredients and stats
+            // Add all ingredients and stats.
+            // From left to right, top to bottom.
+
+            // Logistics 
+            woodenChest.Producer = facAssemblingMachine;
+            woodenChest.TimeToProduce = 0.5;
+            woodenChest.TotalCreated = 1;
+            woodenChest.Ingredients.Add(new Ingredient(wood, 4));
+
+
+
+
+            // Old sorting
             highTechSciencePack.Producer = facAssemblingMachine;
             highTechSciencePack.TimeToProduce = 14;
             highTechSciencePack.TotalCreated = 2;
