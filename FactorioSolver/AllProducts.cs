@@ -288,7 +288,52 @@ namespace FactorioSolver
             woodenChest.TotalCreated = 1;
             woodenChest.Ingredients.Add(new Ingredient(wood, 4));
 
+            ironChest.Producer = facAssemblingMachine;
+            ironChest.TimeToProduce = 0.5;
+            ironChest.TotalCreated = 1;
+            ironChest.Ingredients.Add(new Ingredient(ironPlate, 8));
 
+            steelChest.Producer = facAssemblingMachine;
+            steelChest.TimeToProduce = 0.5;
+            steelChest.TotalCreated = 1;
+            steelChest.Ingredients.Add(new Ingredient(steelPlate, 8));
+
+            storageTank.Producer = facAssemblingMachine;
+            storageTank.TimeToProduce = 3;
+            storageTank.TotalCreated = 1;
+            storageTank.Ingredients.Add(new Ingredient(ironPlate, 20));
+            storageTank.Ingredients.Add(new Ingredient(steelPlate, 5));
+
+            transportBelt.Producer = facAssemblingMachine;
+            transportBelt.TimeToProduce = 0.5;
+            transportBelt.TotalCreated = 2;
+            transportBelt.Ingredients.Add(new Ingredient(ironGearWheel, 1));
+            transportBelt.Ingredients.Add(new Ingredient(ironPlate, 1));
+
+            fastTransportBelt.Producer = facAssemblingMachine;
+            fastTransportBelt.TimeToProduce = 0.5;
+            fastTransportBelt.TotalCreated = 1;
+            fastTransportBelt.Ingredients.Add(new Ingredient(ironGearWheel, 5));
+            fastTransportBelt.Ingredients.Add(new Ingredient(transportBelt, 1));
+
+            expressTransportBelt.Producer = facAssemblingMachine;
+            expressTransportBelt.TimeToProduce = 0.5;
+            expressTransportBelt.TotalCreated = 1;
+            expressTransportBelt.Ingredients.Add(new Ingredient(fastTransportBelt, 1));
+            expressTransportBelt.Ingredients.Add(new Ingredient(ironGearWheel, 10));
+            expressTransportBelt.Ingredients.Add(new Ingredient(lubricant, 20));
+
+
+            // Intermediate Products
+            rocketFuel.Producer = facAssemblingMachine;
+            rocketFuel.TimeToProduce = 30;
+            rocketFuel.TotalCreated = 1;
+            rocketFuel.Ingredients.Add(new Ingredient(solidFuel, 10));
+
+            solidFuel.Producer = facChemicalPlantBelt;
+            solidFuel.TimeToProduce = 3;
+            solidFuel.TotalCreated = 1;
+            solidFuel.Ingredients.Add(new Ingredient(lightOil, 10));
 
 
             // Old sorting
@@ -391,11 +436,7 @@ namespace FactorioSolver
             inserter.Ingredients.Add(new Ingredient(ironGearWheel, 1));
             inserter.Ingredients.Add(new Ingredient(ironPlate, 1));
 
-            transportBelt.Producer = facAssemblingMachine;
-            transportBelt.TimeToProduce = 0.5;
-            transportBelt.TotalCreated = 2;
-            transportBelt.Ingredients.Add(new Ingredient(ironGearWheel, 1));
-            transportBelt.Ingredients.Add(new Ingredient(ironPlate, 1));
+            
 
             sciencePack3.Producer = facAssemblingMachine;
             sciencePack3.TimeToProduce = 12;
@@ -542,49 +583,196 @@ namespace FactorioSolver
             heavyOil.TotalCreated = 30;
 
             // Add all to the list.
-            products.Add(highTechSciencePack);
-            products.Add(battery);
-            products.Add(sulfuricAcid);
-            products.Add(sulfur);
-            products.Add(petroleumGas);
-            products.Add(lightOil);
-            products.Add(heavyOil);
-            products.Add(copperCable);
-            products.Add(processingUnit);
-            products.Add(electronicCircuit);
-            products.Add(advancedCircuit);
-            products.Add(plasticBar);
+            // Logistics
+            products.Add(woodenChest);
+            products.Add(ironChest);
+            products.Add(steelChest);
+            products.Add(storageTank);
+
+            products.Add(transportBelt);
+            products.Add(fastTransportBelt);
+            products.Add(expressTransportBelt);
+            products.Add(undergroundBelt);
+            products.Add(fastUndergroundBelt);
+            products.Add(expressUndergroundBelt);
+            products.Add(splitter);
+            products.Add(fastSplitter);
+            products.Add(expressSplitter);
+
+            products.Add(burnerInserter);
+            products.Add(inserter);
+            products.Add(longHandedInserter);
+            products.Add(fastInserter);
+            products.Add(filterInserter);
+            products.Add(stackInserter);
+            products.Add(stackFilterInserter);
+
+            products.Add(smallElectricPole);
+            products.Add(mediumElectricPole);
+            products.Add(bigElectricPole);
+            products.Add(substation);
+            products.Add(pipe);
+            products.Add(pipeToGround);
+            products.Add(pump);
+
+            products.Add(rail);
+            products.Add(trainStop);
+            products.Add(railSignal);
+            products.Add(railChainSignal);
+            products.Add(locomotive);
+            products.Add(cargoWagon);
+            products.Add(fluidWagon);
+            products.Add(artilleryWagon);
+            products.Add(car);
+            products.Add(tank);
+
+            products.Add(logisticRobot);
+            products.Add(constructionRobot);
+            products.Add(activeProviderChest);
+            products.Add(passiveProviderChest);
+            products.Add(storageChest);
+            products.Add(bufferChest);
+            products.Add(requesterChest);
+            products.Add(roboport);
+
+            products.Add(lamp);
+            products.Add(redWire);
+            products.Add(greenWire);
+            products.Add(arithmeticCombinator);
+            products.Add(deciderCombinator);
+            products.Add(constantCombinator);
+            products.Add(powerSwitch);
+            products.Add(programmableSpeaker);
+
+            products.Add(stoneBrick);
+            products.Add(concrete);
+            products.Add(hazardConcrete);
+            products.Add(refinedConcrete);
+            products.Add(refinedHazardConcrete);
+            products.Add(landfill);
+            products.Add(cliffExplosives);
+
+            // Production
+            products.Add(ironAxe);
+            products.Add(steelAxe);
+            products.Add(repairPack);
+            products.Add(blueprint);
+            products.Add(deconstructionPlanner);
+            products.Add(blueprintBook);
+
+            products.Add(boiler);
+            products.Add(steamEngine);
+            products.Add(steamTurbine);
+            products.Add(solarPanel);
+            products.Add(accumulator);
+            products.Add(nuclearReactor);
+            products.Add(heatExchanger);
+            products.Add(heatPipe);
+
+            products.Add(burnerMiningDrill);
+            products.Add(electricMiningDrill);
+            products.Add(offshorePump);
+            products.Add(pumpjack);
+
+            products.Add(stoneFurnace);
+            products.Add(steelFurnace);
+            products.Add(electricFurnace);
+
+            products.Add(assemblineMachine1);
+            products.Add(assemblineMachine2);
+            products.Add(assemblineMachine3);
+            products.Add(oilRefinery);
+            products.Add(chemicalPlant);
+            products.Add(centrifuge);
+            products.Add(lab);
+
+            products.Add(beacon);
             products.Add(speedModule);
-            products.Add(ironPlate);
-            products.Add(copperPlate);
-            products.Add(water);
+            products.Add(speedModule2);
+            products.Add(speedModule3);
+            products.Add(efficiencyModule);
+            products.Add(efficiencyModule2);
+            products.Add(efficiencyModule3);
+            products.Add(productivityModule);
+            products.Add(productivityModule2);
+            products.Add(productivityModule3);
+
+            // Intermediate Products
+            products.Add(rawWood);
             products.Add(coal);
+            products.Add(stone);
             products.Add(ironOre);
             products.Add(copperOre);
-            products.Add(stone);
-            products.Add(sciencePack1);
-            products.Add(ironGearWheel);
-            products.Add(sciencePack2);
-            products.Add(inserter);
-            products.Add(transportBelt);
-            products.Add(sciencePack3);
-            products.Add(electricMiningDrill);
-            products.Add(engineUnit);
-            products.Add(pipe);
+            products.Add(uraniumOre);
+            products.Add(rawFish);
+            products.Add(crudeOil);
+            products.Add(heavyOil);
+            products.Add(lubricant);
+            products.Add(petroleumGas);
+            products.Add(sulfuricAcid);
+            products.Add(water);
+            products.Add(steam);
+
+            products.Add(wood);
+            products.Add(ironPlate);
+            products.Add(copperPlate);
+            products.Add(solidFuel);
             products.Add(steelPlate);
+            products.Add(plasticBar);
+            products.Add(sulfur);
+            products.Add(battery);
+            products.Add(explosives);
+            products.Add(uraniumProcessing);
+
+            products.Add(crudeOilBarrel);
+            products.Add(heavyOilBarrel);
+            products.Add(lightOilBarrel);
+            products.Add(lubricantBarrel);
+            products.Add(petroleumGasBarrel);
+            products.Add(sulfuricAcidBarrel);
+            products.Add(waterBarrel);
+
+            products.Add(copperCable);
+            products.Add(ironStick);
+            products.Add(ironGearWheel);
+            products.Add(emptyBarell);
+            products.Add(electronicCircuit);
+            products.Add(advancedCircuit);
+            products.Add(processingUnit);
+            products.Add(engineUnit);
+            products.Add(electricEngineUnit);
+            products.Add(flyingRobotFrame);
+            products.Add(satellite);
+            products.Add(rocketPart);
+            products.Add(rocketControlUnit);
+            products.Add(lowDensityStructure);
+            products.Add(rocketFuel);
+            products.Add(nuclearFuel);
+            products.Add(uranium235);
+            products.Add(uranium238);
+
+            products.Add(uraniumFuelCell);
+            products.Add(usedUpUraniumFuelCell);
+            products.Add(nuclearFuelReprocessing);
+            products.Add(kovarexEnrichmentProcess);
+
+            products.Add(sciencePack1);
+            products.Add(sciencePack2);
+            products.Add(sciencePack3);
             products.Add(militarySciencePack);
+            products.Add(productionSciencePack);
+            products.Add(highTechSciencePack);
+            products.Add(spaceSciencePack);
+
+            // Combat
+
+
+            // Old sorting
             products.Add(piercingRoundsMagazine);
             products.Add(firearmMagazine);
             products.Add(grenade);
             products.Add(gunTurret);
-            products.Add(productionSciencePack);
-            products.Add(electricEngineUnit);
-            products.Add(lubricant);
-            products.Add(electricFurnace);
-            products.Add(stoneBrick);
-            products.Add(cliffExplosives);
-            products.Add(emptyBarell);
-            products.Add(explosives);
+
 
             // Add all to the dictionary
             foreach (Product product in products)
