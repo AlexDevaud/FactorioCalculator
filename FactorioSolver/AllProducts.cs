@@ -169,6 +169,7 @@ namespace FactorioSolver
             Product ironPlate = new Product("Iron Plate");
             Product copperPlate = new Product("Copper Plate");
             Product solidFuel = new Product("Solid Fuel");
+            Product solidFuelIngredients = new Product("Solid Fuel Ingredient"); // This is a special case made up ingredient to deal with solid fuel having multiple recipes.
             Product steelPlate = new Product("Steel Plate");
             Product plasticBar = new Product("Plastic Bar");
             Product sulfur = new Product("Sulfur");
@@ -333,8 +334,11 @@ namespace FactorioSolver
             solidFuel.Producer = facChemicalPlantBelt;
             solidFuel.TimeToProduce = 3;
             solidFuel.TotalCreated = 1;
-            solidFuel.Ingredients.Add(new Ingredient(lightOil, 10));
+            solidFuel.Ingredients.Add(new Ingredient(solidFuelIngredients, 1));
 
+            solidFuelIngredients.Producer = facOilRefineryBasic;
+            solidFuelIngredients.TimeToProduce = 5;
+            solidFuelIngredients.TotalCreated = 1;
 
             // Old sorting
             highTechSciencePack.Producer = facAssemblingMachine;
@@ -708,6 +712,7 @@ namespace FactorioSolver
             products.Add(crudeOil);
             products.Add(heavyOil);
             products.Add(lubricant);
+            products.Add(lightOil);
             products.Add(petroleumGas);
             products.Add(sulfuricAcid);
             products.Add(water);
@@ -717,6 +722,7 @@ namespace FactorioSolver
             products.Add(ironPlate);
             products.Add(copperPlate);
             products.Add(solidFuel);
+            products.Add(solidFuelIngredients);
             products.Add(steelPlate);
             products.Add(plasticBar);
             products.Add(sulfur);

@@ -87,4 +87,23 @@ namespace FactorioSolver
             RoundedFactories = (int)Math.Ceiling(exactFactories);
         }
     }
+
+    /// <summary>
+    /// Object to track the total gas needs for the product.
+    /// </summary>
+    class OilNeeds
+    {
+        public double LightOilNeeded { get; set; }
+        public double HeavyOilNeeded { get; set; }
+        public double PetroleumGasNeeded { get; set; }
+        public double SolidFuelIngredientsNeeded { get; set; }
+
+        public OilNeeds()
+        {
+            LightOilNeeded = 0;
+            HeavyOilNeeded = 0;
+            PetroleumGasNeeded = 0;
+            SolidFuelIngredientsNeeded = 0;
+        }
+    }
 }
