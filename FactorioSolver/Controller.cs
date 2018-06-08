@@ -251,6 +251,7 @@ namespace FactorioSolver
                             // 20 is the cost in gas to create a solid fuel
                             double gasToSolidChemPlants = (petroleumGas.TotalCreated * refineryCraftSpeed * roundedRefineriesNeeded * solidFuel.TimeToProduce) / (petroleumGas.TimeToProduce * 20 * chemicalPlantCraftingSpeed);
 
+                            double totalSolidChemPlants = lightOilToSolidChemPlants + gasToSolidChemPlants;
 
                             double refineriesPerHeavyCracking = 20.0 / 3;
                             int heavyCrackingPlants = (int)Math.Ceiling(1.0 * roundedRefineriesNeeded / (refineriesPerHeavyCracking * chemicalPlantCraftingSpeed));
