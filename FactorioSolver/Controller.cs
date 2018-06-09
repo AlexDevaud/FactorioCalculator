@@ -210,29 +210,32 @@ namespace FactorioSolver
                         }
                         else if (refineryProductNeeded == "Petroleum Gas")
                         {
-                            // We can crack the 45 petroleum gas to 90 total every cycles.
-                            // With 5 seconds per cycle we produce 18 gas per second.
-                            exactRefineriesNeeded = (1.0 * oilNeeds.PetroleumGasNeeded * petroleumGas.TimeToProduce) / (18 * refineryCraftSpeed);
+                            // 0.75 is the heavy to light exchange rate.
+                            double totalLightPerCycle = lightOil.TotalCreated + (heavyOil.TotalCreated * 0.75);
+
+                            // 40 is the heavy oil consumed per cycle. 3 is the time to crack light.
+                            double heavyCrackPerRefinery = (heavyOil.TotalCreated * refineryCraftSpeed * 3.0) / (heavyOil.TimeToProduce * chemicalPlantCraftingSpeed * 40);
+
+                            // 30 is light oil consumed per cycle. 3 is the time to crack light.
+                            double lightCrackFacPerRefinery = (totalLightPerCycle * refineryCraftSpeed * 3.0) / (lightOil.TimeToProduce * chemicalPlantCraftingSpeed * 30);
+
+                            // We can create 90 gas per cycle with cracking.
+                            exactRefineriesNeeded = (oilNeeds.PetroleumGasNeeded * petroleumGas.TimeToProduce) / (90.0 * refineryCraftSpeed);
                             DisplayRefineriesNeeded(exactRefineriesNeeded, processNeeded);
 
-                            double refineriesPerHeavyCracking = 20.0 / 3;
-                            double refineriesPerLightCracking = 20.0 / 21;
+
                             roundedRefineriesNeeded = (int)Math.Ceiling(exactRefineriesNeeded);
-                            int heavyCrackingPlants = (int)Math.Ceiling(1.0 * roundedRefineriesNeeded / (refineriesPerHeavyCracking * chemicalPlantCraftingSpeed));
-                            int lightCrackingPlants = (int)Math.Ceiling(1.0 * roundedRefineriesNeeded / (refineriesPerLightCracking * chemicalPlantCraftingSpeed));
+                            int heavyCrackingPlants = (int)Math.Ceiling(roundedRefineriesNeeded * heavyCrackPerRefinery);
+                            int lightCrackingPlants = (int)Math.Ceiling(roundedRefineriesNeeded * lightCrackFacPerRefinery);
 
                             view.TextReport.AppendText("Build " + heavyCrackingPlants + " chemical plants to crack heavy oil to light oil.");
                             view.TextReport.AppendText("\n");
                             view.TextReport.AppendText("\n");
                             view.TextReport.AppendText("Also build " + lightCrackingPlants + " chemical plants to crack light oil to pertroleum gas.");
                             view.TextReport.AppendText("\n");
-                            view.TextReport.AppendText("\n");
                         }
                         else if (refineryProductNeeded == "Solid Fuel Ingredient")
                         {
-                            // Get refinery needs.
-
-
                             // 0.75 is the exhage rate of heavy to light oil.
                             double totalSolidCreatedPerCycle = (lightOil.TotalCreated / 10.0 + petroleumGas.TotalCreated / 20.0 + (heavyOil.TotalCreated * 0.75) / 10);
                             exactRefineriesNeeded = (oilNeeds.SolidFuelIngredientsNeeded * lightOil.TimeToProduce) / (totalSolidCreatedPerCycle * refineryCraftSpeed);
@@ -247,29 +250,15 @@ namespace FactorioSolver
                             // 0.75 the exchange rate of heavy to light oil with cracking.
                             double lightOilPerRefineryCycle = heavyOil.TotalCreated * 0.75 + lightOil.TotalCreated;
                             // 10 is the cost in light oil to make a solid fuel.
-                            double lightOilToSolidChemPlants = (lightOilPerRefineryCycle * refineryCraftSpeed * roundedRefineriesNeeded * solidFuel.TimeToProduce) / (lightOil.TimeToProduce * 10 * chemicalPlantCraftingSpeed);
+                            double lightOilToSolidChemPlants = (lightOilPerRefineryCycle * refineryCraftSpeed * exactRefineriesNeeded * solidFuel.TimeToProduce) / (lightOil.TimeToProduce * 10 * chemicalPlantCraftingSpeed);
                             // 20 is the cost in gas to create a solid fuel
-                            double gasToSolidChemPlants = (petroleumGas.TotalCreated * refineryCraftSpeed * roundedRefineriesNeeded * solidFuel.TimeToProduce) / (petroleumGas.TimeToProduce * 20 * chemicalPlantCraftingSpeed);
+                            double gasToSolidChemPlants = (petroleumGas.TotalCreated * refineryCraftSpeed * exactRefineriesNeeded * solidFuel.TimeToProduce) / (petroleumGas.TimeToProduce * 20 * chemicalPlantCraftingSpeed);
 
                             double totalSolidChemPlants = lightOilToSolidChemPlants + gasToSolidChemPlants;
 
                             double refineriesPerHeavyCracking = 20.0 / 3;
                             int heavyCrackingPlants = (int)Math.Ceiling(1.0 * roundedRefineriesNeeded / (refineriesPerHeavyCracking * chemicalPlantCraftingSpeed));
 
-                            /*
-                            // Assume we can created 1 solid fuel with each ingredient.
-                            // We can make 1.6 solid fuel ingredients per second with 1 refinery.
-                            exactRefineriesNeeded = (1.0 * oilNeeds.SolidFuelIngredientsNeeded * solidFuelIngredient.TimeToProduce) / (1.6 * refineryCraftSpeed);
-                            
-                            roundedRefineriesNeeded = (int)Math.Ceiling(exactRefineriesNeeded);
-                            
-
-                            // Need to display the chemical plants creating from light and plants creating from gas.
-                            // Need to not display the chemical plants using this made up ingredient.
-
-                            int lightToSolidFacs = (int)Math.Ceiling(roundedRefineriesNeeded * 3.9375);
-                            int gasToSolidFacs = (int)Math.Ceiling(roundedRefineriesNeeded * 2.0625);
-                            */
                             view.TextReport.AppendText("Build " + heavyCrackingPlants + " chemical plants to crack heavy oil to light oil.");
                             view.TextReport.AppendText("\n");
                             view.TextReport.AppendText("\n");

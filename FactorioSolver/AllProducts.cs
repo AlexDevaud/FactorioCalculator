@@ -341,6 +341,14 @@ namespace FactorioSolver
             solidFuelIngredients.TotalCreated = 1;
 
             // Old sorting
+            lowDensityStructure.Producer = facAssemblingMachine;
+            lowDensityStructure.TimeToProduce = 30;
+            lowDensityStructure.TotalCreated = 1;
+            lowDensityStructure.Ingredients.Add(new Ingredient(copperPlate, 5));
+            lowDensityStructure.Ingredients.Add(new Ingredient(plasticBar, 5));
+            lowDensityStructure.Ingredients.Add(new Ingredient(steelPlate, 10));
+
+
             highTechSciencePack.Producer = facAssemblingMachine;
             highTechSciencePack.TimeToProduce = 14;
             highTechSciencePack.TotalCreated = 2;
