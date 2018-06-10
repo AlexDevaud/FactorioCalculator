@@ -309,7 +309,7 @@ namespace FactorioSolver
                     {
                         view.TextReport.AppendText("\n");
                     }
-                    view.TextReport.AppendText("Build " + stats.RoundedFactories + " " + stats.Ingredient.Producer.Name + "s for " + stats.Ingredient.Name + " that feeds to make " + stats.ParentName);
+                    view.TextReport.AppendText("Build " + stats.RoundedFactories + " " + stats.Ingredient.Producer.Name + "s for " + stats.Ingredient.Name + " that feeds to " + stats.ParentName);
 
                     if (stats.BeltLoad > 0)
                     {
@@ -322,39 +322,9 @@ namespace FactorioSolver
                         view.TextReport.AppendText(". This will create a belt load of " + beltLoadString);
                     }
                     view.TextReport.AppendText("\n");
-                }
-               
-                /*
-                if (stats.Ingredient.Name == "Petroleum Gas")
-                {
-                    double refineriesPerHeavyCracking = 25.0 / 3;
-                    double refineriesPerLightCracking = 25.0 / 21;
-                    int heavyCrackingPlants = (int)Math.Ceiling(stats.RoundedFactories / refineriesPerHeavyCracking);
-                    int lightCrackingPlants = (int)Math.Ceiling(stats.RoundedFactories / refineriesPerLightCracking);
-                    view.TextReport.AppendText("\n");
-                    view.TextReport.AppendText("\n");
-                    view.TextReport.AppendText("For the last set of refineries also build " + heavyCrackingPlants + " chemical plants to crack heavy oil to light oil.");
-                    view.TextReport.AppendText("\n");
-                    view.TextReport.AppendText("Also build " + lightCrackingPlants + " chemical plants to crack light oil to pertroleum gas.");
-                }
-                else if (stats.Ingredient.Name == "Heavy Oil")
-                {
-                    double refineriesPerLightToSolid = 2.25;
-                    double refineriesPerGasToSolid = 1.5;
-                    int lightToSolidPlants = (int)Math.Ceiling(stats.RoundedFactories * refineriesPerLightToSolid);
-                    int gasToSolidPlants = (int)Math.Ceiling(stats.RoundedFactories * refineriesPerGasToSolid);
-                    view.TextReport.AppendText("\n");
-                    view.TextReport.AppendText("\n");
-                    view.TextReport.AppendText("For the last set of refineries also build " + lightToSolidPlants + " chemical plants to turn excess light oil into solid fuel.");
-                    view.TextReport.AppendText("\n");
-                    view.TextReport.AppendText("Also build " + gasToSolidPlants + " chemical plants to turn the excess petroleum gas to solid fuel.");
-                }
-                */
-               
+                } 
             }
-            
 
-           
         }
 
         /// <summary>
@@ -411,7 +381,7 @@ namespace FactorioSolver
                 foreach (Ingredient ingredient in product.Ingredients)
                 {
                     double newCost = 1.0 * (1.0 * ingredient.Amount * count) / product.TotalCreated;
-                    ComputeFactoryCosts(ingredient.Product, newCost, ingredientsList, product.Name + " that feeds to make " + parentName, oilNeeds);
+                    ComputeFactoryCosts(ingredient.Product, newCost, ingredientsList, Math.Ceiling(factoriesNeeded) + " " + product.Name + " factories that feeds to " + parentName, oilNeeds);
                 }
             }
 

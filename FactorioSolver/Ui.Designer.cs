@@ -114,6 +114,7 @@
             this.Controls.Add(this.ButtonCalculate);
             this.Name = "Ui";
             this.Text = "Factorio Calculator";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Ui_KeyPress);
             this.ResumeLayout(false);
             this.PerformLayout();
 

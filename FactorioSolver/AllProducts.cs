@@ -197,7 +197,7 @@ namespace FactorioSolver
             Product flyingRobotFrame = new Product("Flying Robot Frame");
             Product satellite = new Product("Satellite");
             Product rocketPart = new Product("Rocket Part");
-            Product rocketControlUnit = new Product("RocketControlUnit");
+            Product rocketControlUnit = new Product("Rocket Control Unit");
             Product lowDensityStructure = new Product("Low Density Structure");
             Product rocketFuel = new Product("Rocket Fuel");
             Product nuclearFuel = new Product("Nuclear Fuel");
@@ -347,6 +347,12 @@ namespace FactorioSolver
             lowDensityStructure.Ingredients.Add(new Ingredient(copperPlate, 5));
             lowDensityStructure.Ingredients.Add(new Ingredient(plasticBar, 5));
             lowDensityStructure.Ingredients.Add(new Ingredient(steelPlate, 10));
+
+            rocketControlUnit.Producer = facAssemblingMachine;
+            rocketControlUnit.TimeToProduce = 30;
+            rocketControlUnit.TotalCreated = 1;
+            rocketControlUnit.Ingredients.Add(new Ingredient(processingUnit, 1));
+            rocketControlUnit.Ingredients.Add(new Ingredient(speedModule, 1));
 
 
             highTechSciencePack.Producer = facAssemblingMachine;

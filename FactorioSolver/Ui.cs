@@ -47,5 +47,13 @@ namespace FactorioSolver
         {
             ClickOptimizeBeltLoad?.Invoke();
         }
+
+        private void Ui_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\n')
+            {
+                ClickCalculate?.Invoke();
+            }
+        }
     }
 }
