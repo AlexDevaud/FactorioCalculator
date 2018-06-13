@@ -35,6 +35,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.boxTotalPerSecond = new System.Windows.Forms.TextBox();
             this.ButtonOptimizeBeltLoad = new System.Windows.Forms.Button();
+            this.drawingTopLeft = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // ButtonCalculate
@@ -100,11 +101,21 @@
             this.ButtonOptimizeBeltLoad.UseVisualStyleBackColor = true;
             this.ButtonOptimizeBeltLoad.Click += new System.EventHandler(this.ButtonOptimizeBeltLoad_Click);
             // 
+            // drawingTopLeft
+            // 
+            this.drawingTopLeft.Location = new System.Drawing.Point(12, 696);
+            this.drawingTopLeft.Name = "drawingTopLeft";
+            this.drawingTopLeft.Size = new System.Drawing.Size(354, 20);
+            this.drawingTopLeft.TabIndex = 8;
+            this.drawingTopLeft.Text = "For positioning the drawing area";
+            this.drawingTopLeft.Visible = false;
+            // 
             // Ui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1591, 701);
+            this.ClientSize = new System.Drawing.Size(1591, 1220);
+            this.Controls.Add(this.drawingTopLeft);
             this.Controls.Add(this.ButtonOptimizeBeltLoad);
             this.Controls.Add(this.boxTotalPerSecond);
             this.Controls.Add(this.label2);
@@ -128,6 +139,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox boxTotalPerSecond;
         private System.Windows.Forms.Button ButtonOptimizeBeltLoad;
+        private System.Windows.Forms.TextBox drawingTopLeft;
     }
 }
 
