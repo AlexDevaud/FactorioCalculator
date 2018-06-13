@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,10 @@ namespace FactorioSolver
         TextBox TextReport { get; set; }
         TextBox TextIngredient { get; set; }
         TextBox TextTotalPerSecond { get; set; }
+
+        // For drawing
+        Graphics G { get; }
+        TextBox TopLeft { get; }
 
         event Action ClickCalculate;
         event Action ClickOptimizeBeltLoad;

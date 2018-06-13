@@ -33,10 +33,6 @@ namespace FactorioSolver
         /// </summary>
         private void HandleCalculate()
         {
-          
-
-
-
             // Normal code.
             view.TextReport.Text = "";
             largestBeltLoad = 0;
@@ -91,6 +87,7 @@ namespace FactorioSolver
                                 break;
                         }
                     }
+                    // Text display.
                     // Dispay refinery needs.
                     DisplayRefineryStats(oilNeeds);
 
@@ -103,6 +100,11 @@ namespace FactorioSolver
 
                     view.TextReport.AppendText("\n");
                     view.TextReport.AppendText("The largest belt load is " + largestBeltLoad + " for " + largestBeltProduct);
+
+
+                    // Graphical display.
+                    DisplayGraphicalReport(ingredientsList, oilNeeds);
+
                 }
                 else
                 {
@@ -113,7 +115,62 @@ namespace FactorioSolver
             {
                 view.TextReport.Text = "Item not found";
             }
+        }
+
+        /// <summary>
+        /// Display a graphical report about what to build.
+        /// </summary>
+        /// <param name="ingredientStats"></param>
+        /// <param name="oilNeeds"></param>
+        private void DisplayGraphicalReport(List<IngredientStats> ingredientStats, OilNeeds oilNeeds)
+        {
+            int gridSize = 48;
+            int imageRow = 0;
+
+            view.G.Clear(Color.LightGray);
+
+            foreach (IngredientStats stats in ingredientStats)
+            {
+                Image imageProduct = Image.FromFile(stats.Ingredient.ImageString);
+                Image imageProducer = Image.FromFile(stats.Ingredient.Producer.ImageString);
+
+                Font drawFont = new System.Drawing.Font("Arial", 16);
+                SolidBrush drawBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
+
+                PointF pointTop = new PointF(view.TopLeft.Location.X + imageRow * gridSize, view.TopLeft.Location.Y + 20);
+                PointF pointMid = new PointF(view.TopLeft.Location.X + imageRow * gridSize, view.TopLeft.Location.Y + gridSize);
+                PointF pointBot = new PointF(view.TopLeft.Location.X + imageRow * gridSize, view.TopLeft.Location.Y + 2 * gridSize);
+
+                view.G.DrawString("" + stats.RoundedFactories, drawFont, drawBrush, pointTop);
+                view.G.DrawImage(imageProducer, pointMid);
+                view.G.DrawImage(imageProduct, pointBot);
+
+
+                imageRow++;
+            }
+
+            /*
+            // Test drawing
+            // Draw furnace
+            //Image furnace = Image.FromFile("Images\\Electric_furnace.png");
+
+            PointF pointUpperLeft = new PointF(view.TopLeft.Location.X, view.TopLeft.Location.Y);
+            //view.G.DrawImage(furnace, new PointF(pointUpperLeft.X, pointUpperLeft.Y + gridSize));
+
+            // Draw count.
             
+            view.G.DrawString("70", drawFont, drawBrush, pointUpperLeft);
+
+            // Draw product
+            Image ironPlate = Image.FromFile("Images\\Iron_plate.png");
+            view.G.DrawImage(ironPlate, new PointF(pointUpperLeft.X, pointUpperLeft.Y + 2 * gridSize));
+
+
+            // Draw from object.
+            products.Dictionary.TryGetValue("Electric Furnace", out Product electricFurnace);
+            Image imageFurnace = Image.FromFile(electricFurnace.ImageString);
+            view.G.DrawImage(imageFurnace, new PointF(pointUpperLeft.X, pointUpperLeft.Y + gridSize));
+            */
         }
 
         /// <summary>

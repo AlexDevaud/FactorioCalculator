@@ -16,6 +16,7 @@ namespace FactorioSolver
         public int TotalCreated { get; set; } // The number of this type of item that are created when it is crafted.
         public List<Ingredient> Ingredients { get; set; }
         public Factory Producer { get; set; }
+        public string ImageString { get; set; }
 
         public Product (string name, double timeToProduce, int totalCreated, Factory producer)
         {
@@ -57,6 +58,7 @@ namespace FactorioSolver
         public string Name { get; }
         public bool UsesBelt { get; }
         public double CraftSpeed { get; }
+        public string ImageString { get; set; }
 
         public Factory(string name, bool usesBelt, double craftSpeed)
         {

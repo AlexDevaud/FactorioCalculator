@@ -32,6 +32,10 @@ namespace FactorioSolver
             Factory facOffshorePump = new Factory("Offshore Pump", false, 1);
             Factory facElectricMiningDrill = new Factory("Electric Mining Drill", true, 0.5);
 
+            facAssemblingMachine.ImageString = "Images\\Assembling_machine_3.png";
+            facElectricFurnace.ImageString = "Images\\Electric_furnace.png";
+            facElectricMiningDrill.ImageString = "Images\\Electric_mining_drill.png";
+
             // Create all product objects.
             // From left to right, top to bottom.
             // Logistics
@@ -129,9 +133,9 @@ namespace FactorioSolver
             Product steelFurnace = new Product("Steel Furnace");
             Product electricFurnace = new Product("Electric Furnace");
 
-            Product assemblineMachine1 = new Product("Assembling Machine 1");
-            Product assemblineMachine2 = new Product("Assembling Machine 2");
-            Product assemblineMachine3 = new Product("Assembling Machine 3");
+            Product assembligMachine1 = new Product("Assembling Machine 1");
+            Product assemblingMachine2 = new Product("Assembling Machine 2");
+            Product assemblingMachine3 = new Product("Assembling Machine 3");
             Product oilRefinery = new Product("Oil Refinery");
             Product chemicalPlant = new Product("Chemical Plant");
             Product centrifuge = new Product("Centrifuge");
@@ -341,6 +345,8 @@ namespace FactorioSolver
             solidFuelIngredients.TotalCreated = 1;
 
             // Old sorting
+            assemblingMachine3.ImageString = "Images\\Assembling_machine_3.png";
+
             lowDensityStructure.Producer = facAssemblingMachine;
             lowDensityStructure.TimeToProduce = 30;
             lowDensityStructure.TotalCreated = 1;
@@ -430,16 +436,19 @@ namespace FactorioSolver
             ironGearWheel.TimeToProduce = 0.5;
             ironGearWheel.TotalCreated = 1;
             ironGearWheel.Ingredients.Add(new Ingredient(ironPlate, 2));
+            ironGearWheel.ImageString = "Images\\Iron_gear_wheel.png";
 
             ironPlate.Producer = facElectricFurnace;
             ironPlate.TimeToProduce = 3.5;
             ironPlate.TotalCreated = 1;
             ironPlate.Ingredients.Add(new Ingredient(ironOre, 1));
+            ironPlate.ImageString = "Images\\Iron_plate.png";
 
             copperPlate.Producer = facElectricFurnace;
             copperPlate.TimeToProduce = 3.5;
             copperPlate.TotalCreated = 1;
             copperPlate.Ingredients.Add(new Ingredient(copperOre, 1));
+            copperPlate.ImageString = "Images\\Copper_plate.png";
 
             sciencePack2.Producer = facAssemblingMachine;
             sciencePack2.TimeToProduce = 6;
@@ -486,6 +495,7 @@ namespace FactorioSolver
             steelPlate.TimeToProduce = 17.5;
             steelPlate.TotalCreated = 1;
             steelPlate.Ingredients.Add(new Ingredient(ironPlate, 5));
+            steelPlate.ImageString = "Images\\Steel_plate.png";
 
             militarySciencePack.Producer = facAssemblingMachine;
             militarySciencePack.TimeToProduce = 10;
@@ -493,6 +503,7 @@ namespace FactorioSolver
             militarySciencePack.Ingredients.Add(new Ingredient(piercingRoundsMagazine, 1));
             militarySciencePack.Ingredients.Add(new Ingredient(grenade, 1));
             militarySciencePack.Ingredients.Add(new Ingredient(gunTurret, 1));
+            militarySciencePack.ImageString = "Images\\Military_science_pack.png";
 
             piercingRoundsMagazine.Producer = facAssemblingMachine;
             piercingRoundsMagazine.TimeToProduce = 3;
@@ -500,17 +511,20 @@ namespace FactorioSolver
             piercingRoundsMagazine.Ingredients.Add(new Ingredient(copperPlate, 5));
             piercingRoundsMagazine.Ingredients.Add(new Ingredient(firearmMagazine, 1));
             piercingRoundsMagazine.Ingredients.Add(new Ingredient(steelPlate, 1));
+            piercingRoundsMagazine.ImageString = "Images\\Piercing_rounds_magazine.png";
 
             firearmMagazine.Producer = facAssemblingMachine;
             firearmMagazine.TimeToProduce = 1;
             firearmMagazine.TotalCreated = 1;
             firearmMagazine.Ingredients.Add(new Ingredient(ironPlate, 4));
+            firearmMagazine.ImageString = "Images\\Firearm_magazine.png";
 
             grenade.Producer = facAssemblingMachine;
             grenade.TimeToProduce = 8;
             grenade.TotalCreated = 1;
             grenade.Ingredients.Add(new Ingredient(coal, 10));
             grenade.Ingredients.Add(new Ingredient(ironPlate, 5));
+            grenade.ImageString = "Images\\Grenade.png";
 
             gunTurret.Producer = facAssemblingMachine;
             gunTurret.TimeToProduce = 8;
@@ -518,6 +532,7 @@ namespace FactorioSolver
             gunTurret.Ingredients.Add(new Ingredient(copperPlate, 10));
             gunTurret.Ingredients.Add(new Ingredient(ironGearWheel, 10));
             gunTurret.Ingredients.Add(new Ingredient(ironPlate, 20));
+            gunTurret.ImageString = "Images\\Gun_turret.png";
 
             productionSciencePack.Producer = facAssemblingMachine;
             productionSciencePack.TimeToProduce = 14;
@@ -543,6 +558,7 @@ namespace FactorioSolver
             electricFurnace.Ingredients.Add(new Ingredient(advancedCircuit, 5));
             electricFurnace.Ingredients.Add(new Ingredient(steelPlate, 10));
             electricFurnace.Ingredients.Add(new Ingredient(stoneBrick, 10));
+            electricFurnace.ImageString = "Images\\Electric_furnace.png";
 
             stoneBrick.Producer = facElectricFurnace;
             stoneBrick.TimeToProduce = 3.5;
@@ -571,14 +587,17 @@ namespace FactorioSolver
             ironOre.Producer = facElectricMiningDrill;
             ironOre.TimeToProduce = 2;
             ironOre.TotalCreated = 1;
+            ironOre.ImageString = "Images\\Iron_ore.png";
 
             copperOre.Producer = facElectricMiningDrill;
             copperOre.TimeToProduce = 2;
             copperOre.TotalCreated = 1;
+            copperOre.ImageString = "Images\\Copper_ore.png";
 
             coal.Producer = facElectricMiningDrill;
             coal.TimeToProduce = 2;
             coal.TotalCreated = 1;
+            coal.ImageString = "Images\\Coal.png";
 
             stone.Producer = facElectricMiningDrill;
             stone.TimeToProduce = 2;
@@ -696,9 +715,9 @@ namespace FactorioSolver
             products.Add(steelFurnace);
             products.Add(electricFurnace);
 
-            products.Add(assemblineMachine1);
-            products.Add(assemblineMachine2);
-            products.Add(assemblineMachine3);
+            products.Add(assembligMachine1);
+            products.Add(assemblingMachine2);
+            products.Add(assemblingMachine3);
             products.Add(oilRefinery);
             products.Add(chemicalPlant);
             products.Add(centrifuge);
