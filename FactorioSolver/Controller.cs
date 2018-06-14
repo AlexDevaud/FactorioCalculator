@@ -88,10 +88,10 @@ namespace FactorioSolver
                         }
                     }
                     // Text display.
-                    // Dispay refinery needs.
+                    // Dispay text refinery needs.
                     DisplayRefineryStats(oilNeeds);
 
-                    // Display all the lists.
+                    // Display all the text lists.
                     DisplayListOfFactories(ironFurnace);
                     DisplayListOfFactories(steelFurnace);
                     DisplayListOfFactories(copperFurnace);
@@ -103,6 +103,12 @@ namespace FactorioSolver
 
 
                     // Graphical display.
+                    // Calulate needs for graphical display.
+                    GraphicalNeed rootNeed = new GraphicalNeed(product);
+
+                    rootNeed = CalculateGraphicalNeeds(rootNeed, totalPerSecond, rootNeed);
+
+
                     DisplayGraphicalReport(ingredientsList, oilNeeds);
 
                 }
@@ -115,6 +121,53 @@ namespace FactorioSolver
             {
                 view.TextReport.Text = "Item not found";
             }
+        }
+
+        /// <summary>
+        /// Method to build the data objects that can be used to create a graphical report.
+        /// The root need will need to be returned when done to build the graphical report from.
+        /// </summary>
+        /// <param name="thisNeed"></param>
+        /// <param name="rootNeed"></param>
+        private GraphicalNeed CalculateGraphicalNeeds(GraphicalNeed thisNeed, double count, GraphicalNeed rootNeed)
+        {
+            double factoriesNeeded = (1.0 * count * thisNeed.Product.TimeToProduce) / (thisNeed.Product.TotalCreated * thisNeed.Product.Producer.CraftSpeed);
+            //IngredientStats ingredientStats = new IngredientStats(thisNeed.Product, factoriesNeeded, parentName);
+            double beltLoad = 0;
+            if (thisNeed.Product.Producer.UsesBelt)
+            {
+                beltLoad = 1.0 * thisNeed.Product.TotalCreated * thisNeed.Product.Producer.CraftSpeed * factoriesNeeded / thisNeed.Product.TimeToProduce;
+
+                // Store the largest belt load.
+                if (beltLoad > largestBeltLoad)
+                {
+                    largestBeltLoad = beltLoad;
+                    largestBeltProduct = thisNeed.Product.Name;
+                }
+            }
+
+            // Store stats for this item
+            thisNeed.BeltLoad = beltLoad;
+            thisNeed.RoundedFacs = (int)Math.Ceiling(factoriesNeeded);
+
+            // Check for children to be reported on.
+            if (thisNeed.Product.Ingredients.Count > 0)
+            {
+                foreach (Ingredient ingredient in thisNeed.Product.Ingredients)
+                {
+                    double newCost = 1.0 * (1.0 * ingredient.Amount * count) / thisNeed.Product.TotalCreated;
+
+                    // Create a new stats object for each ingredient.
+                    GraphicalNeed nextNeed = new GraphicalNeed(ingredient.Product);
+                    thisNeed.ChildNeeds.Add(nextNeed);
+
+                    CalculateGraphicalNeeds(nextNeed, newCost, rootNeed);
+
+                    //ComputeFactoryCosts(ingredient.Product, newCost, ingredientsList, Math.Ceiling(factoriesNeeded) + " " + product.Name + " factories that feeds to " + parentName, oilNeeds);
+                }
+            }
+
+            return rootNeed;
         }
 
         /// <summary>
@@ -450,6 +503,7 @@ namespace FactorioSolver
 
             return ingredientsList;
             }
+        
 
         /// <summary>
         /// Adjust the belt load to have a max of 40 load.

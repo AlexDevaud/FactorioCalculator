@@ -51,6 +51,34 @@ namespace FactorioSolver
     }
 
     /// <summary>
+    /// An object to track data needed to built a visual representation of what to build.
+    /// </summary>
+    class GraphicalNeed
+    {
+        public Product Product { get; set; }
+        public double BeltLoad { get; set; }
+        public int RoundedFacs { get; set; }
+        public List<GraphicalNeed> ChildNeeds { get; set; }
+
+        public GraphicalNeed(Product product)
+        {
+            ChildNeeds = new List<GraphicalNeed>();
+
+            Product = product;
+        }
+        /*
+        public GraphicalNeed(Product product, double beltLoad, int roundedFacs)
+        {
+            Ingredients = new List<GraphicalNeed>();
+            
+            Product = product;
+            BeltLoad = beltLoad;
+            RoundedFacs = roundedFacs;
+        }
+        */
+    }
+
+    /// <summary>
     /// Used to track the building that is used to craft a product.
     /// </summary>
     class Factory
