@@ -206,9 +206,10 @@ namespace FactorioSolver
         /// <returns></returns>
         private int[] GetWidthsOfTree(GraphicalNeed thisNeed, int thisDepth, int[] depthWidths)
         {
+            /*
             view.TextReport.AppendText("At depth " + thisDepth + " .We find product " + thisNeed.Product.Name);
             view.TextReport.AppendText("\n");
-
+            */
             depthWidths[thisDepth]++;
             thisDepth++;
 
@@ -228,10 +229,6 @@ namespace FactorioSolver
         /// <param name="oilNeeds"></param>
         private void DisplayGraphicalReport(GraphicalNeed rootNeed, List<IngredientStats> ingredientStats, OilNeeds oilNeeds)
         {
-            int gridSize = 48;
-            int horizontalSpacing = 64;
-            int imageRow = 0;
-
             view.G.Clear(Color.LightGray);
 
             // Get the max dimensions of the tree.
@@ -254,54 +251,7 @@ namespace FactorioSolver
             }
 
             // Draw with the proper data structure.
-            DrawThisFacNeed(rootNeed, 0, widestRow, maxWidth, maxDepth, ref largestColumnUsed);
-
-
-            /*
-            // Uses text data structure.
-            foreach (IngredientStats stats in ingredientStats)
-            {
-                Image imageProduct = Image.FromFile(stats.Ingredient.ImageString);
-                Image imageProducer = Image.FromFile(stats.Ingredient.Producer.ImageString);
-
-                Font drawFont = new System.Drawing.Font("Arial", 16);
-                SolidBrush drawBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
-
-                PointF pointTop = new PointF(view.TopLeft.Location.X + imageRow * gridSize, view.TopLeft.Location.Y + 20);
-                PointF pointMid = new PointF(view.TopLeft.Location.X + imageRow * gridSize, view.TopLeft.Location.Y + gridSize);
-                PointF pointBot = new PointF(view.TopLeft.Location.X + imageRow * gridSize, view.TopLeft.Location.Y + 2 * gridSize);
-
-                view.G.DrawString("" + stats.RoundedFactories, drawFont, drawBrush, pointTop);
-                view.G.DrawImage(imageProducer, pointMid);
-                view.G.DrawImage(imageProduct, pointBot);
-
-
-                imageRow++;
-            }
-            */
-
-            /*
-            // Test drawing
-            // Draw furnace
-            //Image furnace = Image.FromFile("Images\\Electric_furnace.png");
-
-            PointF pointUpperLeft = new PointF(view.TopLeft.Location.X, view.TopLeft.Location.Y);
-            //view.G.DrawImage(furnace, new PointF(pointUpperLeft.X, pointUpperLeft.Y + gridSize));
-
-            // Draw count.
-            
-            view.G.DrawString("70", drawFont, drawBrush, pointUpperLeft);
-
-            // Draw product
-            Image ironPlate = Image.FromFile("Images\\Iron_plate.png");
-            view.G.DrawImage(ironPlate, new PointF(pointUpperLeft.X, pointUpperLeft.Y + 2 * gridSize));
-
-
-            // Draw from object.
-            products.Dictionary.TryGetValue("Electric Furnace", out Product electricFurnace);
-            Image imageFurnace = Image.FromFile(electricFurnace.ImageString);
-            view.G.DrawImage(imageFurnace, new PointF(pointUpperLeft.X, pointUpperLeft.Y + gridSize));
-            */
+            DrawThisFacNeed(rootNeed, 0, widestRow, maxWidth, maxDepth, ref largestColumnUsed, new Point(0, 0));
         }
 
         /// <summary>
@@ -311,7 +261,7 @@ namespace FactorioSolver
         /// <param name="thisNeed"></param>
         /// <param name="widestRow"></param>
         /// <param name="largestColumnUsed"></param>
-        private void DrawThisFacNeed(GraphicalNeed thisNeed, int thisDepth, int widestRow, int maxWidth, int maxDepth, ref int largestColumnUsed)
+        private void DrawThisFacNeed(GraphicalNeed thisNeed, int thisDepth, int widestRow, int maxWidth, int maxDepth, ref int largestColumnUsed, Point parentPoint)
         {
             int graphicSize = 48;
             int horizontalSpace = 64;
@@ -321,8 +271,8 @@ namespace FactorioSolver
             Image imageProduct = Image.FromFile(thisNeed.Product.ImageString);
             Image imageProducer = Image.FromFile(thisNeed.Product.Producer.ImageString);
 
-            Font drawFont = new System.Drawing.Font("Arial", 16);
-            SolidBrush drawBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
+            Font font = new System.Drawing.Font("Arial", 16);
+            SolidBrush brush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
 
             int currentX = view.TopLeft.Location.X + largestColumnUsed * horizontalSpace;
 
@@ -343,15 +293,36 @@ namespace FactorioSolver
             PointF pointMid = new PointF(currentX, currentRowHeight + graphicSize);
             PointF pointBot = new PointF(currentX, currentRowHeight + 2 * graphicSize);
 
-            view.G.DrawString("" + thisNeed.RoundedFacs, drawFont, drawBrush, pointTop);
+            view.G.DrawString("" + thisNeed.RoundedFacs, font, brush, pointTop);
             view.G.DrawImage(imageProducer, pointMid);
             view.G.DrawImage(imageProduct, pointBot);
 
+            /*
+            // Test line
+            int centerX = currentX + (graphicSize / 2);
+            Point startPoint = new Point(centerX, currentRowHeight + 20);
+            Point endPoint = new Point(centerX, currentRowHeight + 3 * graphicSize);
+            Pen pen = new Pen(brush);
+            view.G.DrawLine(pen, startPoint, endPoint);
+            */
+
+            // Relationship lines.
+            int centerX = currentX + (graphicSize / 2);
+            Point newInPoint = new Point(centerX, currentRowHeight + 15);
+            
+            // Draw a relationship line if this is not the root.
+            if (thisDepth > 0)
+            {
+                Pen pen = new Pen(brush);
+                Point outPoint = new Point(centerX, currentRowHeight + 3 * graphicSize);
+                view.G.DrawLine(pen, outPoint, parentPoint);
+            }
+            
 
             // Draw our children.
             foreach (GraphicalNeed childNeed in thisNeed.ChildNeeds)
             {
-                DrawThisFacNeed(childNeed, thisDepth + 1, widestRow, maxWidth, maxDepth, ref largestColumnUsed);
+                DrawThisFacNeed(childNeed, thisDepth + 1, widestRow, maxWidth, maxDepth, ref largestColumnUsed, newInPoint);
             }
 
             // Update the widest row.
