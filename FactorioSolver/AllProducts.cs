@@ -417,7 +417,7 @@ namespace FactorioSolver
             plasticBar.Producer = facChemicalPlantBelt;
             plasticBar.TimeToProduce = 1;
             plasticBar.TotalCreated = 2;
-            plasticBar.Ingredients.Add(new Ingredient(coal, 1));
+            //plasticBar.Ingredients.Add(new Ingredient(coal, 1));
             plasticBar.Ingredients.Add(new Ingredient(petroleumGas, 20));
 
             speedModule.Producer = facAssemblingMachine;
@@ -441,13 +441,13 @@ namespace FactorioSolver
             ironPlate.Producer = facElectricFurnace;
             ironPlate.TimeToProduce = 3.5;
             ironPlate.TotalCreated = 1;
-            ironPlate.Ingredients.Add(new Ingredient(ironOre, 1));
+            //ironPlate.Ingredients.Add(new Ingredient(ironOre, 1));
             ironPlate.ImageString = "Images\\Iron_plate.png";
 
             copperPlate.Producer = facElectricFurnace;
             copperPlate.TimeToProduce = 3.5;
             copperPlate.TotalCreated = 1;
-            copperPlate.Ingredients.Add(new Ingredient(copperOre, 1));
+            //copperPlate.Ingredients.Add(new Ingredient(copperOre, 1));
             copperPlate.ImageString = "Images\\Copper_plate.png";
 
             sciencePack2.Producer = facAssemblingMachine;
@@ -522,7 +522,7 @@ namespace FactorioSolver
             grenade.Producer = facAssemblingMachine;
             grenade.TimeToProduce = 8;
             grenade.TotalCreated = 1;
-            grenade.Ingredients.Add(new Ingredient(coal, 10));
+            //grenade.Ingredients.Add(new Ingredient(coal, 10));
             grenade.Ingredients.Add(new Ingredient(ironPlate, 5));
             grenade.ImageString = "Images\\Grenade.png";
 
@@ -580,7 +580,7 @@ namespace FactorioSolver
             explosives.Producer = facChemicalPlantBelt;
             explosives.TimeToProduce = 5;
             explosives.TotalCreated = 2;
-            explosives.Ingredients.Add(new Ingredient(coal, 1));
+            //explosives.Ingredients.Add(new Ingredient(coal, 1));
             explosives.Ingredients.Add(new Ingredient(sulfur, 1));
             explosives.Ingredients.Add(new Ingredient(water, 10));
 

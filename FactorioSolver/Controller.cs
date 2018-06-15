@@ -109,7 +109,7 @@ namespace FactorioSolver
                     rootNeed = CalculateGraphicalNeeds(rootNeed, totalPerSecond, rootNeed);
 
 
-                    DisplayGraphicalReport(ingredientsList, oilNeeds);
+                    DisplayGraphicalReport(rootNeed, ingredientsList, oilNeeds);
 
                 }
                 else
@@ -169,19 +169,96 @@ namespace FactorioSolver
 
             return rootNeed;
         }
+        
+        /// <summary>
+        /// Returns the maximum depth of the dependency tree.
+        /// 1 node = 1 depth.
+        /// </summary>
+        /// <param name="thisNeed"></param>
+        /// <param name="thisDepth"></param>
+        /// <param name="maxDepth"></param>
+        /// <returns></returns>
+        private int GetMaxDepthOfTree(GraphicalNeed thisNeed, int thisDepth, int maxDepth)
+        {
+            thisDepth++;
+
+            foreach (GraphicalNeed childNeed in thisNeed.ChildNeeds)
+            {
+                maxDepth = GetMaxDepthOfTree(childNeed, thisDepth, maxDepth);
+            }
+
+            if (thisDepth > maxDepth)
+            {
+                maxDepth = thisDepth;
+            }
+            return maxDepth;
+        }
+
+
+        /// <summary>
+        /// Returns the widths of all levels of tree.
+        /// Finding the max of this needs to be done when it is built.
+        /// 1 node = 1 width.
+        /// </summary>
+        /// <param name="thisNeed"></param>
+        /// <param name="thisDepth"></param>
+        /// <param name="depthWidths"></param>
+        /// <returns></returns>
+        private int[] GetWidthsOfTree(GraphicalNeed thisNeed, int thisDepth, int[] depthWidths)
+        {
+            view.TextReport.AppendText("At depth " + thisDepth + " .We find product " + thisNeed.Product.Name);
+            view.TextReport.AppendText("\n");
+
+            depthWidths[thisDepth]++;
+            thisDepth++;
+
+            foreach (GraphicalNeed childNeed in thisNeed.ChildNeeds)
+            {
+                depthWidths = GetWidthsOfTree(childNeed, thisDepth, depthWidths);
+            }
+
+            return depthWidths;
+        }
+
 
         /// <summary>
         /// Display a graphical report about what to build.
         /// </summary>
         /// <param name="ingredientStats"></param>
         /// <param name="oilNeeds"></param>
-        private void DisplayGraphicalReport(List<IngredientStats> ingredientStats, OilNeeds oilNeeds)
+        private void DisplayGraphicalReport(GraphicalNeed rootNeed, List<IngredientStats> ingredientStats, OilNeeds oilNeeds)
         {
             int gridSize = 48;
+            int horizontalSpacing = 64;
             int imageRow = 0;
 
             view.G.Clear(Color.LightGray);
 
+            // Get the max dimensions of the tree.
+            int maxDepth = GetMaxDepthOfTree(rootNeed, 0, 0);
+            int[] depthWidths = new int[maxDepth];
+
+            depthWidths = GetWidthsOfTree(rootNeed, 0, depthWidths);
+
+            int maxWidth = 0;
+            int widestRow = 0;
+            int largestColumnUsed = 0;
+
+            for (int i = 0; i < depthWidths.Length; i++)
+            {
+                if (depthWidths[i] > maxWidth)
+                {
+                    maxWidth = depthWidths[i];
+                    widestRow = i;
+                }
+            }
+
+            // Draw with the proper data structure.
+            DrawThisFacNeed(rootNeed, 0, widestRow, maxWidth, maxDepth, ref largestColumnUsed);
+
+
+            /*
+            // Uses text data structure.
             foreach (IngredientStats stats in ingredientStats)
             {
                 Image imageProduct = Image.FromFile(stats.Ingredient.ImageString);
@@ -201,6 +278,7 @@ namespace FactorioSolver
 
                 imageRow++;
             }
+            */
 
             /*
             // Test drawing
@@ -224,6 +302,63 @@ namespace FactorioSolver
             Image imageFurnace = Image.FromFile(electricFurnace.ImageString);
             view.G.DrawImage(imageFurnace, new PointF(pointUpperLeft.X, pointUpperLeft.Y + gridSize));
             */
+        }
+
+        /// <summary>
+        /// Draws each factory needed
+        /// Also call itself to draw its children.
+        /// </summary>
+        /// <param name="thisNeed"></param>
+        /// <param name="widestRow"></param>
+        /// <param name="largestColumnUsed"></param>
+        private void DrawThisFacNeed(GraphicalNeed thisNeed, int thisDepth, int widestRow, int maxWidth, int maxDepth, ref int largestColumnUsed)
+        {
+            int graphicSize = 48;
+            int horizontalSpace = 64;
+            int verticalSpace = 192;
+            int currentRowHeight = (maxDepth - thisDepth - 1) * verticalSpace + view.TopLeft.Location.Y;
+
+            Image imageProduct = Image.FromFile(thisNeed.Product.ImageString);
+            Image imageProducer = Image.FromFile(thisNeed.Product.Producer.ImageString);
+
+            Font drawFont = new System.Drawing.Font("Arial", 16);
+            SolidBrush drawBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
+
+            int currentX = view.TopLeft.Location.X + largestColumnUsed * horizontalSpace;
+
+            // Center amoung our children.
+            if (thisNeed.ChildNeeds.Count > 0)
+            {
+                // We need to be centered horizontally among our children.
+                currentX += (thisNeed.ChildNeeds.Count - 1) * horizontalSpace / 2;
+            }
+
+            // Check for root centering.
+            if (thisDepth == 0)
+            {
+                currentX = view.TopLeft.Location.X + (maxWidth - 1) * horizontalSpace / 2;
+            }
+
+            PointF pointTop = new PointF(currentX, currentRowHeight + 20);
+            PointF pointMid = new PointF(currentX, currentRowHeight + graphicSize);
+            PointF pointBot = new PointF(currentX, currentRowHeight + 2 * graphicSize);
+
+            view.G.DrawString("" + thisNeed.RoundedFacs, drawFont, drawBrush, pointTop);
+            view.G.DrawImage(imageProducer, pointMid);
+            view.G.DrawImage(imageProduct, pointBot);
+
+
+            // Draw our children.
+            foreach (GraphicalNeed childNeed in thisNeed.ChildNeeds)
+            {
+                DrawThisFacNeed(childNeed, thisDepth + 1, widestRow, maxWidth, maxDepth, ref largestColumnUsed);
+            }
+
+            // Update the widest row.
+            if (thisDepth == widestRow)
+            {
+                largestColumnUsed++;
+            }
         }
 
         /// <summary>
