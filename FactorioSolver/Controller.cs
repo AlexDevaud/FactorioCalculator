@@ -109,7 +109,7 @@ namespace FactorioSolver
                     rootNeed = CalculateGraphicalNeeds(rootNeed, totalPerSecond, rootNeed);
 
 
-                    DisplayGraphicalReport(rootNeed, ingredientsList, oilNeeds);
+                    DisplayGraphicalReport(rootNeed, oilNeeds);
 
                 }
                 else
@@ -227,7 +227,7 @@ namespace FactorioSolver
         /// </summary>
         /// <param name="ingredientStats"></param>
         /// <param name="oilNeeds"></param>
-        private void DisplayGraphicalReport(GraphicalNeed rootNeed, List<IngredientStats> ingredientStats, OilNeeds oilNeeds)
+        private void DisplayGraphicalReport(GraphicalNeed rootNeed, OilNeeds oilNeeds)
         {
             view.G.Clear(Color.LightGray);
 
@@ -255,12 +255,15 @@ namespace FactorioSolver
         }
 
         /// <summary>
-        /// Draws each factory needed
-        /// Also call itself to draw its children.
+        /// Draws the given factory. Also call itself to draw its children.
         /// </summary>
         /// <param name="thisNeed"></param>
+        /// <param name="thisDepth"></param>
         /// <param name="widestRow"></param>
+        /// <param name="maxWidth"></param>
+        /// <param name="maxDepth"></param>
         /// <param name="largestColumnUsed"></param>
+        /// <param name="parentPoint"></param>
         private void DrawThisFacNeed(GraphicalNeed thisNeed, int thisDepth, int widestRow, int maxWidth, int maxDepth, ref int largestColumnUsed, Point parentPoint)
         {
             int graphicSize = 48;
@@ -271,8 +274,8 @@ namespace FactorioSolver
             Image imageProduct = Image.FromFile(thisNeed.Product.ImageString);
             Image imageProducer = Image.FromFile(thisNeed.Product.Producer.ImageString);
 
-            Font font = new System.Drawing.Font("Arial", 16);
-            SolidBrush brush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
+            Font font = new Font("Arial", 18);
+            SolidBrush brush = new SolidBrush(Color.Black);
 
             int currentX = view.TopLeft.Location.X + largestColumnUsed * horizontalSpace;
 
@@ -313,7 +316,7 @@ namespace FactorioSolver
             // Draw a relationship line if this is not the root.
             if (thisDepth > 0)
             {
-                Pen pen = new Pen(brush);
+                Pen pen = new Pen(brush, 2);
                 Point outPoint = new Point(centerX, currentRowHeight + 3 * graphicSize);
                 view.G.DrawLine(pen, outPoint, parentPoint);
             }
