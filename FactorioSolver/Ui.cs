@@ -45,9 +45,14 @@ namespace FactorioSolver
             get { return g; }
         }
 
-        public TextBox TopLeft
+        public TextBox TopLeftMain
         {
-            get { return drawingTopLeft; }
+            get { return drawingMainTopLeft; }
+        }
+
+        public TextBox TopLeftRefinery
+        {
+            get { return drawingRefineryTopLeft; }
         }
 
         public Label StringSize

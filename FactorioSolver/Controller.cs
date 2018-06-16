@@ -20,7 +20,6 @@ namespace FactorioSolver
             view = uiInterface;
             products = new AllProducts();
             products.CreateDefaultProducts();
-            //craftSpeed = 2;
             largestBeltLoad = 0;
             largestBeltProduct = "";
 
@@ -33,6 +32,8 @@ namespace FactorioSolver
         /// </summary>
         private void HandleCalculate()
         {
+            view.G.Clear(Color.White);
+
             // Normal code.
             view.TextReport.Text = "";
             largestBeltLoad = 0;
@@ -45,7 +46,7 @@ namespace FactorioSolver
                     // Built a list of sets of factories we will need.
                     List<IngredientStats> ingredientsList = new List<IngredientStats>();
                     OilNeeds oilNeeds = new OilNeeds();
-                    ComputeFactoryCosts(product, totalPerSecond, ingredientsList, "Root", oilNeeds);
+                    ComputeFactoryCostsText(product, totalPerSecond, ingredientsList, "Root", oilNeeds);
 
                     // Sort the factories list into sub lists.
                     List<IngredientStats> ironFurnace = new List<IngredientStats>();
@@ -79,10 +80,7 @@ namespace FactorioSolver
                             case "Chemical Plant":
                                 chemicalPlants.Add(ingredientStats);
                                 break;
-                            case "Basic Processing Oil Refinerie":
-                                refineries.Add(ingredientStats);
-                                break;
-                            case "Advanced Processing Oil Refinerie":
+                            case "Oil Refinery":
                                 refineries.Add(ingredientStats);
                                 break;
                         }
@@ -92,11 +90,11 @@ namespace FactorioSolver
                     DisplayRefineryStats(oilNeeds);
 
                     // Display all the text lists.
-                    DisplayListOfFactories(ironFurnace);
-                    DisplayListOfFactories(steelFurnace);
-                    DisplayListOfFactories(copperFurnace);
-                    DisplayListOfFactories(chemicalPlants);
-                    DisplayListOfFactories(assemblingMachines);
+                    DisplayListOfFactoriesText(ironFurnace);
+                    DisplayListOfFactoriesText(steelFurnace);
+                    DisplayListOfFactoriesText(copperFurnace);
+                    DisplayListOfFactoriesText(chemicalPlants);
+                    DisplayListOfFactoriesText(assemblingMachines);
 
                     view.TextReport.AppendText("\n");
                     view.TextReport.AppendText("The largest belt load is " + largestBeltLoad + " for " + largestBeltProduct);
@@ -105,7 +103,6 @@ namespace FactorioSolver
                     // Graphical display.
                     // Calulate needs for graphical display.
                     GraphicalNeed rootNeed = new GraphicalNeed(product);
-
                     rootNeed = CalculateGraphicalNeeds(rootNeed, totalPerSecond, rootNeed);
 
 
@@ -132,7 +129,6 @@ namespace FactorioSolver
         private GraphicalNeed CalculateGraphicalNeeds(GraphicalNeed thisNeed, double count, GraphicalNeed rootNeed)
         {
             double factoriesNeeded = (1.0 * count * thisNeed.Product.TimeToProduce) / (thisNeed.Product.TotalCreated * thisNeed.Product.Producer.CraftSpeed);
-            //IngredientStats ingredientStats = new IngredientStats(thisNeed.Product, factoriesNeeded, parentName);
             double beltLoad = 0;
             if (thisNeed.Product.Producer.UsesBelt)
             {
@@ -146,6 +142,8 @@ namespace FactorioSolver
                 }
             }
 
+            // Oil needs are calculated by the text report. For now we can rely of that data existing.
+
             // Store stats for this item
             thisNeed.BeltLoad = beltLoad;
             thisNeed.RoundedFacs = (int)Math.Ceiling(factoriesNeeded);
@@ -155,18 +153,20 @@ namespace FactorioSolver
             {
                 foreach (Ingredient ingredient in thisNeed.Product.Ingredients)
                 {
-                    double newCost = 1.0 * (1.0 * ingredient.Amount * count) / thisNeed.Product.TotalCreated;
+                    // Don't add mining or refinery needs to the main list.
+                    if (ingredient.Product.Producer.Name != "Oil Refinery" && ingredient.Product.Producer.Name != "Electric Mining Drill" && ingredient.Product.Producer.Name != "Offshore Pump")
+                    {
+                        double newCost = 1.0 * (1.0 * ingredient.Amount * count) / thisNeed.Product.TotalCreated;
 
-                    // Create a new stats object for each ingredient.
-                    GraphicalNeed nextNeed = new GraphicalNeed(ingredient.Product);
-                    thisNeed.ChildNeeds.Add(nextNeed);
+                        // Create a new stats object for each ingredient.
+                        GraphicalNeed nextNeed = new GraphicalNeed(ingredient.Product);
+                        thisNeed.ChildNeeds.Add(nextNeed);
 
-                    CalculateGraphicalNeeds(nextNeed, newCost, rootNeed);
+                        CalculateGraphicalNeeds(nextNeed, newCost, rootNeed);
+                    }
 
-                    //ComputeFactoryCosts(ingredient.Product, newCost, ingredientsList, Math.Ceiling(factoriesNeeded) + " " + product.Name + " factories that feeds to " + parentName, oilNeeds);
                 }
             }
-
             return rootNeed;
         }
         
@@ -229,8 +229,6 @@ namespace FactorioSolver
         /// <param name="oilNeeds"></param>
         private void DisplayGraphicalReport(GraphicalNeed rootNeed, OilNeeds oilNeeds)
         {
-            view.G.Clear(Color.LightGray);
-
             // Get the max dimensions of the tree.
             int maxDepth = GetMaxDepthOfTree(rootNeed, 0, 0);
             int[] depthWidths = new int[maxDepth];
@@ -251,7 +249,7 @@ namespace FactorioSolver
             }
 
             // Draw with the proper data structure.
-            DrawThisFacNeed(rootNeed, 0, widestRow, maxWidth, maxDepth, ref largestColumnUsed, new Point(0, 0));
+            DrawThisFacNeed(rootNeed, 0, widestRow, maxWidth, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
         }
 
         /// <summary>
@@ -292,18 +290,18 @@ namespace FactorioSolver
         /// <param name="maxDepth"></param>
         /// <param name="largestColumnUsed"></param>
         /// <param name="parentPoint"></param> If 0, 0 assumes this is the root.
-        private void DrawThisFacNeed(GraphicalNeed thisNeed, int thisDepth, int widestRow, int maxWidth, int maxDepth, ref int largestColumnUsed, Point parentPoint)
+        private void DrawThisFacNeed(GraphicalNeed thisNeed, int thisDepth, int widestRow, int maxWidth, int maxDepth, ref int largestColumnUsed, Point parentPoint, Point topLeftPoint)
         {
+            // Tracking where to draw in the scence.
             int graphicSpacing = 44;
             int imageDimension = 32;
             int horizontalSpace = 96;
             int verticalSpace = 320;
-            int nextY = (maxDepth - thisDepth - 1) * verticalSpace + view.TopLeft.Location.Y;
+            int nextY = (maxDepth - thisDepth - 1) * verticalSpace + topLeftPoint.Y;
             int topY = nextY;
             int spacingLabel = 18;
 
-
-
+            // Needed images.
             Image imageProduct = Image.FromFile(thisNeed.Product.ImageString);
             Image imageProducer = Image.FromFile(thisNeed.Product.Producer.ImageString);
 
@@ -312,7 +310,7 @@ namespace FactorioSolver
             Font fontBeltLoad = new Font("Arial", 18);
             SolidBrush brush = new SolidBrush(Color.Black);
 
-            int currentLeftX = view.TopLeft.Location.X + largestColumnUsed * horizontalSpace;
+            int currentLeftX = topLeftPoint.X + largestColumnUsed * horizontalSpace;
 
             // Center amoung our children.
             if (thisNeed.ChildNeeds.Count > 0)
@@ -324,10 +322,10 @@ namespace FactorioSolver
             // Check for root centering.
             if (thisDepth == 0)
             {
-                currentLeftX = view.TopLeft.Location.X + (maxWidth - 1) * horizontalSpace / 2;
+                currentLeftX = topLeftPoint.X + (maxWidth - 1) * horizontalSpace / 2;
             }
 
-
+            // Draw all the data for this set of buildings.
             string nextString = "Build";
             PointF nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontLabel, horizontalSpace), nextY);
             view.G.DrawString(nextString, fontLabel, brush, nextPoint);
@@ -351,21 +349,23 @@ namespace FactorioSolver
             view.G.DrawImage(imageProduct, nextPoint);
             nextY += graphicSpacing;
 
+            // Drawing belt load info.
+            if (thisNeed.BeltLoad > 0)
+            {
+                nextString = "Belt load:";
+                nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontLabel, horizontalSpace), nextY);
+                view.G.DrawString(nextString, fontLabel, brush, nextPoint);
+                nextY += spacingLabel;
 
-            nextString = "Belt load:";
-            nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontLabel, horizontalSpace), nextY);
-            view.G.DrawString(nextString, fontLabel, brush, nextPoint);
-            nextY += spacingLabel;
-
-            nextString = "" + Math.Ceiling(thisNeed.BeltLoad);
-            nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontBeltLoad, horizontalSpace), nextY);
-            view.G.DrawString(nextString, fontBeltLoad, brush, nextPoint);
-            nextY += 26;
+                nextString = "" + Math.Round(thisNeed.BeltLoad);
+                nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontBeltLoad, horizontalSpace), nextY);
+                view.G.DrawString(nextString, fontBeltLoad, brush, nextPoint);
+                nextY += 26;
+            }
+           
 
             // Relationship lines.
             int centerX = currentLeftX + (imageDimension / 2);
-
-
 
             // Draw a relationship line if this is not the root.
             // This is needed to pass even if this is the root.
@@ -381,14 +381,16 @@ namespace FactorioSolver
             Point newInPoint = new Point((int)nextPoint.X, topY - 2);
             foreach (GraphicalNeed childNeed in thisNeed.ChildNeeds)
             {
-                DrawThisFacNeed(childNeed, thisDepth + 1, widestRow, maxWidth, maxDepth, ref largestColumnUsed, newInPoint);
+                DrawThisFacNeed(childNeed, thisDepth + 1, widestRow, maxWidth, maxDepth, ref largestColumnUsed, newInPoint, topLeftPoint);
+
             }
 
-            // Update the widest row.
-            if (thisDepth == widestRow)
+            // Move to the next column.
+            if (thisNeed.ChildNeeds.Count == 0)
             {
                 largestColumnUsed++;
             }
+            
         }
 
         /// <summary>
@@ -440,7 +442,7 @@ namespace FactorioSolver
                 {
                     // We only need heavy oil.
                     exactRefineriesNeeded = (1.0 * oilNeeds.HeavyOilNeeded * heavyOil.TimeToProduce) / (heavyOil.TotalCreated * refineryCraftSpeed);
-                    DisplayRefineriesNeeded(exactRefineriesNeeded, processNeeded);
+                    DisplayRefineriesNeededText(exactRefineriesNeeded, processNeeded);
 
                     double refineriesPerLightToSolid = 1.8;
                     double refineriesPerGasToSolid = 1.2;
@@ -491,6 +493,8 @@ namespace FactorioSolver
                         }
                         else if (refineryProductNeeded == "Petroleum Gas")
                         {
+                            // We only need petroleum gas.
+
                             // 0.75 is the heavy to light exchange rate.
                             double totalLightPerCycle = lightOil.TotalCreated + (heavyOil.TotalCreated * 0.75);
 
@@ -502,7 +506,7 @@ namespace FactorioSolver
 
                             // We can create 90 gas per cycle with cracking.
                             exactRefineriesNeeded = (oilNeeds.PetroleumGasNeeded * petroleumGas.TimeToProduce) / (90.0 * refineryCraftSpeed);
-                            DisplayRefineriesNeeded(exactRefineriesNeeded, processNeeded);
+                            DisplayRefineriesNeededText(exactRefineriesNeeded, processNeeded);
 
 
                             roundedRefineriesNeeded = (int)Math.Ceiling(exactRefineriesNeeded);
@@ -514,13 +518,39 @@ namespace FactorioSolver
                             view.TextReport.AppendText("\n");
                             view.TextReport.AppendText("Also build " + lightCrackingPlants + " chemical plants to crack light oil to pertroleum gas.");
                             view.TextReport.AppendText("\n");
+
+                            // Grapical report.
+                            products.Dictionary.TryGetValue("Advanced Oil Processing", out Product advacedOilProcessing);
+                            products.Dictionary.TryGetValue("Heavy Oil Cracking", out Product heavyCracking);
+                            products.Dictionary.TryGetValue("Light Oil Cracking", out Product lightCracking);
+
+                            
+
+                            GraphicalNeed needLightCracking = new GraphicalNeed(lightCracking);
+                            needLightCracking.BeltLoad = 0;
+                            needLightCracking.RoundedFacs = lightCrackingPlants;
+                            
+                            GraphicalNeed needHeavyCracking = new GraphicalNeed(heavyCracking);
+                            needHeavyCracking.BeltLoad = 0;
+                            needHeavyCracking.RoundedFacs = heavyCrackingPlants;
+
+                            GraphicalNeed needAdvancedProcessing = new GraphicalNeed(advacedOilProcessing);
+                            needAdvancedProcessing.BeltLoad = 0;
+                            needAdvancedProcessing.RoundedFacs = roundedRefineriesNeeded;
+
+                            // Establish relationship between oil needs.
+                            needLightCracking.ChildNeeds.Add(needHeavyCracking);
+                            needHeavyCracking.ChildNeeds.Add(needAdvancedProcessing);
+
+                            int largestColumnUsed = 0;
+                            DrawThisFacNeed(needLightCracking, 0, 1, 1, 3, ref largestColumnUsed, new Point(0, 0), view.TopLeftRefinery.Location);
                         }
                         else if (refineryProductNeeded == "Solid Fuel Ingredient")
                         {
                             // 0.75 is the exhage rate of heavy to light oil.
                             double totalSolidCreatedPerCycle = (lightOil.TotalCreated / 10.0 + petroleumGas.TotalCreated / 20.0 + (heavyOil.TotalCreated * 0.75) / 10);
                             exactRefineriesNeeded = (oilNeeds.SolidFuelIngredientsNeeded * lightOil.TimeToProduce) / (totalSolidCreatedPerCycle * refineryCraftSpeed);
-                            DisplayRefineriesNeeded(exactRefineriesNeeded, processNeeded);
+                            DisplayRefineriesNeededText(exactRefineriesNeeded, processNeeded);
 
                             // 1.6 is the amount of solid fuel that can be craeted at a refinery per second at default craft speeds.
                             //exactRefineriesNeeded = (oilNeeds.SolidFuelIngredientsNeeded * lightOil.TimeToProduce) / (1.6 * refineryCraftSpeed);
@@ -566,7 +596,7 @@ namespace FactorioSolver
         /// </summary>
         /// <param name="exactRefineries"></param>
         /// <param name="processNeeded"></param>
-        private void DisplayRefineriesNeeded(double exactRefineries, string processNeeded)
+        private void DisplayRefineriesNeededText(double exactRefineries, string processNeeded)
         {
             view.TextReport.AppendText("Build " + (int)Math.Ceiling(exactRefineries) + " refineries and set them to " + processNeeded + " Oil Processing.");
             view.TextReport.AppendText("\n");
@@ -577,7 +607,7 @@ namespace FactorioSolver
         /// Displays all the sets of factoires in a list. This will be all factories of a certain type.
         /// </summary>
         /// <param name="list"></param>
-        private void DisplayListOfFactories(List<IngredientStats> list)
+        private void DisplayListOfFactoriesText(List<IngredientStats> list)
         {
             list.Reverse();
 
@@ -614,7 +644,7 @@ namespace FactorioSolver
         /// </summary>
         /// <param name="product"></param>
         /// <param name="count"></param>
-        private List<IngredientStats> ComputeFactoryCosts(Product product, double count, List<IngredientStats> ingredientsList, string parentName, OilNeeds oilNeeds)
+        private List<IngredientStats> ComputeFactoryCostsText(Product product, double count, List<IngredientStats> ingredientsList, string parentName, OilNeeds oilNeeds)
         {
             
             double factoriesNeeded = (1.0 * count * product.TimeToProduce) / (product.TotalCreated * product.Producer.CraftSpeed);
@@ -662,7 +692,7 @@ namespace FactorioSolver
                 foreach (Ingredient ingredient in product.Ingredients)
                 {
                     double newCost = 1.0 * (1.0 * ingredient.Amount * count) / product.TotalCreated;
-                    ComputeFactoryCosts(ingredient.Product, newCost, ingredientsList, Math.Ceiling(factoriesNeeded) + " " + product.Name + " factories that feeds to " + parentName, oilNeeds);
+                    ComputeFactoryCostsText(ingredient.Product, newCost, ingredientsList, Math.Ceiling(factoriesNeeded) + " " + product.Name + " factories that feeds to " + parentName, oilNeeds);
                 }
             }
 

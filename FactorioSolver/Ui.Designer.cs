@@ -35,8 +35,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.boxTotalPerSecond = new System.Windows.Forms.TextBox();
             this.ButtonOptimizeBeltLoad = new System.Windows.Forms.Button();
-            this.drawingTopLeft = new System.Windows.Forms.TextBox();
+            this.drawingMainTopLeft = new System.Windows.Forms.TextBox();
             this.textSizeCheck = new System.Windows.Forms.Label();
+            this.drawingRefineryTopLeft = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // ButtonCalculate
@@ -64,7 +65,7 @@
             this.boxIngredient.Name = "boxIngredient";
             this.boxIngredient.Size = new System.Drawing.Size(177, 20);
             this.boxIngredient.TabIndex = 3;
-            this.boxIngredient.Text = "Military Science Pack";
+            this.boxIngredient.Text = "Advanced Circuit";
             // 
             // label1
             // 
@@ -102,14 +103,14 @@
             this.ButtonOptimizeBeltLoad.UseVisualStyleBackColor = true;
             this.ButtonOptimizeBeltLoad.Click += new System.EventHandler(this.ButtonOptimizeBeltLoad_Click);
             // 
-            // drawingTopLeft
+            // drawingMainTopLeft
             // 
-            this.drawingTopLeft.Location = new System.Drawing.Point(222, 15);
-            this.drawingTopLeft.Name = "drawingTopLeft";
-            this.drawingTopLeft.Size = new System.Drawing.Size(354, 20);
-            this.drawingTopLeft.TabIndex = 8;
-            this.drawingTopLeft.Text = "For positioning the drawing area";
-            this.drawingTopLeft.Visible = false;
+            this.drawingMainTopLeft.Location = new System.Drawing.Point(222, 15);
+            this.drawingMainTopLeft.Name = "drawingMainTopLeft";
+            this.drawingMainTopLeft.Size = new System.Drawing.Size(354, 20);
+            this.drawingMainTopLeft.TabIndex = 8;
+            this.drawingMainTopLeft.Text = "For positioning the main drawing area";
+            this.drawingMainTopLeft.Visible = false;
             // 
             // textSizeCheck
             // 
@@ -121,13 +122,24 @@
             this.textSizeCheck.Text = "for getting the dimension of strings";
             this.textSizeCheck.Visible = false;
             // 
+            // drawingRefineryTopLeft
+            // 
+            this.drawingRefineryTopLeft.Location = new System.Drawing.Point(12, 192);
+            this.drawingRefineryTopLeft.Name = "drawingRefineryTopLeft";
+            this.drawingRefineryTopLeft.Size = new System.Drawing.Size(195, 20);
+            this.drawingRefineryTopLeft.TabIndex = 10;
+            this.drawingRefineryTopLeft.Text = "For positioning the refinery drawing area";
+            this.drawingRefineryTopLeft.Visible = false;
+            // 
             // Ui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1729, 1786);
+            this.Controls.Add(this.drawingRefineryTopLeft);
             this.Controls.Add(this.textSizeCheck);
-            this.Controls.Add(this.drawingTopLeft);
+            this.Controls.Add(this.drawingMainTopLeft);
             this.Controls.Add(this.ButtonOptimizeBeltLoad);
             this.Controls.Add(this.boxTotalPerSecond);
             this.Controls.Add(this.label2);
@@ -151,8 +163,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox boxTotalPerSecond;
         private System.Windows.Forms.Button ButtonOptimizeBeltLoad;
-        private System.Windows.Forms.TextBox drawingTopLeft;
+        private System.Windows.Forms.TextBox drawingMainTopLeft;
         private System.Windows.Forms.Label textSizeCheck;
+        private System.Windows.Forms.TextBox drawingRefineryTopLeft;
     }
 }
 

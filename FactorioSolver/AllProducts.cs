@@ -26,15 +26,21 @@ namespace FactorioSolver
             Factory facAssemblingMachine = new Factory("Assembling Machine", true, 1.25);
             Factory facChemicalPlantBelt = new Factory("Chemical Plant", true, 1.25);
             Factory facChemicalPlantPipe = new Factory("Chemical Plant", false, 1.25);
-            Factory facOilRefineryAdvanced = new Factory("Advanced Processing Oil Refinerie", false, 1);
-            Factory facOilRefineryBasic = new Factory("Basic Processing Oil Refinerie", false, 1);
+            Factory facOilRefineryAdvanced = new Factory("Oil Refinery", false, 1);
+            Factory facOilRefineryBasic = new Factory("Oil Refinery", false, 1);
             Factory facElectricFurnace = new Factory("Electric Furnace", true, 2);
             Factory facOffshorePump = new Factory("Offshore Pump", false, 1);
             Factory facElectricMiningDrill = new Factory("Electric Mining Drill", true, 0.5);
 
             facAssemblingMachine.ImageString = "Images\\Assembling_machine_3.png";
+            facChemicalPlantBelt.ImageString = "Images\\Chemical_plant.png";
+            facChemicalPlantPipe.ImageString = "Images\\Chemical_plant.png";
+            facOilRefineryAdvanced.ImageString = "Images\\Oil_refinery.png";
+            facOilRefineryBasic.ImageString = "Images\\Oil_refinery.png";
             facElectricFurnace.ImageString = "Images\\Electric_furnace.png";
+            facOffshorePump.ImageString = "Images\\Offshore_pump.png";
             facElectricMiningDrill.ImageString = "Images\\Electric_mining_drill.png";
+            
 
             // Create all product objects.
             // From left to right, top to bottom.
@@ -283,6 +289,11 @@ namespace FactorioSolver
             Product radar = new Product("Radar");
             Product rocketSilo = new Product("Rocket Silo");
 
+            // Machine processes.
+            Product advancedOilProcessing = new Product("Advanced Oil Processing");
+            Product basicOilProcessing = new Product("Basic Oil Processing");
+            Product heavyCracking = new Product("Heavy Oil Cracking");
+            Product lightCracking = new Product("Light Oil Cracking");
 
             // Add all ingredients and stats.
             // From left to right, top to bottom.
@@ -343,6 +354,24 @@ namespace FactorioSolver
             solidFuelIngredients.Producer = facOilRefineryBasic;
             solidFuelIngredients.TimeToProduce = 5;
             solidFuelIngredients.TotalCreated = 1;
+
+
+            // Machine processes
+            advancedOilProcessing.Producer = facOilRefineryAdvanced;
+            advancedOilProcessing.TimeToProduce = 5;
+            advancedOilProcessing.ImageString = "Images\\Advanced_oil_processing.png";
+
+            basicOilProcessing.Producer = facOilRefineryBasic;
+            basicOilProcessing.TimeToProduce = 5;
+            basicOilProcessing.ImageString = "Images\\Basic_oil_processing.png";
+
+            heavyCracking.Producer = facChemicalPlantPipe;
+            heavyCracking.TimeToProduce = 3;
+            heavyCracking.ImageString = "Images\\Heavy_oil_cracking.png";
+
+            lightCracking.Producer = facChemicalPlantPipe;
+            lightCracking.TimeToProduce = 3;
+            lightCracking.ImageString = "Images\\Light_oil_cracking.png";
 
             // Old sorting
             assemblingMachine3.ImageString = "Images\\Assembling_machine_3.png";
@@ -415,12 +444,14 @@ namespace FactorioSolver
             advancedCircuit.Ingredients.Add(new Ingredient(plasticBar, 2));
             advancedCircuit.Ingredients.Add(new Ingredient(copperCable, 4));
             advancedCircuit.Ingredients.Add(new Ingredient(electronicCircuit, 2));
+            advancedCircuit.ImageString = "Images\\Advanced_circuit.png";
 
             plasticBar.Producer = facChemicalPlantBelt;
             plasticBar.TimeToProduce = 1;
             plasticBar.TotalCreated = 2;
             //plasticBar.Ingredients.Add(new Ingredient(coal, 1));
             plasticBar.Ingredients.Add(new Ingredient(petroleumGas, 20));
+            plasticBar.ImageString = "Images\\Plastic_bar.png";
 
             speedModule.Producer = facAssemblingMachine;
             speedModule.TimeToProduce = 15;
@@ -604,22 +635,27 @@ namespace FactorioSolver
             stone.Producer = facElectricMiningDrill;
             stone.TimeToProduce = 2;
             stone.TotalCreated = 1;
+            stone.ImageString = "Images\\Stone.png";
 
             water.Producer = facOffshorePump;
             water.TimeToProduce = 1;
             water.TotalCreated = 1200;
+            water.ImageString = "Images\\Water.png";
 
             petroleumGas.Producer = facOilRefineryAdvanced;
             petroleumGas.TimeToProduce = 5;
             petroleumGas.TotalCreated = 90;
+            petroleumGas.ImageString = "Images\\Petroleum_gas.png";
 
             lightOil.Producer = facOilRefineryAdvanced;
             lightOil.TimeToProduce = 5;
             lightOil.TotalCreated = 45;
+            lightOil.ImageString = "Images\\Light_oil.png";
 
             heavyOil.Producer = facOilRefineryBasic;
             heavyOil.TimeToProduce = 5;
             heavyOil.TotalCreated = 30;
+            heavyOil.ImageString = "Images\\Heavy_oil.png";
 
             // Add all to the list.
             // Logistics
@@ -807,6 +843,12 @@ namespace FactorioSolver
 
             // Combat
 
+
+            // Machine processes
+            products.Add(advancedOilProcessing);
+            products.Add(basicOilProcessing);
+            products.Add(heavyCracking);
+            products.Add(lightCracking);
 
             // Old sorting
             products.Add(piercingRoundsMagazine);
