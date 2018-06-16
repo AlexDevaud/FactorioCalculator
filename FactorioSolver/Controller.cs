@@ -103,10 +103,11 @@ namespace FactorioSolver
                     // Graphical display.
                     // Calulate needs for graphical display.
                     GraphicalNeed rootNeed = new GraphicalNeed(product);
-                    rootNeed = CalculateGraphicalNeeds(rootNeed, totalPerSecond, rootNeed);
+                    MiningNeeds miningNeeds = new MiningNeeds();
+                    rootNeed = CalculateGraphicalNeeds(rootNeed, totalPerSecond, rootNeed, miningNeeds);
 
 
-                    DisplayGraphicalReport(rootNeed, oilNeeds);
+                    DisplayGraphicalReport(rootNeed, oilNeeds, miningNeeds);
 
                 }
                 else
@@ -126,7 +127,7 @@ namespace FactorioSolver
         /// </summary>
         /// <param name="thisNeed"></param>
         /// <param name="rootNeed"></param>
-        private GraphicalNeed CalculateGraphicalNeeds(GraphicalNeed thisNeed, double count, GraphicalNeed rootNeed)
+        private GraphicalNeed CalculateGraphicalNeeds(GraphicalNeed thisNeed, double count, GraphicalNeed rootNeed, MiningNeeds miningNeeds)
         {
             double factoriesNeeded = (1.0 * count * thisNeed.Product.TimeToProduce) / (thisNeed.Product.TotalCreated * thisNeed.Product.Producer.CraftSpeed);
             double beltLoad = 0;
@@ -153,16 +154,37 @@ namespace FactorioSolver
             {
                 foreach (Ingredient ingredient in thisNeed.Product.Ingredients)
                 {
+                    double newCost = 1.0 * (1.0 * ingredient.Amount * count) / thisNeed.Product.TotalCreated;
+
                     // Don't add mining or refinery needs to the main list.
                     if (ingredient.Product.Producer.Name != "Oil Refinery" && ingredient.Product.Producer.Name != "Electric Mining Drill" && ingredient.Product.Producer.Name != "Offshore Pump")
                     {
-                        double newCost = 1.0 * (1.0 * ingredient.Amount * count) / thisNeed.Product.TotalCreated;
+                        //double newCost = 1.0 * (1.0 * ingredient.Amount * count) / thisNeed.Product.TotalCreated;
 
                         // Create a new stats object for each ingredient.
                         GraphicalNeed nextNeed = new GraphicalNeed(ingredient.Product);
                         thisNeed.ChildNeeds.Add(nextNeed);
 
-                        CalculateGraphicalNeeds(nextNeed, newCost, rootNeed);
+                        CalculateGraphicalNeeds(nextNeed, newCost, rootNeed, miningNeeds);
+                    }
+                    else if (ingredient.Product.Producer.Name == "Electric Mining Drill")
+                    {
+                        if (ingredient.Product.Name == "Iron Ore")
+                        {
+                            miningNeeds.IronOre += newCost;
+                        }
+                        else if (ingredient.Product.Name == "Copper Ore")
+                        {
+                            miningNeeds.CopperOre += newCost;
+                        }
+                        else if (ingredient.Product.Name == "Coal")
+                        {
+                            miningNeeds.Coal += newCost;
+                        }
+                        else if (ingredient.Product.Name == "Stone")
+                        {
+                            miningNeeds.Stone += newCost;
+                        }
                     }
 
                 }
@@ -227,7 +249,7 @@ namespace FactorioSolver
         /// </summary>
         /// <param name="ingredientStats"></param>
         /// <param name="oilNeeds"></param>
-        private void DisplayGraphicalReport(GraphicalNeed rootNeed, OilNeeds oilNeeds)
+        private void DisplayGraphicalReport(GraphicalNeed rootNeed, OilNeeds oilNeeds, MiningNeeds miningNeeds)
         {
             // Get the max dimensions of the tree.
             int maxDepth = GetMaxDepthOfTree(rootNeed, 0, 0);
@@ -248,8 +270,53 @@ namespace FactorioSolver
                 }
             }
 
-            // Draw with the proper data structure.
+            // Draw with the main tree
             DrawThisFacNeed(rootNeed, 0, widestRow, maxWidth, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
+
+            // Calculate needs for mining Drills.
+            // Also drawing them
+
+            if (miningNeeds.IronOre > 0)
+            {
+                products.Dictionary.TryGetValue("Iron Ore", out Product thisOre);
+                int neededDrills = (int)Math.Ceiling(miningNeeds.IronOre * thisOre.TimeToProduce);
+
+                GraphicalNeed thisNeed = new GraphicalNeed(thisOre);
+                thisNeed.BeltLoad = 0;
+                thisNeed.RoundedFacs = neededDrills;
+                DrawThisFacNeed(thisNeed, 0, widestRow, maxWidth, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
+            }
+            if (miningNeeds.CopperOre > 0)
+            {
+                products.Dictionary.TryGetValue("Copper Ore", out Product thisOre);
+                int neededDrills = (int)Math.Ceiling(miningNeeds.CopperOre * thisOre.TimeToProduce);
+
+                GraphicalNeed thisNeed = new GraphicalNeed(thisOre);
+                thisNeed.BeltLoad = 0;
+                thisNeed.RoundedFacs = neededDrills;
+                DrawThisFacNeed(thisNeed, 0, widestRow, maxWidth, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
+            }
+            if (miningNeeds.Coal > 0)
+            {
+                products.Dictionary.TryGetValue("Coal", out Product thisOre);
+                int neededDrills = (int)Math.Ceiling(miningNeeds.Coal * thisOre.TimeToProduce);
+
+                GraphicalNeed thisNeed = new GraphicalNeed(thisOre);
+                thisNeed.BeltLoad = 0;
+                thisNeed.RoundedFacs = neededDrills;
+                DrawThisFacNeed(thisNeed, 0, widestRow, maxWidth, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
+            }
+            if (miningNeeds.Stone > 0)
+            {
+                products.Dictionary.TryGetValue("Stone", out Product thisOre);
+                int neededDrills = (int)Math.Ceiling(miningNeeds.Stone * thisOre.TimeToProduce);
+
+                GraphicalNeed thisNeed = new GraphicalNeed(thisOre);
+                thisNeed.BeltLoad = 0;
+                thisNeed.RoundedFacs = neededDrills;
+                DrawThisFacNeed(thisNeed, 0, widestRow, maxWidth, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
+            }
+
         }
 
         /// <summary>
@@ -320,7 +387,7 @@ namespace FactorioSolver
             }
 
             // Check for root centering.
-            if (thisDepth == 0)
+            if (thisDepth == 0 && thisNeed.ChildNeeds.Count > 0)
             {
                 currentLeftX = topLeftPoint.X + (maxWidth - 1) * horizontalSpace / 2;
             }

@@ -38,6 +38,7 @@
             this.drawingMainTopLeft = new System.Windows.Forms.TextBox();
             this.textSizeCheck = new System.Windows.Forms.Label();
             this.drawingRefineryTopLeft = new System.Windows.Forms.TextBox();
+            this.drawingMiningNeeds = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // ButtonCalculate
@@ -131,12 +132,22 @@
             this.drawingRefineryTopLeft.Text = "For positioning the refinery drawing area";
             this.drawingRefineryTopLeft.Visible = false;
             // 
+            // drawingMiningNeeds
+            // 
+            this.drawingMiningNeeds.Location = new System.Drawing.Point(1010, 1133);
+            this.drawingMiningNeeds.Name = "drawingMiningNeeds";
+            this.drawingMiningNeeds.Size = new System.Drawing.Size(195, 20);
+            this.drawingMiningNeeds.TabIndex = 11;
+            this.drawingMiningNeeds.Text = "For positioning the mining needs";
+            this.drawingMiningNeeds.Visible = false;
+            // 
             // Ui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1729, 1786);
+            this.Controls.Add(this.drawingMiningNeeds);
             this.Controls.Add(this.drawingRefineryTopLeft);
             this.Controls.Add(this.textSizeCheck);
             this.Controls.Add(this.drawingMainTopLeft);
@@ -166,6 +177,7 @@
         private System.Windows.Forms.TextBox drawingMainTopLeft;
         private System.Windows.Forms.Label textSizeCheck;
         private System.Windows.Forms.TextBox drawingRefineryTopLeft;
+        private System.Windows.Forms.TextBox drawingMiningNeeds;
     }
 }
 

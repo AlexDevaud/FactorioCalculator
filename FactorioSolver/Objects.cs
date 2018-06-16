@@ -119,7 +119,7 @@ namespace FactorioSolver
     }
 
     /// <summary>
-    /// Object to track the total gas needs for the product.
+    /// Object to track the total oil refinery needs.
     /// </summary>
     class OilNeeds
     {
@@ -136,4 +136,25 @@ namespace FactorioSolver
             SolidFuelIngredientsNeeded = 0;
         }
     }
+
+    /// <summary>
+    /// Object to track the total mining needs.
+    /// </summary>
+    class MiningNeeds
+    {
+        public double IronOre { get; set; }
+        public double CopperOre { get; set; }
+        public double Stone { get; set; }
+        public double Coal { get; set; }
+
+        public MiningNeeds()
+        {
+            IronOre = 0;
+            CopperOre = 0;
+            Stone = 0;
+            Coal = 0;
+        }
+    }
+
+
 }

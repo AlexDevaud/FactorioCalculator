@@ -18,6 +18,7 @@ namespace FactorioSolver
         Graphics G { get; }
         TextBox TopLeftMain { get; }
         TextBox TopLeftRefinery { get; }
+        TextBox TopLeftMining { get; }
         Label StringSize { get; }
 
         event Action ClickCalculate;

@@ -55,6 +55,11 @@ namespace FactorioSolver
             get { return drawingRefineryTopLeft; }
         }
 
+        public TextBox TopLeftMining
+        {
+            get { return drawingMiningNeeds; }
+        }
+
         public Label StringSize
         {
             get { return textSizeCheck; }

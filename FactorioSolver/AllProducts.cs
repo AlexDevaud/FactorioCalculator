@@ -30,7 +30,7 @@ namespace FactorioSolver
             Factory facOilRefineryBasic = new Factory("Oil Refinery", false, 1);
             Factory facElectricFurnace = new Factory("Electric Furnace", true, 2);
             Factory facOffshorePump = new Factory("Offshore Pump", false, 1);
-            Factory facElectricMiningDrill = new Factory("Electric Mining Drill", true, 0.5);
+            Factory facElectricMiningDrill = new Factory("Electric Mining Drill", true, 1);
 
             facAssemblingMachine.ImageString = "Images\\Assembling_machine_3.png";
             facChemicalPlantBelt.ImageString = "Images\\Chemical_plant.png";
@@ -449,7 +449,7 @@ namespace FactorioSolver
             plasticBar.Producer = facChemicalPlantBelt;
             plasticBar.TimeToProduce = 1;
             plasticBar.TotalCreated = 2;
-            //plasticBar.Ingredients.Add(new Ingredient(coal, 1));
+            plasticBar.Ingredients.Add(new Ingredient(coal, 1));
             plasticBar.Ingredients.Add(new Ingredient(petroleumGas, 20));
             plasticBar.ImageString = "Images\\Plastic_bar.png";
 
@@ -474,13 +474,13 @@ namespace FactorioSolver
             ironPlate.Producer = facElectricFurnace;
             ironPlate.TimeToProduce = 3.5;
             ironPlate.TotalCreated = 1;
-            //ironPlate.Ingredients.Add(new Ingredient(ironOre, 1));
+            ironPlate.Ingredients.Add(new Ingredient(ironOre, 1));
             ironPlate.ImageString = "Images\\Iron_plate.png";
 
             copperPlate.Producer = facElectricFurnace;
             copperPlate.TimeToProduce = 3.5;
             copperPlate.TotalCreated = 1;
-            //copperPlate.Ingredients.Add(new Ingredient(copperOre, 1));
+            copperPlate.Ingredients.Add(new Ingredient(copperOre, 1));
             copperPlate.ImageString = "Images\\Copper_plate.png";
 
             sciencePack2.Producer = facAssemblingMachine;
@@ -555,7 +555,7 @@ namespace FactorioSolver
             grenade.Producer = facAssemblingMachine;
             grenade.TimeToProduce = 8;
             grenade.TotalCreated = 1;
-            //grenade.Ingredients.Add(new Ingredient(coal, 10));
+            grenade.Ingredients.Add(new Ingredient(coal, 10));
             grenade.Ingredients.Add(new Ingredient(ironPlate, 5));
             grenade.ImageString = "Images\\Grenade.png";
 
@@ -613,27 +613,27 @@ namespace FactorioSolver
             explosives.Producer = facChemicalPlantBelt;
             explosives.TimeToProduce = 5;
             explosives.TotalCreated = 2;
-            //explosives.Ingredients.Add(new Ingredient(coal, 1));
+            explosives.Ingredients.Add(new Ingredient(coal, 1));
             explosives.Ingredients.Add(new Ingredient(sulfur, 1));
             explosives.Ingredients.Add(new Ingredient(water, 10));
 
             ironOre.Producer = facElectricMiningDrill;
-            ironOre.TimeToProduce = 2;
+            ironOre.TimeToProduce = 40.0 / 21;
             ironOre.TotalCreated = 1;
             ironOre.ImageString = "Images\\Iron_ore.png";
 
             copperOre.Producer = facElectricMiningDrill;
-            copperOre.TimeToProduce = 2;
+            copperOre.TimeToProduce = 40.0 / 21;
             copperOre.TotalCreated = 1;
             copperOre.ImageString = "Images\\Copper_ore.png";
 
             coal.Producer = facElectricMiningDrill;
-            coal.TimeToProduce = 2;
+            coal.TimeToProduce = 40.0 / 21;
             coal.TotalCreated = 1;
             coal.ImageString = "Images\\Coal.png";
 
             stone.Producer = facElectricMiningDrill;
-            stone.TimeToProduce = 2;
+            stone.TimeToProduce = 40.0 / 26;
             stone.TotalCreated = 1;
             stone.ImageString = "Images\\Stone.png";
 
