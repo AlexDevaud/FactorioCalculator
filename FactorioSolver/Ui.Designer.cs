@@ -50,11 +50,11 @@
             // 
             // boxDebug
             // 
-            this.boxDebug.Location = new System.Drawing.Point(245, 12);
+            this.boxDebug.Location = new System.Drawing.Point(12, 1426);
             this.boxDebug.Multiline = true;
             this.boxDebug.Name = "boxDebug";
             this.boxDebug.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.boxDebug.Size = new System.Drawing.Size(1339, 489);
+            this.boxDebug.Size = new System.Drawing.Size(1685, 348);
             this.boxDebug.TabIndex = 2;
             // 
             // boxIngredient
@@ -103,7 +103,7 @@
             // 
             // drawingTopLeft
             // 
-            this.drawingTopLeft.Location = new System.Drawing.Point(12, 507);
+            this.drawingTopLeft.Location = new System.Drawing.Point(222, 15);
             this.drawingTopLeft.Name = "drawingTopLeft";
             this.drawingTopLeft.Size = new System.Drawing.Size(354, 20);
             this.drawingTopLeft.TabIndex = 8;
@@ -114,7 +114,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1729, 1568);
+            this.ClientSize = new System.Drawing.Size(1729, 1786);
             this.Controls.Add(this.drawingTopLeft);
             this.Controls.Add(this.ButtonOptimizeBeltLoad);
             this.Controls.Add(this.boxTotalPerSecond);

@@ -266,7 +266,8 @@ namespace FactorioSolver
         /// <param name="parentPoint"></param>
         private void DrawThisFacNeed(GraphicalNeed thisNeed, int thisDepth, int widestRow, int maxWidth, int maxDepth, ref int largestColumnUsed, Point parentPoint)
         {
-            int graphicSize = 48;
+            int graphicSpacing = 48;
+            int imageDimension = 32;
             int horizontalSpace = 64;
             int verticalSpace = 192;
             int currentRowHeight = (maxDepth - thisDepth - 1) * verticalSpace + view.TopLeft.Location.Y;
@@ -293,8 +294,8 @@ namespace FactorioSolver
             }
 
             PointF pointTop = new PointF(currentX, currentRowHeight + 20);
-            PointF pointMid = new PointF(currentX, currentRowHeight + graphicSize);
-            PointF pointBot = new PointF(currentX, currentRowHeight + 2 * graphicSize);
+            PointF pointMid = new PointF(currentX, currentRowHeight + graphicSpacing);
+            PointF pointBot = new PointF(currentX, currentRowHeight + 2 * graphicSpacing);
 
             view.G.DrawString("" + thisNeed.RoundedFacs, font, brush, pointTop);
             view.G.DrawImage(imageProducer, pointMid);
@@ -310,14 +311,14 @@ namespace FactorioSolver
             */
 
             // Relationship lines.
-            int centerX = currentX + (graphicSize / 2);
+            int centerX = currentX + (imageDimension / 2);
             Point newInPoint = new Point(centerX, currentRowHeight + 15);
             
             // Draw a relationship line if this is not the root.
             if (thisDepth > 0)
             {
                 Pen pen = new Pen(brush, 2);
-                Point outPoint = new Point(centerX, currentRowHeight + 3 * graphicSize);
+                Point outPoint = new Point(centerX, currentRowHeight + 3 * graphicSpacing);
                 view.G.DrawLine(pen, outPoint, parentPoint);
             }
             

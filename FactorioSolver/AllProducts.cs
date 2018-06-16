@@ -393,6 +393,7 @@ namespace FactorioSolver
             copperCable.TimeToProduce = 0.5;
             copperCable.TotalCreated = 2;
             copperCable.Ingredients.Add(new Ingredient(copperPlate, 1));
+            copperCable.ImageString = "Images\\Copper_cable.png";
 
             processingUnit.Producer = facAssemblingMachine;
             processingUnit.TimeToProduce = 10;
@@ -406,6 +407,7 @@ namespace FactorioSolver
             electronicCircuit.TotalCreated = 1;
             electronicCircuit.Ingredients.Add(new Ingredient(copperCable, 3));
             electronicCircuit.Ingredients.Add(new Ingredient(ironPlate, 1));
+            electronicCircuit.ImageString = "Images\\Electronic_circuit.png";
 
             advancedCircuit.Producer = facAssemblingMachine;
             advancedCircuit.TimeToProduce = 6;
