@@ -255,6 +255,34 @@ namespace FactorioSolver
         }
 
         /// <summary>
+        /// Centers images in the graphical display of things to build.
+        /// </summary>
+        /// <param name="itemWidth"></param>
+        /// <param name="totalWidth"></param>
+        /// <returns></returns>
+        private int CenterXImageOffset(int itemWidth, int totalWidth)
+        {
+            return (totalWidth - itemWidth - 16) / 2;
+        }
+
+        /// <summary>
+        /// Centers text in the graphic display of things to build.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="font"></param>
+        /// <param name="totalWidth"></param>
+        /// <returns></returns>
+        private int CenterXStringOffset(string text, Font font, int totalWidth)
+        {
+            view.StringSize.Text = text;
+            view.StringSize.Font = font;
+            int textWidth = view.StringSize.Size.Width;
+
+            return (totalWidth - textWidth) / 2;
+            
+        }
+
+        /// <summary>
         /// Draws the given factory. Also call itself to draw its children.
         /// </summary>
         /// <param name="thisNeed"></param>
@@ -263,67 +291,94 @@ namespace FactorioSolver
         /// <param name="maxWidth"></param>
         /// <param name="maxDepth"></param>
         /// <param name="largestColumnUsed"></param>
-        /// <param name="parentPoint"></param>
+        /// <param name="parentPoint"></param> If 0, 0 assumes this is the root.
         private void DrawThisFacNeed(GraphicalNeed thisNeed, int thisDepth, int widestRow, int maxWidth, int maxDepth, ref int largestColumnUsed, Point parentPoint)
         {
-            int graphicSpacing = 48;
+            int graphicSpacing = 44;
             int imageDimension = 32;
-            int horizontalSpace = 64;
-            int verticalSpace = 192;
-            int currentRowHeight = (maxDepth - thisDepth - 1) * verticalSpace + view.TopLeft.Location.Y;
+            int horizontalSpace = 96;
+            int verticalSpace = 320;
+            int nextY = (maxDepth - thisDepth - 1) * verticalSpace + view.TopLeft.Location.Y;
+            int topY = nextY;
+            int spacingLabel = 18;
+
+
 
             Image imageProduct = Image.FromFile(thisNeed.Product.ImageString);
             Image imageProducer = Image.FromFile(thisNeed.Product.Producer.ImageString);
 
-            Font font = new Font("Arial", 18);
+            Font fontFacs = new Font("Arial", 30);
+            Font fontLabel = new Font("Arial", 12);
+            Font fontBeltLoad = new Font("Arial", 18);
             SolidBrush brush = new SolidBrush(Color.Black);
 
-            int currentX = view.TopLeft.Location.X + largestColumnUsed * horizontalSpace;
+            int currentLeftX = view.TopLeft.Location.X + largestColumnUsed * horizontalSpace;
 
             // Center amoung our children.
             if (thisNeed.ChildNeeds.Count > 0)
             {
                 // We need to be centered horizontally among our children.
-                currentX += (thisNeed.ChildNeeds.Count - 1) * horizontalSpace / 2;
+                currentLeftX += (thisNeed.ChildNeeds.Count - 1) * horizontalSpace / 2;
             }
 
             // Check for root centering.
             if (thisDepth == 0)
             {
-                currentX = view.TopLeft.Location.X + (maxWidth - 1) * horizontalSpace / 2;
+                currentLeftX = view.TopLeft.Location.X + (maxWidth - 1) * horizontalSpace / 2;
             }
 
-            PointF pointTop = new PointF(currentX, currentRowHeight + 20);
-            PointF pointMid = new PointF(currentX, currentRowHeight + graphicSpacing);
-            PointF pointBot = new PointF(currentX, currentRowHeight + 2 * graphicSpacing);
 
-            view.G.DrawString("" + thisNeed.RoundedFacs, font, brush, pointTop);
-            view.G.DrawImage(imageProducer, pointMid);
-            view.G.DrawImage(imageProduct, pointBot);
+            string nextString = "Build";
+            PointF nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontLabel, horizontalSpace), nextY);
+            view.G.DrawString(nextString, fontLabel, brush, nextPoint);
+            nextY += spacingLabel;
 
-            /*
-            // Test line
-            int centerX = currentX + (graphicSize / 2);
-            Point startPoint = new Point(centerX, currentRowHeight + 20);
-            Point endPoint = new Point(centerX, currentRowHeight + 3 * graphicSize);
-            Pen pen = new Pen(brush);
-            view.G.DrawLine(pen, startPoint, endPoint);
-            */
+            nextString = "" + thisNeed.RoundedFacs;
+            nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontFacs, horizontalSpace), nextY);
+            view.G.DrawString(nextString, fontFacs, brush, nextPoint);
+            nextY += 38;
+
+            nextPoint = new PointF(currentLeftX + CenterXImageOffset(imageDimension, horizontalSpace), nextY);
+            view.G.DrawImage(imageProducer, nextPoint);
+            nextY += graphicSpacing;
+
+            nextString = "for";
+            nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontLabel, horizontalSpace), nextY);
+            view.G.DrawString(nextString, fontLabel, brush, nextPoint);
+            nextY += spacingLabel;
+
+            nextPoint = new PointF(currentLeftX + CenterXImageOffset(imageDimension, horizontalSpace), nextY);
+            view.G.DrawImage(imageProduct, nextPoint);
+            nextY += graphicSpacing;
+
+
+            nextString = "Belt load:";
+            nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontLabel, horizontalSpace), nextY);
+            view.G.DrawString(nextString, fontLabel, brush, nextPoint);
+            nextY += spacingLabel;
+
+            nextString = "" + Math.Ceiling(thisNeed.BeltLoad);
+            nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontBeltLoad, horizontalSpace), nextY);
+            view.G.DrawString(nextString, fontBeltLoad, brush, nextPoint);
+            nextY += 26;
 
             // Relationship lines.
-            int centerX = currentX + (imageDimension / 2);
-            Point newInPoint = new Point(centerX, currentRowHeight + 15);
-            
+            int centerX = currentLeftX + (imageDimension / 2);
+
+
+
             // Draw a relationship line if this is not the root.
+            // This is needed to pass even if this is the root.
+            nextPoint = new PointF(currentLeftX + horizontalSpace / 2, nextY);
             if (thisDepth > 0)
             {
                 Pen pen = new Pen(brush, 2);
-                Point outPoint = new Point(centerX, currentRowHeight + 3 * graphicSpacing);
-                view.G.DrawLine(pen, outPoint, parentPoint);
+                view.G.DrawLine(pen, nextPoint, parentPoint);
             }
-            
+
 
             // Draw our children.
+            Point newInPoint = new Point((int)nextPoint.X, topY - 2);
             foreach (GraphicalNeed childNeed in thisNeed.ChildNeeds)
             {
                 DrawThisFacNeed(childNeed, thisDepth + 1, widestRow, maxWidth, maxDepth, ref largestColumnUsed, newInPoint);

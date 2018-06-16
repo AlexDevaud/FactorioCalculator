@@ -36,6 +36,7 @@
             this.boxTotalPerSecond = new System.Windows.Forms.TextBox();
             this.ButtonOptimizeBeltLoad = new System.Windows.Forms.Button();
             this.drawingTopLeft = new System.Windows.Forms.TextBox();
+            this.textSizeCheck = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // ButtonCalculate
@@ -110,11 +111,22 @@
             this.drawingTopLeft.Text = "For positioning the drawing area";
             this.drawingTopLeft.Visible = false;
             // 
+            // textSizeCheck
+            // 
+            this.textSizeCheck.AutoSize = true;
+            this.textSizeCheck.Location = new System.Drawing.Point(1530, 18);
+            this.textSizeCheck.Name = "textSizeCheck";
+            this.textSizeCheck.Size = new System.Drawing.Size(167, 13);
+            this.textSizeCheck.TabIndex = 9;
+            this.textSizeCheck.Text = "for getting the dimension of strings";
+            this.textSizeCheck.Visible = false;
+            // 
             // Ui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1729, 1786);
+            this.Controls.Add(this.textSizeCheck);
             this.Controls.Add(this.drawingTopLeft);
             this.Controls.Add(this.ButtonOptimizeBeltLoad);
             this.Controls.Add(this.boxTotalPerSecond);
@@ -140,6 +152,7 @@
         private System.Windows.Forms.TextBox boxTotalPerSecond;
         private System.Windows.Forms.Button ButtonOptimizeBeltLoad;
         private System.Windows.Forms.TextBox drawingTopLeft;
+        private System.Windows.Forms.Label textSizeCheck;
     }
 }
 

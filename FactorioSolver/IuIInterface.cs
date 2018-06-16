@@ -17,6 +17,7 @@ namespace FactorioSolver
         // For drawing
         Graphics G { get; }
         TextBox TopLeft { get; }
+        Label StringSize { get; }
 
         event Action ClickCalculate;
         event Action ClickOptimizeBeltLoad;

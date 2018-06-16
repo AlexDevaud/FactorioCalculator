@@ -50,6 +50,10 @@ namespace FactorioSolver
             get { return drawingTopLeft; }
         }
 
+        public Label StringSize
+        {
+            get { return textSizeCheck; }
+        }
 
         public event Action ClickCalculate;
         public event Action ClickOptimizeBeltLoad;
