@@ -39,6 +39,12 @@ namespace FactorioSolver
             set { boxTotalPerSecond = value; }
         }
 
+        public TextBox TextMiningProductivity
+        {
+            get { return boxMiningProductivity; }
+            set { boxMiningProductivity = value; }
+        }
+
         // Drawing interface
         public Graphics G
         {

@@ -32,6 +32,7 @@ namespace FactorioSolver
             Factory facOffshorePump = new Factory("Offshore Pump", false, 1);
             Factory facElectricMiningDrill = new Factory("Electric Mining Drill", true, 1);
 
+            // Images of factories.
             facAssemblingMachine.ImageString = "Images\\Assembling_machine_3.png";
             facChemicalPlantBelt.ImageString = "Images\\Chemical_plant.png";
             facChemicalPlantPipe.ImageString = "Images\\Chemical_plant.png";
@@ -389,7 +390,6 @@ namespace FactorioSolver
             rocketControlUnit.Ingredients.Add(new Ingredient(processingUnit, 1));
             rocketControlUnit.Ingredients.Add(new Ingredient(speedModule, 1));
 
-
             highTechSciencePack.Producer = facAssemblingMachine;
             highTechSciencePack.TimeToProduce = 14;
             highTechSciencePack.TotalCreated = 2;
@@ -397,6 +397,7 @@ namespace FactorioSolver
             highTechSciencePack.Ingredients.Add(new Ingredient(copperCable, 30));
             highTechSciencePack.Ingredients.Add(new Ingredient(processingUnit, 3));
             highTechSciencePack.Ingredients.Add(new Ingredient(speedModule, 1));
+            highTechSciencePack.ImageString = "Images\\High_tech_science_pack.png";
 
             battery.Producer = facChemicalPlantBelt;
             battery.TimeToProduce = 5;
@@ -404,6 +405,7 @@ namespace FactorioSolver
             battery.Ingredients.Add(new Ingredient(ironPlate, 1));
             battery.Ingredients.Add(new Ingredient(copperPlate, 1));
             battery.Ingredients.Add(new Ingredient(sulfuricAcid, 20));
+            battery.ImageString = "Images\\Battery.png";
 
             sulfuricAcid.Producer = facChemicalPlantPipe;
             sulfuricAcid.TimeToProduce = 1;
@@ -411,12 +413,14 @@ namespace FactorioSolver
             sulfuricAcid.Ingredients.Add(new Ingredient(ironPlate, 1));
             sulfuricAcid.Ingredients.Add(new Ingredient(sulfur, 5));
             sulfuricAcid.Ingredients.Add(new Ingredient(water, 100));
+            sulfuricAcid.ImageString = "Images\\Sulfuric_acid.png";
 
             sulfur.Producer = facChemicalPlantBelt;
             sulfur.TimeToProduce = 1;
             sulfur.TotalCreated = 2;
             sulfur.Ingredients.Add(new Ingredient(water, 30));
             sulfur.Ingredients.Add(new Ingredient(petroleumGas, 30));
+            sulfur.ImageString = "Images\\Sulfur.png";
 
             copperCable.Producer = facAssemblingMachine;
             copperCable.TimeToProduce = 0.5;
@@ -430,6 +434,7 @@ namespace FactorioSolver
             processingUnit.Ingredients.Add(new Ingredient(advancedCircuit, 2));
             processingUnit.Ingredients.Add(new Ingredient(electronicCircuit, 20));
             processingUnit.Ingredients.Add(new Ingredient(sulfuricAcid, 5));
+            processingUnit.ImageString = "Images\\Processing_unit.png";
 
             electronicCircuit.Producer = facAssemblingMachine;
             electronicCircuit.TimeToProduce = 0.5;
@@ -458,6 +463,7 @@ namespace FactorioSolver
             speedModule.TotalCreated = 1;
             speedModule.Ingredients.Add(new Ingredient(electronicCircuit, 5));
             speedModule.Ingredients.Add(new Ingredient(advancedCircuit, 5));
+            speedModule.ImageString = "Images\\Speed_module.png";
 
             sciencePack1.Producer = facAssemblingMachine;
             sciencePack1.TimeToProduce = 5;

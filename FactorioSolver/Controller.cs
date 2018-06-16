@@ -216,6 +216,24 @@ namespace FactorioSolver
             return maxDepth;
         }
 
+        // Finds the greatest width in this nodes children.
+        private int GetMaxWidthOfTree(GraphicalNeed thisNeed)
+        {
+            int maxDepth = GetMaxDepthOfTree(thisNeed, 0, 0);
+            int[] depthWidths = new int[maxDepth];
+            depthWidths = GetWidthsOfTree(thisNeed, 0, depthWidths);
+            int maxWidth = 0;
+
+            for (int i = 0; i < maxDepth; i++)
+            {
+                if (depthWidths[i] > maxWidth)
+                {
+                    maxWidth = depthWidths[i];
+                }
+            }
+            return maxWidth;
+        }
+
 
         /// <summary>
         /// Returns the widths of all levels of tree.
@@ -228,10 +246,6 @@ namespace FactorioSolver
         /// <returns></returns>
         private int[] GetWidthsOfTree(GraphicalNeed thisNeed, int thisDepth, int[] depthWidths)
         {
-            /*
-            view.TextReport.AppendText("At depth " + thisDepth + " .We find product " + thisNeed.Product.Name);
-            view.TextReport.AppendText("\n");
-            */
             depthWidths[thisDepth]++;
             thisDepth++;
 
@@ -275,11 +289,16 @@ namespace FactorioSolver
 
             // Calculate needs for mining Drills.
             // Also drawing them
+            // Get the mining productivity
+            Int32.TryParse(view.TextMiningProductivity.Text, out int miningLevel);
+
+            double miningBoost = 1 + 0.02 * miningLevel;
 
             if (miningNeeds.IronOre > 0)
             {
                 products.Dictionary.TryGetValue("Iron Ore", out Product thisOre);
-                int neededDrills = (int)Math.Ceiling(miningNeeds.IronOre * thisOre.TimeToProduce);
+                double orePerSecond = miningNeeds.IronOre;
+                int neededDrills = (int)Math.Ceiling((orePerSecond / miningBoost) * thisOre.TimeToProduce);
 
                 GraphicalNeed thisNeed = new GraphicalNeed(thisOre);
                 thisNeed.BeltLoad = 0;
@@ -289,7 +308,8 @@ namespace FactorioSolver
             if (miningNeeds.CopperOre > 0)
             {
                 products.Dictionary.TryGetValue("Copper Ore", out Product thisOre);
-                int neededDrills = (int)Math.Ceiling(miningNeeds.CopperOre * thisOre.TimeToProduce);
+                double orePerSecond = miningNeeds.CopperOre;
+                int neededDrills = (int)Math.Ceiling((orePerSecond / miningBoost) * thisOre.TimeToProduce);
 
                 GraphicalNeed thisNeed = new GraphicalNeed(thisOre);
                 thisNeed.BeltLoad = 0;
@@ -299,7 +319,8 @@ namespace FactorioSolver
             if (miningNeeds.Coal > 0)
             {
                 products.Dictionary.TryGetValue("Coal", out Product thisOre);
-                int neededDrills = (int)Math.Ceiling(miningNeeds.Coal * thisOre.TimeToProduce);
+                double orePerSecond = miningNeeds.Coal;
+                int neededDrills = (int)Math.Ceiling((orePerSecond / miningBoost) * thisOre.TimeToProduce);
 
                 GraphicalNeed thisNeed = new GraphicalNeed(thisOre);
                 thisNeed.BeltLoad = 0;
@@ -309,7 +330,8 @@ namespace FactorioSolver
             if (miningNeeds.Stone > 0)
             {
                 products.Dictionary.TryGetValue("Stone", out Product thisOre);
-                int neededDrills = (int)Math.Ceiling(miningNeeds.Stone * thisOre.TimeToProduce);
+                double orePerSecond = miningNeeds.Coal;
+                int neededDrills = (int)Math.Ceiling((orePerSecond / miningBoost) * thisOre.TimeToProduce);
 
                 GraphicalNeed thisNeed = new GraphicalNeed(thisOre);
                 thisNeed.BeltLoad = 0;
@@ -362,8 +384,8 @@ namespace FactorioSolver
             // Tracking where to draw in the scence.
             int graphicSpacing = 44;
             int imageDimension = 32;
-            int horizontalSpace = 96;
-            int verticalSpace = 320;
+            int horizontalSpace = 80;
+            int verticalSpace = 300;
             int nextY = (maxDepth - thisDepth - 1) * verticalSpace + topLeftPoint.Y;
             int topY = nextY;
             int spacingLabel = 18;
@@ -379,15 +401,23 @@ namespace FactorioSolver
 
             int currentLeftX = topLeftPoint.X + largestColumnUsed * horizontalSpace;
 
-            // Center amoung our children.
+            // Center among all our children.
             if (thisNeed.ChildNeeds.Count > 0)
             {
-                // We need to be centered horizontally among our children.
-                currentLeftX += (thisNeed.ChildNeeds.Count - 1) * horizontalSpace / 2;
+                int maxRowWidth = GetMaxWidthOfTree(thisNeed);
+                currentLeftX += (maxRowWidth - 1) * horizontalSpace / 2;
             }
 
-            // Check for root centering.
-            if (thisDepth == 0 && thisNeed.ChildNeeds.Count > 0)
+                /*
+                // Center amoung our children.
+                if (thisNeed.ChildNeeds.Count > 0)
+                {
+                    // We need to be centered horizontally among our children.
+                    currentLeftX += (thisNeed.ChildNeeds.Count - 1) * horizontalSpace / 2;
+                }
+                */
+                // Check for root centering.
+                if (thisDepth == 0 && thisNeed.ChildNeeds.Count > 0)
             {
                 currentLeftX = topLeftPoint.X + (maxWidth - 1) * horizontalSpace / 2;
             }
@@ -424,7 +454,7 @@ namespace FactorioSolver
                 view.G.DrawString(nextString, fontLabel, brush, nextPoint);
                 nextY += spacingLabel;
 
-                nextString = "" + Math.Round(thisNeed.BeltLoad);
+                nextString = "" + TrimDoubleLength(thisNeed.BeltLoad);
                 nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontBeltLoad, horizontalSpace), nextY);
                 view.G.DrawString(nextString, fontBeltLoad, brush, nextPoint);
                 nextY += 26;

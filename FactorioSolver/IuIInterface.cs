@@ -13,6 +13,7 @@ namespace FactorioSolver
         TextBox TextReport { get; set; }
         TextBox TextIngredient { get; set; }
         TextBox TextTotalPerSecond { get; set; }
+        TextBox TextMiningProductivity { get; set; }
 
         // For drawing
         Graphics G { get; }
