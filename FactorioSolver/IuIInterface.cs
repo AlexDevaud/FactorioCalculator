@@ -15,6 +15,8 @@ namespace FactorioSolver
         TextBox TextTotalPerSecond { get; set; }
         TextBox TextMiningProductivity { get; set; }
 
+        bool CheckBoxSplitBelts { get; }
+
         // For drawing
         Graphics G { get; }
         TextBox TopLeftMain { get; }

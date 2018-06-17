@@ -59,11 +59,13 @@ namespace FactorioSolver
         public double BeltLoad { get; set; }
         public int RoundedFacs { get; set; }
         public List<GraphicalNeed> ChildNeeds { get; set; }
+        public GraphicalNeed Parent { get; set; }
+        public int Copies { get; set; }
 
         public GraphicalNeed(Product product)
         {
             ChildNeeds = new List<GraphicalNeed>();
-
+            Copies = 1;
             Product = product;
         }
         /*

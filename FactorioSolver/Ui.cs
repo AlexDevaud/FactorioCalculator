@@ -39,11 +39,18 @@ namespace FactorioSolver
             set { boxTotalPerSecond = value; }
         }
 
+        // Not being used.
         public TextBox TextMiningProductivity
         {
             get { return boxMiningProductivity; }
             set { boxMiningProductivity = value; }
         }
+
+        public bool CheckBoxSplitBelts
+        {
+            get { return checkBoxBeltSplit.Checked; }
+        }
+
 
         // Drawing interface
         public Graphics G

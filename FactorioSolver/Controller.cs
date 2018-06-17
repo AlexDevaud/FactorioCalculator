@@ -32,9 +32,8 @@ namespace FactorioSolver
         /// </summary>
         private void HandleCalculate()
         {
-            view.G.Clear(Color.White);
+            
 
-            // Normal code.
             view.TextReport.Text = "";
             largestBeltLoad = 0;
 
@@ -43,6 +42,8 @@ namespace FactorioSolver
                 // Get the total needed per second.
                 if (Double.TryParse(view.TextTotalPerSecond.Text, out double totalPerSecond))
                 {
+                    // Text report.
+                    /*
                     // Built a list of sets of factories we will need.
                     List<IngredientStats> ingredientsList = new List<IngredientStats>();
                     OilNeeds oilNeeds = new OilNeeds();
@@ -98,15 +99,17 @@ namespace FactorioSolver
 
                     view.TextReport.AppendText("\n");
                     view.TextReport.AppendText("The largest belt load is " + largestBeltLoad + " for " + largestBeltProduct);
-
+                    */
 
                     // Graphical display.
                     // Calulate needs for graphical display.
                     GraphicalNeed rootNeed = new GraphicalNeed(product);
                     MiningNeeds miningNeeds = new MiningNeeds();
-                    rootNeed = CalculateGraphicalNeeds(rootNeed, totalPerSecond, rootNeed, miningNeeds);
+                    OilNeeds oilNeeds = new OilNeeds();
+                    rootNeed = CalculateGraphicalNeeds(rootNeed, totalPerSecond, rootNeed, miningNeeds, oilNeeds);
 
-
+                    // Redraw the tree.
+                    view.G.Clear(Color.White);
                     DisplayGraphicalReport(rootNeed, oilNeeds, miningNeeds);
 
                 }
@@ -127,13 +130,33 @@ namespace FactorioSolver
         /// </summary>
         /// <param name="thisNeed"></param>
         /// <param name="rootNeed"></param>
-        private GraphicalNeed CalculateGraphicalNeeds(GraphicalNeed thisNeed, double count, GraphicalNeed rootNeed, MiningNeeds miningNeeds)
+        private GraphicalNeed CalculateGraphicalNeeds(GraphicalNeed thisNeed, double count, GraphicalNeed rootNeed, MiningNeeds miningNeeds, OilNeeds oilNeeds)
         {
             double factoriesNeeded = (1.0 * count * thisNeed.Product.TimeToProduce) / (thisNeed.Product.TotalCreated * thisNeed.Product.Producer.CraftSpeed);
             double beltLoad = 0;
+            const double maxBeltLoad = 40;
             if (thisNeed.Product.Producer.UsesBelt)
             {
                 beltLoad = 1.0 * thisNeed.Product.TotalCreated * thisNeed.Product.Producer.CraftSpeed * factoriesNeeded / thisNeed.Product.TimeToProduce;
+
+                // Split belts if selected.
+                if (view.CheckBoxSplitBelts && beltLoad > maxBeltLoad) 
+                {
+
+                    // Re calulate the needs of each set.
+                    int setsOfBuildings = (int)Math.Ceiling(beltLoad / maxBeltLoad);
+                    factoriesNeeded /= setsOfBuildings;
+                    beltLoad /= setsOfBuildings;
+                    count /= setsOfBuildings;
+                    thisNeed.Copies *= setsOfBuildings;
+
+                    // Make our parent reference this building multiple times. Then it will be drawn multiple times.
+
+                    for (int i = 1; i < setsOfBuildings; i++)
+                    {
+                        thisNeed.Parent.ChildNeeds.Add(thisNeed);
+                    }
+                }
 
                 // Store the largest belt load.
                 if (beltLoad > largestBeltLoad)
@@ -142,8 +165,6 @@ namespace FactorioSolver
                     largestBeltProduct = thisNeed.Product.Name;
                 }
             }
-
-            // Oil needs are calculated by the text report. For now we can rely of that data existing.
 
             // Store stats for this item
             thisNeed.BeltLoad = beltLoad;
@@ -157,18 +178,23 @@ namespace FactorioSolver
                     double newCost = 1.0 * (1.0 * ingredient.Amount * count) / thisNeed.Product.TotalCreated;
 
                     // Don't add mining or refinery needs to the main list.
+                    // This child is also assumed to be the last item in the chain.
                     if (ingredient.Product.Producer.Name != "Oil Refinery" && ingredient.Product.Producer.Name != "Electric Mining Drill" && ingredient.Product.Producer.Name != "Offshore Pump")
                     {
-                        //double newCost = 1.0 * (1.0 * ingredient.Amount * count) / thisNeed.Product.TotalCreated;
-
                         // Create a new stats object for each ingredient.
                         GraphicalNeed nextNeed = new GraphicalNeed(ingredient.Product);
+                        nextNeed.Parent = thisNeed;
+                        nextNeed.Copies = thisNeed.Copies;
                         thisNeed.ChildNeeds.Add(nextNeed);
 
-                        CalculateGraphicalNeeds(nextNeed, newCost, rootNeed, miningNeeds);
+                        // Create stats for this child need.
+                        CalculateGraphicalNeeds(nextNeed, newCost, rootNeed, miningNeeds, oilNeeds);
                     }
                     else if (ingredient.Product.Producer.Name == "Electric Mining Drill")
                     {
+                        // Total mining costs need to know if this was split for belts.
+                        newCost *= thisNeed.Copies;
+
                         if (ingredient.Product.Name == "Iron Ore")
                         {
                             miningNeeds.IronOre += newCost;
@@ -186,76 +212,35 @@ namespace FactorioSolver
                             miningNeeds.Stone += newCost;
                         }
                     }
+                    else if (ingredient.Product.Producer.Name == "Oil Refinery")
+                    {
+                        // Total mining costs need to know if this was split for belts.
+                        newCost *= thisNeed.Copies;
+
+                        if (ingredient.Product.Name == "Light Oil")
+                        {
+                            oilNeeds.LightOilNeeded += newCost;
+                        }
+                        else if (ingredient.Product.Name == "Heavy Oil")
+                        {
+                            oilNeeds.HeavyOilNeeded += newCost;
+                        }
+                        else if (ingredient.Product.Name == "Petroleum Gas")
+                        {
+                            oilNeeds.PetroleumGasNeeded += newCost;
+                        }
+                        else if (ingredient.Product.Name == "Solid Fuel Ingredient")
+                        {
+                            oilNeeds.SolidFuelIngredientsNeeded += newCost;
+                        }
+                    }
 
                 }
             }
             return rootNeed;
         }
         
-        /// <summary>
-        /// Returns the maximum depth of the dependency tree.
-        /// 1 node = 1 depth.
-        /// </summary>
-        /// <param name="thisNeed"></param>
-        /// <param name="thisDepth"></param>
-        /// <param name="maxDepth"></param>
-        /// <returns></returns>
-        private int GetMaxDepthOfTree(GraphicalNeed thisNeed, int thisDepth, int maxDepth)
-        {
-            thisDepth++;
-
-            foreach (GraphicalNeed childNeed in thisNeed.ChildNeeds)
-            {
-                maxDepth = GetMaxDepthOfTree(childNeed, thisDepth, maxDepth);
-            }
-
-            if (thisDepth > maxDepth)
-            {
-                maxDepth = thisDepth;
-            }
-            return maxDepth;
-        }
-
-        // Finds the greatest width in this nodes children.
-        private int GetMaxWidthOfTree(GraphicalNeed thisNeed)
-        {
-            int maxDepth = GetMaxDepthOfTree(thisNeed, 0, 0);
-            int[] depthWidths = new int[maxDepth];
-            depthWidths = GetWidthsOfTree(thisNeed, 0, depthWidths);
-            int maxWidth = 0;
-
-            for (int i = 0; i < maxDepth; i++)
-            {
-                if (depthWidths[i] > maxWidth)
-                {
-                    maxWidth = depthWidths[i];
-                }
-            }
-            return maxWidth;
-        }
-
-
-        /// <summary>
-        /// Returns the widths of all levels of tree.
-        /// Finding the max of this needs to be done when it is built.
-        /// 1 node = 1 width.
-        /// </summary>
-        /// <param name="thisNeed"></param>
-        /// <param name="thisDepth"></param>
-        /// <param name="depthWidths"></param>
-        /// <returns></returns>
-        private int[] GetWidthsOfTree(GraphicalNeed thisNeed, int thisDepth, int[] depthWidths)
-        {
-            depthWidths[thisDepth]++;
-            thisDepth++;
-
-            foreach (GraphicalNeed childNeed in thisNeed.ChildNeeds)
-            {
-                depthWidths = GetWidthsOfTree(childNeed, thisDepth, depthWidths);
-            }
-
-            return depthWidths;
-        }
+        
 
 
         /// <summary>
@@ -286,6 +271,9 @@ namespace FactorioSolver
 
             // Draw with the main tree
             DrawThisFacNeed(rootNeed, 0, widestRow, maxWidth, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
+
+            // Draw oil needs
+            DisplayRefineryStats(oilNeeds);
 
             // Calculate needs for mining Drills.
             // Also drawing them
@@ -341,33 +329,7 @@ namespace FactorioSolver
 
         }
 
-        /// <summary>
-        /// Centers images in the graphical display of things to build.
-        /// </summary>
-        /// <param name="itemWidth"></param>
-        /// <param name="totalWidth"></param>
-        /// <returns></returns>
-        private int CenterXImageOffset(int itemWidth, int totalWidth)
-        {
-            return (totalWidth - itemWidth - 16) / 2;
-        }
 
-        /// <summary>
-        /// Centers text in the graphic display of things to build.
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="font"></param>
-        /// <param name="totalWidth"></param>
-        /// <returns></returns>
-        private int CenterXStringOffset(string text, Font font, int totalWidth)
-        {
-            view.StringSize.Text = text;
-            view.StringSize.Font = font;
-            int textWidth = view.StringSize.Size.Width;
-
-            return (totalWidth - textWidth) / 2;
-            
-        }
 
         /// <summary>
         /// Draws the given factory. Also call itself to draw its children.
@@ -797,6 +759,9 @@ namespace FactorioSolver
             }
         
 
+        // Smaller utility methods.
+
+
         /// <summary>
         /// Adjust the belt load to have a max of 40 load.
         /// </summary>
@@ -825,6 +790,99 @@ namespace FactorioSolver
                 valueString = valueString.Substring(0, 5);
             }
             return valueString;
+        }
+
+        /// <summary>
+        /// Returns the maximum depth of the dependency tree.
+        /// 1 node = 1 depth.
+        /// </summary>
+        /// <param name="thisNeed"></param>
+        /// <param name="thisDepth"></param>
+        /// <param name="maxDepth"></param>
+        /// <returns></returns>
+        private int GetMaxDepthOfTree(GraphicalNeed thisNeed, int thisDepth, int maxDepth)
+        {
+            thisDepth++;
+
+            foreach (GraphicalNeed childNeed in thisNeed.ChildNeeds)
+            {
+                maxDepth = GetMaxDepthOfTree(childNeed, thisDepth, maxDepth);
+            }
+
+            if (thisDepth > maxDepth)
+            {
+                maxDepth = thisDepth;
+            }
+            return maxDepth;
+        }
+
+        // Finds the greatest width in this nodes children.
+        private int GetMaxWidthOfTree(GraphicalNeed thisNeed)
+        {
+            int maxDepth = GetMaxDepthOfTree(thisNeed, 0, 0);
+            int[] depthWidths = new int[maxDepth];
+            depthWidths = GetWidthsOfTree(thisNeed, 0, depthWidths);
+            int maxWidth = 0;
+
+            for (int i = 0; i < maxDepth; i++)
+            {
+                if (depthWidths[i] > maxWidth)
+                {
+                    maxWidth = depthWidths[i];
+                }
+            }
+            return maxWidth;
+        }
+
+
+        /// <summary>
+        /// Returns the widths of all levels of tree.
+        /// Finding the max of this needs to be done when it is built.
+        /// 1 node = 1 width.
+        /// </summary>
+        /// <param name="thisNeed"></param>
+        /// <param name="thisDepth"></param>
+        /// <param name="depthWidths"></param>
+        /// <returns></returns>
+        private int[] GetWidthsOfTree(GraphicalNeed thisNeed, int thisDepth, int[] depthWidths)
+        {
+            depthWidths[thisDepth]++;
+            thisDepth++;
+
+            foreach (GraphicalNeed childNeed in thisNeed.ChildNeeds)
+            {
+                depthWidths = GetWidthsOfTree(childNeed, thisDepth, depthWidths);
+            }
+
+            return depthWidths;
+        }
+
+        /// <summary>
+        /// Centers images in the graphical display of things to build.
+        /// </summary>
+        /// <param name="itemWidth"></param>
+        /// <param name="totalWidth"></param>
+        /// <returns></returns>
+        private int CenterXImageOffset(int itemWidth, int totalWidth)
+        {
+            return (totalWidth - itemWidth - 16) / 2;
+        }
+
+        /// <summary>
+        /// Centers text in the graphic display of things to build.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="font"></param>
+        /// <param name="totalWidth"></param>
+        /// <returns></returns>
+        private int CenterXStringOffset(string text, Font font, int totalWidth)
+        {
+            view.StringSize.Text = text;
+            view.StringSize.Font = font;
+            int textWidth = view.StringSize.Size.Width;
+
+            return (totalWidth - textWidth) / 2;
+
         }
     }
 }

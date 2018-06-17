@@ -26,8 +26,7 @@ namespace FactorioSolver
             Factory facAssemblingMachine = new Factory("Assembling Machine", true, 1.25);
             Factory facChemicalPlantBelt = new Factory("Chemical Plant", true, 1.25);
             Factory facChemicalPlantPipe = new Factory("Chemical Plant", false, 1.25);
-            Factory facOilRefineryAdvanced = new Factory("Oil Refinery", false, 1);
-            Factory facOilRefineryBasic = new Factory("Oil Refinery", false, 1);
+            Factory facOilRefinery = new Factory("Oil Refinery", false, 1);
             Factory facElectricFurnace = new Factory("Electric Furnace", true, 2);
             Factory facOffshorePump = new Factory("Offshore Pump", false, 1);
             Factory facElectricMiningDrill = new Factory("Electric Mining Drill", true, 1);
@@ -36,8 +35,7 @@ namespace FactorioSolver
             facAssemblingMachine.ImageString = "Images\\Assembling_machine_3.png";
             facChemicalPlantBelt.ImageString = "Images\\Chemical_plant.png";
             facChemicalPlantPipe.ImageString = "Images\\Chemical_plant.png";
-            facOilRefineryAdvanced.ImageString = "Images\\Oil_refinery.png";
-            facOilRefineryBasic.ImageString = "Images\\Oil_refinery.png";
+            facOilRefinery.ImageString = "Images\\Oil_refinery.png";
             facElectricFurnace.ImageString = "Images\\Electric_furnace.png";
             facOffshorePump.ImageString = "Images\\Offshore_pump.png";
             facElectricMiningDrill.ImageString = "Images\\Electric_mining_drill.png";
@@ -352,17 +350,17 @@ namespace FactorioSolver
             solidFuel.TotalCreated = 1;
             solidFuel.Ingredients.Add(new Ingredient(solidFuelIngredients, 1));
 
-            solidFuelIngredients.Producer = facOilRefineryBasic;
+            solidFuelIngredients.Producer = facOilRefinery;
             solidFuelIngredients.TimeToProduce = 5;
             solidFuelIngredients.TotalCreated = 1;
 
 
             // Machine processes
-            advancedOilProcessing.Producer = facOilRefineryAdvanced;
+            advancedOilProcessing.Producer = facOilRefinery;
             advancedOilProcessing.TimeToProduce = 5;
             advancedOilProcessing.ImageString = "Images\\Advanced_oil_processing.png";
 
-            basicOilProcessing.Producer = facOilRefineryBasic;
+            basicOilProcessing.Producer = facOilRefinery;
             basicOilProcessing.TimeToProduce = 5;
             basicOilProcessing.ImageString = "Images\\Basic_oil_processing.png";
 
@@ -648,17 +646,17 @@ namespace FactorioSolver
             water.TotalCreated = 1200;
             water.ImageString = "Images\\Water.png";
 
-            petroleumGas.Producer = facOilRefineryAdvanced;
+            petroleumGas.Producer = facOilRefinery;
             petroleumGas.TimeToProduce = 5;
             petroleumGas.TotalCreated = 90;
             petroleumGas.ImageString = "Images\\Petroleum_gas.png";
 
-            lightOil.Producer = facOilRefineryAdvanced;
+            lightOil.Producer = facOilRefinery;
             lightOil.TimeToProduce = 5;
             lightOil.TotalCreated = 45;
             lightOil.ImageString = "Images\\Light_oil.png";
 
-            heavyOil.Producer = facOilRefineryBasic;
+            heavyOil.Producer = facOilRefinery;
             heavyOil.TimeToProduce = 5;
             heavyOil.TotalCreated = 30;
             heavyOil.ImageString = "Images\\Heavy_oil.png";

@@ -41,11 +41,12 @@
             this.drawingMiningNeeds = new System.Windows.Forms.TextBox();
             this.boxMiningProductivity = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.checkBoxBeltSplit = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // ButtonCalculate
             // 
-            this.ButtonCalculate.Location = new System.Drawing.Point(124, 117);
+            this.ButtonCalculate.Location = new System.Drawing.Point(118, 184);
             this.ButtonCalculate.Name = "ButtonCalculate";
             this.ButtonCalculate.Size = new System.Drawing.Size(75, 23);
             this.ButtonCalculate.TabIndex = 1;
@@ -82,7 +83,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 74);
+            this.label2.Location = new System.Drawing.Point(19, 68);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(87, 13);
             this.label2.TabIndex = 5;
@@ -90,7 +91,7 @@
             // 
             // boxTotalPerSecond
             // 
-            this.boxTotalPerSecond.Location = new System.Drawing.Point(25, 91);
+            this.boxTotalPerSecond.Location = new System.Drawing.Point(22, 85);
             this.boxTotalPerSecond.Name = "boxTotalPerSecond";
             this.boxTotalPerSecond.Size = new System.Drawing.Size(174, 20);
             this.boxTotalPerSecond.TabIndex = 6;
@@ -98,7 +99,7 @@
             // 
             // ButtonOptimizeBeltLoad
             // 
-            this.ButtonOptimizeBeltLoad.Location = new System.Drawing.Point(9, 117);
+            this.ButtonOptimizeBeltLoad.Location = new System.Drawing.Point(3, 184);
             this.ButtonOptimizeBeltLoad.Name = "ButtonOptimizeBeltLoad";
             this.ButtonOptimizeBeltLoad.Size = new System.Drawing.Size(109, 23);
             this.ButtonOptimizeBeltLoad.TabIndex = 7;
@@ -127,7 +128,7 @@
             // 
             // drawingRefineryTopLeft
             // 
-            this.drawingRefineryTopLeft.Location = new System.Drawing.Point(12, 192);
+            this.drawingRefineryTopLeft.Location = new System.Drawing.Point(12, 213);
             this.drawingRefineryTopLeft.Name = "drawingRefineryTopLeft";
             this.drawingRefineryTopLeft.Size = new System.Drawing.Size(195, 20);
             this.drawingRefineryTopLeft.TabIndex = 10;
@@ -138,14 +139,14 @@
             // 
             this.drawingMiningNeeds.Location = new System.Drawing.Point(1732, 1794);
             this.drawingMiningNeeds.Name = "drawingMiningNeeds";
-            this.drawingMiningNeeds.Size = new System.Drawing.Size(195, 20);
+            this.drawingMiningNeeds.Size = new System.Drawing.Size(266, 20);
             this.drawingMiningNeeds.TabIndex = 11;
-            this.drawingMiningNeeds.Text = "For positioning the mining needs";
+            this.drawingMiningNeeds.Text = "For positioning the mining needs(not being used)";
             this.drawingMiningNeeds.Visible = false;
             // 
             // boxMiningProductivity
             // 
-            this.boxMiningProductivity.Location = new System.Drawing.Point(25, 166);
+            this.boxMiningProductivity.Location = new System.Drawing.Point(19, 135);
             this.boxMiningProductivity.Name = "boxMiningProductivity";
             this.boxMiningProductivity.Size = new System.Drawing.Size(174, 20);
             this.boxMiningProductivity.TabIndex = 13;
@@ -154,11 +155,23 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(22, 149);
+            this.label3.Location = new System.Drawing.Point(16, 118);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(88, 13);
             this.label3.TabIndex = 12;
             this.label3.Text = "Mining Productity";
+            // 
+            // checkBoxBeltSplit
+            // 
+            this.checkBoxBeltSplit.AutoSize = true;
+            this.checkBoxBeltSplit.Checked = true;
+            this.checkBoxBeltSplit.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxBeltSplit.Location = new System.Drawing.Point(19, 161);
+            this.checkBoxBeltSplit.Name = "checkBoxBeltSplit";
+            this.checkBoxBeltSplit.Size = new System.Drawing.Size(133, 17);
+            this.checkBoxBeltSplit.TabIndex = 14;
+            this.checkBoxBeltSplit.Text = "Split for 40 speed belts";
+            this.checkBoxBeltSplit.UseVisualStyleBackColor = true;
             // 
             // Ui
             // 
@@ -166,6 +179,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(3036, 2134);
+            this.Controls.Add(this.checkBoxBeltSplit);
             this.Controls.Add(this.boxMiningProductivity);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.drawingMiningNeeds);
@@ -201,6 +215,7 @@
         private System.Windows.Forms.TextBox drawingMiningNeeds;
         private System.Windows.Forms.TextBox boxMiningProductivity;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox checkBoxBeltSplit;
     }
 }
 
