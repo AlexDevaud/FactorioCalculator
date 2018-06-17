@@ -168,9 +168,9 @@
             this.checkBoxBeltSplit.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxBeltSplit.Location = new System.Drawing.Point(19, 161);
             this.checkBoxBeltSplit.Name = "checkBoxBeltSplit";
-            this.checkBoxBeltSplit.Size = new System.Drawing.Size(133, 17);
+            this.checkBoxBeltSplit.Size = new System.Drawing.Size(125, 17);
             this.checkBoxBeltSplit.TabIndex = 14;
-            this.checkBoxBeltSplit.Text = "Split for 40 speed belts";
+            this.checkBoxBeltSplit.Text = "Split for express belts";
             this.checkBoxBeltSplit.UseVisualStyleBackColor = true;
             // 
             // Ui
