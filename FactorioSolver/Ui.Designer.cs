@@ -56,11 +56,9 @@
             // 
             // boxDebug
             // 
-            this.boxDebug.Location = new System.Drawing.Point(12, 1774);
-            this.boxDebug.Multiline = true;
+            this.boxDebug.Location = new System.Drawing.Point(12, 213);
             this.boxDebug.Name = "boxDebug";
-            this.boxDebug.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.boxDebug.Size = new System.Drawing.Size(1685, 348);
+            this.boxDebug.Size = new System.Drawing.Size(187, 20);
             this.boxDebug.TabIndex = 2;
             // 
             // boxIngredient
@@ -69,7 +67,7 @@
             this.boxIngredient.Name = "boxIngredient";
             this.boxIngredient.Size = new System.Drawing.Size(177, 20);
             this.boxIngredient.TabIndex = 3;
-            this.boxIngredient.Text = "Advanced Circuit";
+            this.boxIngredient.Text = "Express Transport Belt";
             // 
             // label1
             // 
@@ -119,7 +117,7 @@
             // textSizeCheck
             // 
             this.textSizeCheck.AutoSize = true;
-            this.textSizeCheck.Location = new System.Drawing.Point(1530, 18);
+            this.textSizeCheck.Location = new System.Drawing.Point(2857, 9);
             this.textSizeCheck.Name = "textSizeCheck";
             this.textSizeCheck.Size = new System.Drawing.Size(167, 13);
             this.textSizeCheck.TabIndex = 9;
@@ -128,16 +126,16 @@
             // 
             // drawingRefineryTopLeft
             // 
-            this.drawingRefineryTopLeft.Location = new System.Drawing.Point(12, 213);
+            this.drawingRefineryTopLeft.Location = new System.Drawing.Point(2758, 65);
             this.drawingRefineryTopLeft.Name = "drawingRefineryTopLeft";
-            this.drawingRefineryTopLeft.Size = new System.Drawing.Size(195, 20);
+            this.drawingRefineryTopLeft.Size = new System.Drawing.Size(265, 20);
             this.drawingRefineryTopLeft.TabIndex = 10;
-            this.drawingRefineryTopLeft.Text = "For positioning the refinery drawing area";
+            this.drawingRefineryTopLeft.Text = "For positioning the refinery drawing area (not used)";
             this.drawingRefineryTopLeft.Visible = false;
             // 
             // drawingMiningNeeds
             // 
-            this.drawingMiningNeeds.Location = new System.Drawing.Point(1732, 1794);
+            this.drawingMiningNeeds.Location = new System.Drawing.Point(2758, 34);
             this.drawingMiningNeeds.Name = "drawingMiningNeeds";
             this.drawingMiningNeeds.Size = new System.Drawing.Size(266, 20);
             this.drawingMiningNeeds.TabIndex = 11;
