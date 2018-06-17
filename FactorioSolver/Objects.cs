@@ -66,6 +66,7 @@ namespace FactorioSolver
         {
             ChildNeeds = new List<GraphicalNeed>();
             Copies = 1;
+            BeltLoad = 0;
             Product = product;
         }
         /*

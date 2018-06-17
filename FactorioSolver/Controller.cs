@@ -135,9 +135,18 @@ namespace FactorioSolver
             double factoriesNeeded = (1.0 * count * thisNeed.Product.TimeToProduce) / (thisNeed.Product.TotalCreated * thisNeed.Product.Producer.CraftSpeed);
             double beltLoad = 0;
             const double maxBeltLoad = 40;
+            const double roundingError = 0.0000000000001;
             if (thisNeed.Product.Producer.UsesBelt)
             {
                 beltLoad = 1.0 * thisNeed.Product.TotalCreated * thisNeed.Product.Producer.CraftSpeed * factoriesNeeded / thisNeed.Product.TimeToProduce;
+
+                // Check for weird rounding when optimizing for 40.
+                if (beltLoad > maxBeltLoad && beltLoad < maxBeltLoad + roundingError)
+                {
+                    beltLoad = maxBeltLoad;
+                    factoriesNeeded -= roundingError;
+                    count -= roundingError;
+                }
 
                 // Split belts if selected.
                 if (view.CheckBoxSplitBelts && beltLoad > maxBeltLoad) 
@@ -270,10 +279,10 @@ namespace FactorioSolver
             }
 
             // Draw with the main tree
-            DrawThisFacNeed(rootNeed, 0, widestRow, maxWidth, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
+            DrawThisFacNeed(rootNeed, 0, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
 
             // Draw oil needs
-            DisplayRefineryStats(oilNeeds);
+            DisplayRefineryStats(oilNeeds, ref largestColumnUsed, maxDepth);
 
             // Calculate needs for mining Drills.
             // Also drawing them
@@ -291,7 +300,7 @@ namespace FactorioSolver
                 GraphicalNeed thisNeed = new GraphicalNeed(thisOre);
                 thisNeed.BeltLoad = 0;
                 thisNeed.RoundedFacs = neededDrills;
-                DrawThisFacNeed(thisNeed, 0, widestRow, maxWidth, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
+                DrawThisFacNeed(thisNeed, 0, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
             }
             if (miningNeeds.CopperOre > 0)
             {
@@ -302,7 +311,7 @@ namespace FactorioSolver
                 GraphicalNeed thisNeed = new GraphicalNeed(thisOre);
                 thisNeed.BeltLoad = 0;
                 thisNeed.RoundedFacs = neededDrills;
-                DrawThisFacNeed(thisNeed, 0, widestRow, maxWidth, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
+                DrawThisFacNeed(thisNeed, 0, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
             }
             if (miningNeeds.Coal > 0)
             {
@@ -313,7 +322,7 @@ namespace FactorioSolver
                 GraphicalNeed thisNeed = new GraphicalNeed(thisOre);
                 thisNeed.BeltLoad = 0;
                 thisNeed.RoundedFacs = neededDrills;
-                DrawThisFacNeed(thisNeed, 0, widestRow, maxWidth, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
+                DrawThisFacNeed(thisNeed, 0, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
             }
             if (miningNeeds.Stone > 0)
             {
@@ -324,7 +333,7 @@ namespace FactorioSolver
                 GraphicalNeed thisNeed = new GraphicalNeed(thisOre);
                 thisNeed.BeltLoad = 0;
                 thisNeed.RoundedFacs = neededDrills;
-                DrawThisFacNeed(thisNeed, 0, widestRow, maxWidth, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
+                DrawThisFacNeed(thisNeed, 0, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
             }
 
         }
@@ -341,122 +350,110 @@ namespace FactorioSolver
         /// <param name="maxDepth"></param>
         /// <param name="largestColumnUsed"></param>
         /// <param name="parentPoint"></param> If 0, 0 assumes this is the root.
-        private void DrawThisFacNeed(GraphicalNeed thisNeed, int thisDepth, int widestRow, int maxWidth, int maxDepth, ref int largestColumnUsed, Point parentPoint, Point topLeftPoint)
+        private void DrawThisFacNeed(GraphicalNeed thisNeed, int thisDepth, int maxDepth, ref int largestColumnUsed, Point parentPoint, Point topLeftPoint)
         {
-            // Tracking where to draw in the scence.
-            int graphicSpacing = 44;
-            int imageDimension = 32;
-            int horizontalSpace = 80;
-            int verticalSpace = 300;
-            int nextY = (maxDepth - thisDepth - 1) * verticalSpace + topLeftPoint.Y;
-            int topY = nextY;
-            int spacingLabel = 18;
-
-            // Needed images.
-            Image imageProduct = Image.FromFile(thisNeed.Product.ImageString);
-            Image imageProducer = Image.FromFile(thisNeed.Product.Producer.ImageString);
-
-            Font fontFacs = new Font("Arial", 30);
-            Font fontLabel = new Font("Arial", 12);
-            Font fontBeltLoad = new Font("Arial", 18);
-            SolidBrush brush = new SolidBrush(Color.Black);
-
-            int currentLeftX = topLeftPoint.X + largestColumnUsed * horizontalSpace;
-
-            // Center among all our children.
-            if (thisNeed.ChildNeeds.Count > 0)
+            // Solid fuel is a special weird case that is drawn by refinery needs.
+            if (thisNeed.Product.Name != "Solid Fuel")
             {
-                int maxRowWidth = GetMaxWidthOfTree(thisNeed);
-                currentLeftX += (maxRowWidth - 1) * horizontalSpace / 2;
-            }
+                // Tracking where to draw in the scence.
+                int graphicSpacing = 44;
+                int imageDimension = 32;
+                int horizontalSpace = 80;
+                int verticalSpace = 300;
+                int nextY = (maxDepth - thisDepth - 1) * verticalSpace + topLeftPoint.Y;
+                int topY = nextY;
+                int spacingLabel = 18;
 
-                /*
-                // Center amoung our children.
+                // Needed images.
+                Image imageProduct = Image.FromFile(thisNeed.Product.ImageString);
+                Image imageProducer = Image.FromFile(thisNeed.Product.Producer.ImageString);
+
+                Font fontFacs = new Font("Arial", 30);
+                Font fontLabel = new Font("Arial", 12);
+                Font fontBeltLoad = new Font("Arial", 18);
+                SolidBrush brush = new SolidBrush(Color.Black);
+
+                int currentLeftX = topLeftPoint.X + largestColumnUsed * horizontalSpace;
+
+                // Center among all our children.
                 if (thisNeed.ChildNeeds.Count > 0)
                 {
-                    // We need to be centered horizontally among our children.
-                    currentLeftX += (thisNeed.ChildNeeds.Count - 1) * horizontalSpace / 2;
+                    int maxRowWidth = GetMaxWidthOfTree(thisNeed);
+                    currentLeftX += (maxRowWidth - 1) * horizontalSpace / 2;
                 }
-                */
-                // Check for root centering.
-                if (thisDepth == 0 && thisNeed.ChildNeeds.Count > 0)
-            {
-                currentLeftX = topLeftPoint.X + (maxWidth - 1) * horizontalSpace / 2;
-            }
 
-            // Draw all the data for this set of buildings.
-            string nextString = "Build";
-            PointF nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontLabel, horizontalSpace), nextY);
-            view.G.DrawString(nextString, fontLabel, brush, nextPoint);
-            nextY += spacingLabel;
+                // Draw all the data for this set of buildings.
+                string nextString = "Build";
+                PointF nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontLabel, horizontalSpace), nextY);
+                view.G.DrawString(nextString, fontLabel, brush, nextPoint);
+                nextY += spacingLabel;
 
-            nextString = "" + thisNeed.RoundedFacs;
-            nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontFacs, horizontalSpace), nextY);
-            view.G.DrawString(nextString, fontFacs, brush, nextPoint);
-            nextY += 38;
+                nextString = "" + thisNeed.RoundedFacs;
+                nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontFacs, horizontalSpace), nextY);
+                view.G.DrawString(nextString, fontFacs, brush, nextPoint);
+                nextY += 38;
 
-            nextPoint = new PointF(currentLeftX + CenterXImageOffset(imageDimension, horizontalSpace), nextY);
-            view.G.DrawImage(imageProducer, nextPoint);
-            nextY += graphicSpacing;
+                nextPoint = new PointF(currentLeftX + CenterXImageOffset(imageDimension, horizontalSpace), nextY);
+                view.G.DrawImage(imageProducer, nextPoint);
+                nextY += graphicSpacing;
 
-            nextString = "for";
-            nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontLabel, horizontalSpace), nextY);
-            view.G.DrawString(nextString, fontLabel, brush, nextPoint);
-            nextY += spacingLabel;
-
-            nextPoint = new PointF(currentLeftX + CenterXImageOffset(imageDimension, horizontalSpace), nextY);
-            view.G.DrawImage(imageProduct, nextPoint);
-            nextY += graphicSpacing;
-
-            // Drawing belt load info.
-            if (thisNeed.BeltLoad > 0)
-            {
-                nextString = "Belt load:";
+                nextString = "for";
                 nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontLabel, horizontalSpace), nextY);
                 view.G.DrawString(nextString, fontLabel, brush, nextPoint);
                 nextY += spacingLabel;
 
-                nextString = "" + TrimDoubleLength(thisNeed.BeltLoad);
-                nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontBeltLoad, horizontalSpace), nextY);
-                view.G.DrawString(nextString, fontBeltLoad, brush, nextPoint);
-                nextY += 26;
+                nextPoint = new PointF(currentLeftX + CenterXImageOffset(imageDimension, horizontalSpace), nextY);
+                view.G.DrawImage(imageProduct, nextPoint);
+                nextY += graphicSpacing;
+
+                // Drawing belt load info.
+                if (thisNeed.BeltLoad > 0)
+                {
+                    nextString = "Belt load:";
+                    nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontLabel, horizontalSpace), nextY);
+                    view.G.DrawString(nextString, fontLabel, brush, nextPoint);
+                    nextY += spacingLabel;
+
+                    nextString = "" + TrimDoubleLength(thisNeed.BeltLoad);
+                    nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontBeltLoad, horizontalSpace), nextY);
+                    view.G.DrawString(nextString, fontBeltLoad, brush, nextPoint);
+                    nextY += 26;
+                }
+
+
+                // Relationship lines.
+                int centerX = currentLeftX + (imageDimension / 2);
+
+                // Draw a relationship line if this is not the root.
+                // This is needed to pass even if this is the root.
+                nextPoint = new PointF(currentLeftX + horizontalSpace / 2, nextY);
+                if (thisDepth > 0)
+                {
+                    Pen pen = new Pen(brush, 2);
+                    view.G.DrawLine(pen, nextPoint, parentPoint);
+                }
+
+
+                // Draw our children.
+                Point newInPoint = new Point((int)nextPoint.X, topY - 2);
+                foreach (GraphicalNeed childNeed in thisNeed.ChildNeeds)
+                {
+                    DrawThisFacNeed(childNeed, thisDepth + 1, maxDepth, ref largestColumnUsed, newInPoint, topLeftPoint);
+
+                }
             }
-           
-
-            // Relationship lines.
-            int centerX = currentLeftX + (imageDimension / 2);
-
-            // Draw a relationship line if this is not the root.
-            // This is needed to pass even if this is the root.
-            nextPoint = new PointF(currentLeftX + horizontalSpace / 2, nextY);
-            if (thisDepth > 0)
-            {
-                Pen pen = new Pen(brush, 2);
-                view.G.DrawLine(pen, nextPoint, parentPoint);
-            }
-
-
-            // Draw our children.
-            Point newInPoint = new Point((int)nextPoint.X, topY - 2);
-            foreach (GraphicalNeed childNeed in thisNeed.ChildNeeds)
-            {
-                DrawThisFacNeed(childNeed, thisDepth + 1, widestRow, maxWidth, maxDepth, ref largestColumnUsed, newInPoint, topLeftPoint);
-
-            }
-
             // Move to the next column.
             if (thisNeed.ChildNeeds.Count == 0)
             {
                 largestColumnUsed++;
             }
-            
         }
 
         /// <summary>
         /// Calculates and displays data related to needs from oil refineries.
         /// </summary>
         /// <param name="oilNeeds"></param>
-        private void DisplayRefineryStats(OilNeeds oilNeeds)
+        private void DisplayRefineryStats(OilNeeds oilNeeds, ref int largestColumnUsed, int maxDepth)
         {
             // Deal with refinery needs.
             // Should we use basic refining or advanced refining?
@@ -471,10 +468,18 @@ namespace FactorioSolver
             // We may not need oil.
             if (advancedNeeds + basicNeeds > 0)
             {
+                // Get references to oil processing data.
                 products.Dictionary.TryGetValue("Heavy Oil", out Product heavyOil);
                 products.Dictionary.TryGetValue("Light Oil", out Product lightOil);
                 products.Dictionary.TryGetValue("Petroleum Gas", out Product petroleumGas);
                 products.Dictionary.TryGetValue("Solid Fuel", out Product solidFuel);
+
+                products.Dictionary.TryGetValue("Advanced Oil Processing", out Product advacedOilProcessing);
+                products.Dictionary.TryGetValue("Heavy Oil Cracking", out Product heavyCracking);
+                products.Dictionary.TryGetValue("Light Oil Cracking", out Product lightCracking);
+
+                products.Dictionary.TryGetValue("Solid Fuel From Light Oil", out Product solidFuelFromLight);
+                products.Dictionary.TryGetValue("Solid Fuel From Petroleum Gas", out Product solidFuelFromGas);
 
                 // What type of processing should we use?
                 if (advancedNeeds > basicNeeds)
@@ -508,6 +513,7 @@ namespace FactorioSolver
                     roundedRefineriesNeeded = (int)Math.Ceiling(exactRefineriesNeeded);
                     int lightToSolidPlants = (int)Math.Ceiling(roundedRefineriesNeeded * refineriesPerLightToSolid);
                     int gasToSolidPlants = (int)Math.Ceiling(roundedRefineriesNeeded * refineriesPerGasToSolid);
+
                     view.TextReport.AppendText("Build " + lightToSolidPlants + " chemical plants to turn excess light oil into solid fuel.");
                     view.TextReport.AppendText("\n");
                     view.TextReport.AppendText("\n");
@@ -567,42 +573,38 @@ namespace FactorioSolver
                             exactRefineriesNeeded = (oilNeeds.PetroleumGasNeeded * petroleumGas.TimeToProduce) / (90.0 * refineryCraftSpeed);
                             DisplayRefineriesNeededText(exactRefineriesNeeded, processNeeded);
 
-
                             roundedRefineriesNeeded = (int)Math.Ceiling(exactRefineriesNeeded);
                             int heavyCrackingPlants = (int)Math.Ceiling(roundedRefineriesNeeded * heavyCrackPerRefinery);
                             int lightCrackingPlants = (int)Math.Ceiling(roundedRefineriesNeeded * lightCrackFacPerRefinery);
 
+                            /*
                             view.TextReport.AppendText("Build " + heavyCrackingPlants + " chemical plants to crack heavy oil to light oil.");
                             view.TextReport.AppendText("\n");
                             view.TextReport.AppendText("\n");
                             view.TextReport.AppendText("Also build " + lightCrackingPlants + " chemical plants to crack light oil to pertroleum gas.");
                             view.TextReport.AppendText("\n");
+                            */
 
                             // Grapical report.
-                            products.Dictionary.TryGetValue("Advanced Oil Processing", out Product advacedOilProcessing);
-                            products.Dictionary.TryGetValue("Heavy Oil Cracking", out Product heavyCracking);
-                            products.Dictionary.TryGetValue("Light Oil Cracking", out Product lightCracking);
-
-                            
-
                             GraphicalNeed needLightCracking = new GraphicalNeed(lightCracking);
-                            needLightCracking.BeltLoad = 0;
                             needLightCracking.RoundedFacs = lightCrackingPlants;
                             
                             GraphicalNeed needHeavyCracking = new GraphicalNeed(heavyCracking);
-                            needHeavyCracking.BeltLoad = 0;
                             needHeavyCracking.RoundedFacs = heavyCrackingPlants;
 
                             GraphicalNeed needAdvancedProcessing = new GraphicalNeed(advacedOilProcessing);
-                            needAdvancedProcessing.BeltLoad = 0;
                             needAdvancedProcessing.RoundedFacs = roundedRefineriesNeeded;
 
                             // Establish relationship between oil needs.
                             needLightCracking.ChildNeeds.Add(needHeavyCracking);
                             needHeavyCracking.ChildNeeds.Add(needAdvancedProcessing);
 
-                            int largestColumnUsed = 0;
-                            DrawThisFacNeed(needLightCracking, 0, 1, 1, 3, ref largestColumnUsed, new Point(0, 0), view.TopLeftRefinery.Location);
+                            if (maxDepth < 3)
+                            {
+                                maxDepth = 3;
+                            }
+
+                            DrawThisFacNeed(needLightCracking, 0, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
                         }
                         else if (refineryProductNeeded == "Solid Fuel Ingredient")
                         {
@@ -637,6 +639,32 @@ namespace FactorioSolver
                             view.TextReport.AppendText("\n");
                             view.TextReport.AppendText("Build " + (int)Math.Ceiling(gasToSolidChemPlants) + " chemical plants to create solid fuel from petroleum oil.");
                             view.TextReport.AppendText("\n");
+
+                            // Grapical report.
+                            GraphicalNeed needSolidPlantsFromLight = new GraphicalNeed(solidFuelFromLight);
+                            needSolidPlantsFromLight.RoundedFacs = (int)Math.Ceiling(lightOilToSolidChemPlants);
+
+                            GraphicalNeed needSolidPlantsFromGas = new GraphicalNeed(solidFuelFromGas);
+                            needSolidPlantsFromGas.RoundedFacs = (int)Math.Ceiling(gasToSolidChemPlants);
+
+                            GraphicalNeed needHeavyCracking = new GraphicalNeed(heavyCracking);
+                            needHeavyCracking.RoundedFacs = heavyCrackingPlants;
+
+                            GraphicalNeed needAdvancedProcessing = new GraphicalNeed(advacedOilProcessing);
+                            needAdvancedProcessing.RoundedFacs = roundedRefineriesNeeded;
+
+
+                            // Establish relationship between oil needs.
+                            needHeavyCracking.ChildNeeds.Add(needSolidPlantsFromLight);
+                            needAdvancedProcessing.ChildNeeds.Add(needHeavyCracking);
+                            needAdvancedProcessing.ChildNeeds.Add(needSolidPlantsFromGas);
+
+                            if (maxDepth < 3)
+                            {
+                                maxDepth = 3;
+                            }
+
+                            DrawThisFacNeed(needAdvancedProcessing, 0, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
                         }
 
                     }
@@ -768,12 +796,23 @@ namespace FactorioSolver
 
         private void HandleOptimizeBeltLoad()
         {
+            const int maxBeltLoad = 40;
+
+            // Get a base rate.
             view.TextTotalPerSecond.Text = "" + 1;
             HandleCalculate();
 
-            double optimalRate = 40.0 / largestBeltLoad;
-            view.TextTotalPerSecond.Text = "" + optimalRate;
+            double optimalRate = maxBeltLoad / largestBeltLoad;
+            /*
+            // Check if we will have an issue with double imprecision.
+            double actualBeltLoad = optimalRate * largestBeltLoad;
+            if (actualBeltLoad > maxBeltLoad)
+            {
+                optimalRate -= 0.000000000000001;
+            }
+            */
 
+            view.TextTotalPerSecond.Text = "" + optimalRate;
             HandleCalculate();
         }
 

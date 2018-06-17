@@ -293,6 +293,9 @@ namespace FactorioSolver
             Product basicOilProcessing = new Product("Basic Oil Processing");
             Product heavyCracking = new Product("Heavy Oil Cracking");
             Product lightCracking = new Product("Light Oil Cracking");
+            Product solidFuelFromHeavyOil = new Product("Solid Fuel From Heavy Oil");
+            Product solidFuelFromLightOil = new Product("Solid Fuel From Light Oil");
+            Product solidFuelFromPetroleumGas = new Product("Solid Fuel From Petroleum Gas");
 
             // Add all ingredients and stats.
             // From left to right, top to bottom.
@@ -362,7 +365,7 @@ namespace FactorioSolver
             solidFuelIngredients.Producer = facOilRefinery;
             solidFuelIngredients.TimeToProduce = 5;
             solidFuelIngredients.TotalCreated = 1;
-            solidFuelIngredients.ImageString = "Images\\Solid_fuel.png";
+            solidFuelIngredients.ImageString = "Images\\Wood.png";
 
 
             // Machine processes
@@ -381,6 +384,18 @@ namespace FactorioSolver
             lightCracking.Producer = facChemicalPlantPipe;
             lightCracking.TimeToProduce = 3;
             lightCracking.ImageString = "Images\\Light_oil_cracking.png";
+
+            solidFuelFromHeavyOil.Producer = facChemicalPlantBelt;
+            solidFuelFromHeavyOil.TimeToProduce = 3;
+            solidFuelFromHeavyOil.ImageString = "Images\\Solid_fuel_from_heavy_oil.png";
+
+            solidFuelFromLightOil.Producer = facChemicalPlantBelt;
+            solidFuelFromLightOil.TimeToProduce = 3;
+            solidFuelFromLightOil.ImageString = "Images\\Solid_fuel_from_light_oil.png";
+
+            solidFuelFromPetroleumGas.Producer = facChemicalPlantBelt;
+            solidFuelFromPetroleumGas.TimeToProduce = 3;
+            solidFuelFromPetroleumGas.ImageString = "Images\\Solid_fuel_from_petroleum_gas.png";
 
             // Old sorting
             //assemblingMachine3.ImageString = "Images\\Assembling_machine_3.png";
@@ -878,6 +893,9 @@ namespace FactorioSolver
             products.Add(basicOilProcessing);
             products.Add(heavyCracking);
             products.Add(lightCracking);
+            products.Add(solidFuelFromHeavyOil);
+            products.Add(solidFuelFromLightOil);
+            products.Add(solidFuelFromPetroleumGas);
 
             // Old sorting
             products.Add(piercingRoundsMagazine);

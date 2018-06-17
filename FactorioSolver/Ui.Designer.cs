@@ -69,7 +69,7 @@
             this.boxIngredient.Name = "boxIngredient";
             this.boxIngredient.Size = new System.Drawing.Size(177, 20);
             this.boxIngredient.TabIndex = 3;
-            this.boxIngredient.Text = "High Tech Science Pack";
+            this.boxIngredient.Text = "Advanced Circuit";
             // 
             // label1
             // 
