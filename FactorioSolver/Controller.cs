@@ -34,7 +34,7 @@ namespace FactorioSolver
         {
             
 
-            view.TextReport.Text = "";
+            view.TextErrors.Text = "";
             largestBeltLoad = 0;
 
             if (products.Dictionary.TryGetValue(view.TextIngredient.Text, out Product product))
@@ -42,67 +42,7 @@ namespace FactorioSolver
                 // Get the total needed per second.
                 if (Double.TryParse(view.TextTotalPerSecond.Text, out double totalPerSecond))
                 {
-                    // Text report.
-                    /*
-                    // Built a list of sets of factories we will need.
-                    List<IngredientStats> ingredientsList = new List<IngredientStats>();
-                    OilNeeds oilNeeds = new OilNeeds();
-                    ComputeFactoryCostsText(product, totalPerSecond, ingredientsList, "Root", oilNeeds);
-
-                    // Sort the factories list into sub lists.
-                    List<IngredientStats> ironFurnace = new List<IngredientStats>();
-                    List<IngredientStats> copperFurnace = new List<IngredientStats>();
-                    List<IngredientStats> steelFurnace = new List<IngredientStats>();
-                    List<IngredientStats> assemblingMachines = new List<IngredientStats>();
-                    List<IngredientStats> chemicalPlants = new List<IngredientStats>();
-                    List<IngredientStats> refineries = new List<IngredientStats>();
-
-                    foreach (IngredientStats ingredientStats in ingredientsList)
-                    {
-                        switch (ingredientStats.Ingredient.Producer.Name)
-                        {
-                            case "Electric Furnace":
-                                if (ingredientStats.Ingredient.Name == "Iron Plate")
-                                {
-                                    ironFurnace.Add(ingredientStats);
-                                }
-                                else if (ingredientStats.Ingredient.Name == "Copper Plate")
-                                {
-                                    copperFurnace.Add(ingredientStats);
-                                }
-                                else if (ingredientStats.Ingredient.Name == "Steel Plate")
-                                {
-                                    steelFurnace.Add(ingredientStats);
-                                }
-                                break;
-                            case "Assembling Machine":
-                                assemblingMachines.Add(ingredientStats);
-                                break;
-                            case "Chemical Plant":
-                                chemicalPlants.Add(ingredientStats);
-                                break;
-                            case "Oil Refinery":
-                                refineries.Add(ingredientStats);
-                                break;
-                        }
-                    }
-                    // Text display.
-                    // Dispay text refinery needs.
-                    DisplayRefineryStats(oilNeeds);
-
-                    // Display all the text lists.
-                    DisplayListOfFactoriesText(ironFurnace);
-                    DisplayListOfFactoriesText(steelFurnace);
-                    DisplayListOfFactoriesText(copperFurnace);
-                    DisplayListOfFactoriesText(chemicalPlants);
-                    DisplayListOfFactoriesText(assemblingMachines);
-
-                    view.TextReport.AppendText("\n");
-                    view.TextReport.AppendText("The largest belt load is " + largestBeltLoad + " for " + largestBeltProduct);
-                    */
-
                     // Graphical display.
-                    // Calulate needs for graphical display.
                     GraphicalNeed rootNeed = new GraphicalNeed(product);
                     MiningNeeds miningNeeds = new MiningNeeds();
                     OilNeeds oilNeeds = new OilNeeds();
@@ -115,12 +55,12 @@ namespace FactorioSolver
                 }
                 else
                 {
-                    view.TextReport.Text = "Invalid count";
+                    view.TextErrors.Text = "Invalid count";
                 }
             }
             else
             {
-                view.TextReport.Text = "Item not found";
+                view.TextErrors.Text = "Item not found";
             }
         }
 
@@ -479,11 +419,8 @@ namespace FactorioSolver
         {
             // Deal with refinery needs.
             // Should we use basic refining or advanced refining?
-            double advancedNeeds = oilNeeds.SolidFuelIngredientsNeeded + oilNeeds.LightOilNeeded + oilNeeds.PetroleumGasNeeded;
-            double basicNeeds = oilNeeds.HeavyOilNeeded;
-            double refineryCraftSpeed = 1;
-            double chemicalPlantCraftingSpeed = 1.25;
-            string processNeeded = "";
+            const double refineryCraftSpeed = 1;
+            const double chemicalPlantCraftingSpeed = 1.25;
             double exactRefineriesNeeded = 0;
             int roundedRefineriesNeeded = 0;
 
@@ -515,8 +452,8 @@ namespace FactorioSolver
                 // Heavy oil is  needed
                 exactRefineriesNeeded = (1.0 * oilNeeds.HeavyOilNeeded * heavyOil.TimeToProduce) / (heavyOil.TotalCreated * refineryCraftSpeed);
 
-                double refineriesPerLightToSolid = 1.8;
-                double refineriesPerGasToSolid = 1.2;
+                const double refineriesPerLightToSolid = 1.8;
+                const double refineriesPerGasToSolid = 1.2;
                 roundedRefineriesNeeded = (int)Math.Ceiling(exactRefineriesNeeded);
                 int lightToSolidPlants = (int)Math.Ceiling(roundedRefineriesNeeded * refineriesPerLightToSolid);
                 int gasToSolidPlants = (int)Math.Ceiling(roundedRefineriesNeeded * refineriesPerGasToSolid);
@@ -602,7 +539,7 @@ namespace FactorioSolver
 
                 double totalSolidChemPlants = lightOilToSolidChemPlants + gasToSolidChemPlants;
 
-                double refineriesPerHeavyCracking = 20.0 / 3;
+                const double refineriesPerHeavyCracking = 20.0 / 3;
                 int heavyCrackingPlants = (int)Math.Ceiling(1.0 * roundedRefineriesNeeded / (refineriesPerHeavyCracking * chemicalPlantCraftingSpeed));
 
                 // Grapical report.
@@ -625,336 +562,9 @@ namespace FactorioSolver
 
                 DrawThisFacNeed(needAdvancedProcessing, 0, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
             }
-
-            /*
-            // We may not need oil.
-            if (advancedNeeds + basicNeeds > 0)
-            {
-                // Increase possible depth of the tree if needed.
-                if (maxDepth < 3)
-                {
-                    maxDepth = 3;
-                }
-
-                // Get references to oil processing data.
-                products.Dictionary.TryGetValue("Heavy Oil", out Product heavyOil);
-                products.Dictionary.TryGetValue("Light Oil", out Product lightOil);
-                products.Dictionary.TryGetValue("Petroleum Gas", out Product petroleumGas);
-                products.Dictionary.TryGetValue("Solid Fuel", out Product solidFuel);
-
-                products.Dictionary.TryGetValue("Advanced Oil Processing", out Product advacedOilProcessing);
-                products.Dictionary.TryGetValue("Basic Oil Processing", out Product basicOilProcessing);
-
-                products.Dictionary.TryGetValue("Heavy Oil Cracking", out Product heavyCracking);
-                products.Dictionary.TryGetValue("Light Oil Cracking", out Product lightCracking);
-
-                products.Dictionary.TryGetValue("Solid Fuel From Light Oil", out Product solidFuelFromLight);
-                products.Dictionary.TryGetValue("Solid Fuel From Petroleum Gas", out Product solidFuelFromGas);
-
-                // What type of processing should we use?
-                if (advancedNeeds > basicNeeds)
-                {
-                    // Use advanced oil processing.
-                    processNeeded = "Advanced";
-                    heavyOil.TotalCreated = 10;
-                    lightOil.TotalCreated = 45;
-                    petroleumGas.TotalCreated = 55;
-
-                }
-                else
-                {
-                    // Use basic oil processing.
-                    processNeeded = "Basic";
-                    heavyOil.TotalCreated = 30;
-                    lightOil.TotalCreated = 30;
-                    petroleumGas.TotalCreated = 40;
-                }
-
-                // Get the needed refineries.
-                // What if we only need one refinery product.
-                if (advancedNeeds == 0)
-                {
-                    // We only need heavy oil.
-                    exactRefineriesNeeded = (1.0 * oilNeeds.HeavyOilNeeded * heavyOil.TimeToProduce) / (heavyOil.TotalCreated * refineryCraftSpeed);
-
-                    //DisplayRefineriesNeededText(exactRefineriesNeeded, processNeeded);
-
-                    double refineriesPerLightToSolid = 1.8;
-                    double refineriesPerGasToSolid = 1.2;
-                    roundedRefineriesNeeded = (int)Math.Ceiling(exactRefineriesNeeded);
-                    int lightToSolidPlants = (int)Math.Ceiling(roundedRefineriesNeeded * refineriesPerLightToSolid);
-                    int gasToSolidPlants = (int)Math.Ceiling(roundedRefineriesNeeded * refineriesPerGasToSolid);
-                    
-  
-                    // Graphical report.
-                    GraphicalNeed needSolidPlantsFromLight = new GraphicalNeed(solidFuelFromLight);
-                    needSolidPlantsFromLight.RoundedFacs = lightToSolidPlants;
-
-                    GraphicalNeed needSolidPlantsFromGas = new GraphicalNeed(solidFuelFromGas);
-                    needSolidPlantsFromGas.RoundedFacs = gasToSolidPlants;
-
-                    GraphicalNeed needBasicProcessing = new GraphicalNeed(basicOilProcessing);
-                    needBasicProcessing.RoundedFacs = roundedRefineriesNeeded;
-
-                    // Establish relationship between oil needs.
-                    needBasicProcessing.ChildNeeds.Add(needSolidPlantsFromLight);
-                    needBasicProcessing.ChildNeeds.Add(needSolidPlantsFromGas);
-
-                    DrawThisFacNeed(needBasicProcessing, 0, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
-                }
-                else
-                {
-                    // Do we need more than one type of oil?
-                    int refineryProductsNeeded = 0;
-                    string refineryProductNeeded = "";
-
-                    if (oilNeeds.HeavyOilNeeded > 0)
-                    {
-                        refineryProductNeeded = "Heavy Oil";
-                        refineryProductsNeeded++;
-                    }
-                    if (oilNeeds.LightOilNeeded > 0)
-                    {
-                        refineryProductNeeded = "Light Oil";
-                        refineryProductsNeeded++;
-                    }
-                    if (oilNeeds.PetroleumGasNeeded > 0)
-                    {
-                        refineryProductNeeded = "Petroleum Gas";
-                        refineryProductsNeeded++;
-                    }
-                    if (oilNeeds.SolidFuelIngredientsNeeded > 0)
-                    {
-                        refineryProductNeeded = "Solid Fuel Ingredient";
-                        refineryProductsNeeded++;
-                    }
-
-                    if (refineryProductsNeeded == 1)
-                    {
-                        // We only need one refinery product, and it is not heavy oil.
-                        if (refineryProductNeeded == "Light Oil")
-                        {
-                            // Heavy oil can be cracked. Petroleum gas will have to be discarded as solid fuel.
-
-                        }
-                        else if (refineryProductNeeded == "Petroleum Gas")
-                        {
-                            // We only need petroleum gas.
-
-                            // 0.75 is the heavy to light exchange rate.
-                            double totalLightPerCycle = lightOil.TotalCreated + (heavyOil.TotalCreated * 0.75);
-
-                            // 40 is the heavy oil consumed per cycle. 3 is the time to crack light.
-                            double heavyCrackPerRefinery = (heavyOil.TotalCreated * refineryCraftSpeed * 3.0) / (heavyOil.TimeToProduce * chemicalPlantCraftingSpeed * 40);
-
-                            // 30 is light oil consumed per cycle. 3 is the time to crack light.
-                            double lightCrackFacPerRefinery = (totalLightPerCycle * refineryCraftSpeed * 3.0) / (lightOil.TimeToProduce * chemicalPlantCraftingSpeed * 30);
-
-                            // We can create 90 gas per cycle with cracking.
-                            exactRefineriesNeeded = (oilNeeds.PetroleumGasNeeded * petroleumGas.TimeToProduce) / (90.0 * refineryCraftSpeed);
-
-                            //DisplayRefineriesNeededText(exactRefineriesNeeded, processNeeded);
-
-                            roundedRefineriesNeeded = (int)Math.Ceiling(exactRefineriesNeeded);
-                            int heavyCrackingPlants = (int)Math.Ceiling(roundedRefineriesNeeded * heavyCrackPerRefinery);
-                            int lightCrackingPlants = (int)Math.Ceiling(roundedRefineriesNeeded * lightCrackFacPerRefinery);
-
-
-                            // Grapical report.
-                            GraphicalNeed needLightCracking = new GraphicalNeed(lightCracking);
-                            needLightCracking.RoundedFacs = lightCrackingPlants;
-                            
-                            GraphicalNeed needHeavyCracking = new GraphicalNeed(heavyCracking);
-                            needHeavyCracking.RoundedFacs = heavyCrackingPlants;
-
-                            GraphicalNeed needAdvancedProcessing = new GraphicalNeed(advacedOilProcessing);
-                            needAdvancedProcessing.RoundedFacs = roundedRefineriesNeeded;
-
-                            // Establish relationship between oil needs.
-                            needLightCracking.ChildNeeds.Add(needHeavyCracking);
-                            needHeavyCracking.ChildNeeds.Add(needAdvancedProcessing);
-
-                            DrawThisFacNeed(needLightCracking, 0, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
-                        }
-                        else if (refineryProductNeeded == "Solid Fuel Ingredient")
-                        {
-                            // 0.75 is the exhage rate of heavy to light oil.
-                            double totalSolidCreatedPerCycle = (lightOil.TotalCreated / 10.0 + petroleumGas.TotalCreated / 20.0 + (heavyOil.TotalCreated * 0.75) / 10);
-                            exactRefineriesNeeded = (oilNeeds.SolidFuelIngredientsNeeded * lightOil.TimeToProduce) / (totalSolidCreatedPerCycle * refineryCraftSpeed);
-
-                            //DisplayRefineriesNeededText(exactRefineriesNeeded, processNeeded);
-
-                            // 1.6 is the amount of solid fuel that can be craeted at a refinery per second at default craft speeds.
-                            //exactRefineriesNeeded = (oilNeeds.SolidFuelIngredientsNeeded * lightOil.TimeToProduce) / (1.6 * refineryCraftSpeed);
-                            roundedRefineriesNeeded = (int)Math.Ceiling(exactRefineriesNeeded);
-
-                            // We should crack heavy to light oil then make solid fuel with all the light oil and petroleum gas.
-                            // Calculating chem plants to be used to create solid fuel.
-                            // 0.75 the exchange rate of heavy to light oil with cracking.
-                            double lightOilPerRefineryCycle = heavyOil.TotalCreated * 0.75 + lightOil.TotalCreated;
-                            // 10 is the cost in light oil to make a solid fuel.
-                            double lightOilToSolidChemPlants = (lightOilPerRefineryCycle * refineryCraftSpeed * exactRefineriesNeeded * solidFuel.TimeToProduce) / (lightOil.TimeToProduce * 10 * chemicalPlantCraftingSpeed);
-                            // 20 is the cost in gas to create a solid fuel
-                            double gasToSolidChemPlants = (petroleumGas.TotalCreated * refineryCraftSpeed * exactRefineriesNeeded * solidFuel.TimeToProduce) / (petroleumGas.TimeToProduce * 20 * chemicalPlantCraftingSpeed);
-
-                            double totalSolidChemPlants = lightOilToSolidChemPlants + gasToSolidChemPlants;
-
-                            double refineriesPerHeavyCracking = 20.0 / 3;
-                            int heavyCrackingPlants = (int)Math.Ceiling(1.0 * roundedRefineriesNeeded / (refineriesPerHeavyCracking * chemicalPlantCraftingSpeed));
-
-                            // Grapical report.
-                            GraphicalNeed needSolidPlantsFromLight = new GraphicalNeed(solidFuelFromLight);
-                            needSolidPlantsFromLight.RoundedFacs = (int)Math.Ceiling(lightOilToSolidChemPlants);
-
-                            GraphicalNeed needSolidPlantsFromGas = new GraphicalNeed(solidFuelFromGas);
-                            needSolidPlantsFromGas.RoundedFacs = (int)Math.Ceiling(gasToSolidChemPlants);
-
-                            GraphicalNeed needHeavyCracking = new GraphicalNeed(heavyCracking);
-                            needHeavyCracking.RoundedFacs = heavyCrackingPlants;
-
-                            GraphicalNeed needAdvancedProcessing = new GraphicalNeed(advacedOilProcessing);
-                            needAdvancedProcessing.RoundedFacs = roundedRefineriesNeeded;
-
-                            // Establish relationship between oil needs.
-                            needHeavyCracking.ChildNeeds.Add(needSolidPlantsFromLight);
-                            needAdvancedProcessing.ChildNeeds.Add(needHeavyCracking);
-                            needAdvancedProcessing.ChildNeeds.Add(needSolidPlantsFromGas);
-
-                            DrawThisFacNeed(needAdvancedProcessing, 0, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
-                        }
-
-                    }
-                    else
-                    {
-                        // We need multiple refinery products.
-                        // Most likely is petroleum and heavy oil for production science pack.
-                        if (oilNeeds.PetroleumGasNeeded > 0 && oilNeeds.HeavyOilNeeded > 0 && oilNeeds.HeavyOilNeeded == 0 && oilNeeds.HeavyOilNeeded == 0)
-                        {
-
-                        }
-                    }
-
-                }
-                // What is the most needed ingredient?
-                // To calculate mixed refinery needed.
-
-
-            }
-             */
         }
-
-        /// <summary>
-        /// Displays the total refineries needed.
-        /// This is its own method so it can be show before type specific chemical plant needs.
-        /// </summary>
-        /// <param name="exactRefineries"></param>
-        /// <param name="processNeeded"></param>
-        private void DisplayRefineriesNeededText(double exactRefineries, string processNeeded)
-        {
-            view.TextReport.AppendText("Build " + (int)Math.Ceiling(exactRefineries) + " refineries and set them to " + processNeeded + " Oil Processing.");
-            view.TextReport.AppendText("\n");
-            view.TextReport.AppendText("\n");
-        }
-
-        /// <summary>
-        /// Displays all the sets of factoires in a list. This will be all factories of a certain type.
-        /// </summary>
-        /// <param name="list"></param>
-        private void DisplayListOfFactoriesText(List<IngredientStats> list)
-        {
-            list.Reverse();
-
-            foreach (IngredientStats stats in list)
-            {
-                if (stats.Ingredient.Name != "Solid Fuel")
-                {
-                    // Check if the report table is not empty.
-                    if (view.TextReport.Text.Length > 0)
-                    {
-                        view.TextReport.AppendText("\n");
-                    }
-                    view.TextReport.AppendText("Build " + stats.RoundedFactories + " " + stats.Ingredient.Producer.Name + "s for " + stats.Ingredient.Name + " that feeds to " + stats.ParentName);
-
-                    if (stats.BeltLoad > 0)
-                    {
-                        string beltLoadString = "" + stats.BeltLoad;
-                        if (beltLoadString.Length > 6)
-                        {
-                            beltLoadString = beltLoadString.Substring(0, 6);
-                        }
-
-                        view.TextReport.AppendText(". This will create a belt load of " + beltLoadString);
-                    }
-                    view.TextReport.AppendText("\n");
-                } 
-            }
-
-        }
-
-        /// <summary>
-        /// Traverses the chain of ingredients recursively. Builds a list of stats about how to build the required ingredients. Also builds a data object to track the oil needs separately.
-        /// Count is the amount of this item we need to produce at the given rate.
-        /// </summary>
-        /// <param name="product"></param>
-        /// <param name="count"></param>
-        private List<IngredientStats> ComputeFactoryCostsText(Product product, double count, List<IngredientStats> ingredientsList, string parentName, OilNeeds oilNeeds)
-        {
-            
-            double factoriesNeeded = (1.0 * count * product.TimeToProduce) / (product.TotalCreated * product.Producer.CraftSpeed);
-            IngredientStats ingredientStats = new IngredientStats(product, factoriesNeeded, parentName);
-            double beltLoad = 0;
-            if (product.Producer.UsesBelt)
-            {
-                beltLoad = 1.0 * product.TotalCreated * product.Producer.CraftSpeed * ingredientStats.ExactFactories / product.TimeToProduce;
-
-                // Store the largest belt load.
-                if (beltLoad > largestBeltLoad)
-                {
-                    largestBeltLoad = beltLoad;
-                    largestBeltProduct = product.Name;
-                }
-            }
-            // Calculating oil refinery needs is handled at the end. This stores refinery product needs.
-            else if (product.Name == "Light Oil" || product.Name == "Heavy Oil" || product.Name == "Petroleum Gas" || product.Name == "Solid Fuel Ingredient")
-            {
-                // Ingredients needed per second.
-                double ingredientsNeeded = count;
-                if (product.Name == "Light Oil")
-                {
-                    oilNeeds.LightOilNeeded += ingredientsNeeded;
-                }
-                else if (product.Name == "Heavy Oil")
-                {
-                    oilNeeds.HeavyOilNeeded += ingredientsNeeded;
-                }
-                else if (product.Name == "Petroleum Gas")
-                {
-                    oilNeeds.PetroleumGasNeeded += ingredientsNeeded;
-                }
-                else if (product.Name == "Solid Fuel Ingredient")
-                {
-                    oilNeeds.SolidFuelIngredientsNeeded += ingredientsNeeded;
-                }
-            }
-            ingredientStats.BeltLoad = beltLoad;
-            ingredientsList.Add(ingredientStats);
-
-            // Check for children to be reported on.
-            if (product.Ingredients.Count > 0)
-            {
-                foreach (Ingredient ingredient in product.Ingredients)
-                {
-                    double newCost = 1.0 * (1.0 * ingredient.Amount * count) / product.TotalCreated;
-                    ComputeFactoryCostsText(ingredient.Product, newCost, ingredientsList, Math.Ceiling(factoriesNeeded) + " " + product.Name + " factories that feeds to " + parentName, oilNeeds);
-                }
-            }
-
-            return ingredientsList;
-            }
-        
 
         // Smaller utility methods.
-
 
         /// <summary>
         /// Adjust the belt load to have a max of 40 load.

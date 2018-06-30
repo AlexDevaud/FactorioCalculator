@@ -22,7 +22,7 @@ namespace FactorioSolver
             g = this.CreateGraphics();
         }
 
-        public TextBox TextReport
+        public TextBox TextErrors
         {
             get { return boxDebug; }
             set { boxDebug = value; }

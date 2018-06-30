@@ -10,7 +10,7 @@ namespace FactorioSolver
 {
     interface IUiInterface
     {
-        TextBox TextReport { get; set; }
+        TextBox TextErrors { get; set; }
         TextBox TextIngredient { get; set; }
         TextBox TextTotalPerSecond { get; set; }
         TextBox TextMiningProductivity { get; set; }

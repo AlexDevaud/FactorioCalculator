@@ -69,16 +69,6 @@ namespace FactorioSolver
             BeltLoad = 0;
             Product = product;
         }
-        /*
-        public GraphicalNeed(Product product, double beltLoad, int roundedFacs)
-        {
-            Ingredients = new List<GraphicalNeed>();
-            
-            Product = product;
-            BeltLoad = beltLoad;
-            RoundedFacs = roundedFacs;
-        }
-        */
     }
 
     /// <summary>
