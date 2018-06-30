@@ -67,7 +67,7 @@
             this.boxIngredient.Name = "boxIngredient";
             this.boxIngredient.Size = new System.Drawing.Size(177, 20);
             this.boxIngredient.TabIndex = 3;
-            this.boxIngredient.Text = "Express Transport Belt";
+            this.boxIngredient.Text = "High Tech Science Pack";
             // 
             // label1
             // 
@@ -193,6 +193,7 @@
             this.Controls.Add(this.ButtonCalculate);
             this.Name = "Ui";
             this.Text = "Factorio Calculator";
+            this.SizeChanged += new System.EventHandler(this.Ui_SizeChanged);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Ui_KeyPress);
             this.ResumeLayout(false);
             this.PerformLayout();

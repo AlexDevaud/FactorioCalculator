@@ -98,5 +98,10 @@ namespace FactorioSolver
                 ClickCalculate?.Invoke();
             }
         }
+
+        private void Ui_SizeChanged(object sender, EventArgs e)
+        {
+            ClickCalculate?.Invoke();
+        }
     }
 }

@@ -151,7 +151,6 @@ namespace FactorioSolver
                 // Split belts if selected.
                 if (view.CheckBoxSplitBelts && beltLoad > maxBeltLoad) 
                 {
-
                     // Re calulate the needs of each set.
                     int setsOfBuildings = (int)Math.Ceiling(beltLoad / maxBeltLoad);
                     factoriesNeeded /= setsOfBuildings;
@@ -160,11 +159,16 @@ namespace FactorioSolver
                     thisNeed.Copies *= setsOfBuildings;
 
                     // Make our parent reference this building multiple times. Then it will be drawn multiple times.
-
                     for (int i = 1; i < setsOfBuildings; i++)
                     {
                         thisNeed.Parent.ChildNeeds.Add(thisNeed);
                     }
+                }
+
+                // Round up belt load slightly.
+                if (Math.Abs(beltLoad - Math.Ceiling(beltLoad)) <= roundingError)
+                {
+                    beltLoad = Math.Ceiling(beltLoad);
                 }
 
                 // Store the largest belt load.
@@ -362,7 +366,9 @@ namespace FactorioSolver
                 int verticalSpace = 300;
                 int nextY = (maxDepth - thisDepth - 1) * verticalSpace + topLeftPoint.Y;
                 int topY = nextY;
-                int spacingLabel = 18;
+                const int spacingLabel = 18;
+                const int spacingRoundedFacs = 38;
+                const int spacingBeltLoad = 26;
 
                 // Needed images.
                 Image imageProduct = Image.FromFile(thisNeed.Product.ImageString);
@@ -391,7 +397,7 @@ namespace FactorioSolver
                 nextString = "" + thisNeed.RoundedFacs;
                 nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontFacs, horizontalSpace), nextY);
                 view.G.DrawString(nextString, fontFacs, brush, nextPoint);
-                nextY += 38;
+                nextY += spacingRoundedFacs;
 
                 nextPoint = new PointF(currentLeftX + CenterXImageOffset(imageDimension, horizontalSpace), nextY);
                 view.G.DrawImage(imageProducer, nextPoint);
@@ -417,7 +423,7 @@ namespace FactorioSolver
                     nextString = "" + TrimDoubleLength(thisNeed.BeltLoad);
                     nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontBeltLoad, horizontalSpace), nextY);
                     view.G.DrawString(nextString, fontBeltLoad, brush, nextPoint);
-                    nextY += 26;
+                    nextY += spacingBeltLoad;
                 }
 
 
@@ -430,7 +436,23 @@ namespace FactorioSolver
                 if (thisDepth > 0)
                 {
                     Pen pen = new Pen(brush, 2);
-                    view.G.DrawLine(pen, nextPoint, parentPoint);
+                    //view.G.DrawLine(pen, nextPoint, parentPoint);
+
+                    // Draw an extra line if this doesn't have a belt load.
+                    if (thisNeed.BeltLoad == 0)
+                    {
+                        //This extra point extends the line to where the top normally is.
+                        Point extraPoint = new Point((int)nextPoint.X, (int)(nextPoint.Y + spacingLabel + spacingBeltLoad + 1));
+
+                        // Giving a slight overlap
+                        extraPoint = new Point((int)extraPoint.X, (int)(extraPoint.Y - 1));
+                        view.G.DrawLine(pen, nextPoint, extraPoint);
+                        view.G.DrawLine(pen, extraPoint, parentPoint);
+                    }
+                    else
+                    {
+                        view.G.DrawLine(pen, nextPoint, parentPoint);
+                    }
                 }
 
 
