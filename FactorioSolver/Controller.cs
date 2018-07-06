@@ -132,7 +132,7 @@ namespace FactorioSolver
 
                     // Don't add mining or refinery needs to the main list.
                     // This child is also assumed to be the last item in the chain.
-                    if (ingredient.Product.Producer.Name != "Oil Refinery" && ingredient.Product.Producer.Name != "Electric Mining Drill" && ingredient.Product.Producer.Name != "Offshore Pump")
+                    if (ingredient.Product.Producer.MainList)
                     {
                         // Create a new stats object for each ingredient.
                         GraphicalNeed nextNeed = new GraphicalNeed(ingredient.Product);

@@ -44,14 +44,14 @@ namespace FactorioSolver
         public void CreateDefaultProducts()
         {
             // Create factory types.
-            Factory facAssemblingMachine = new Factory("Assembling Machine", true, 1.25);
-            Factory facChemicalPlantBelt = new Factory("Chemical Plant", true, 1.25);
-            Factory facChemicalPlantPipe = new Factory("Chemical Plant", false, 1.25);
-            Factory facOilRefinery = new Factory("Oil Refinery", false, 1);
-            Factory facElectricFurnace = new Factory("Electric Furnace", true, 2);
-            Factory facOffshorePump = new Factory("Offshore Pump", false, 1);
-            Factory facElectricMiningDrill = new Factory("Electric Mining Drill", true, 1);
-            Factory facFound = new Factory("Found", false, 1); // For wood and fish.
+            Factory facAssemblingMachine = new Factory("Assembling Machine", true, 1.25, true);
+            Factory facChemicalPlantBelt = new Factory("Chemical Plant", true, 1.25, true);
+            Factory facChemicalPlantPipe = new Factory("Chemical Plant", false, 1.25, true);
+            Factory facOilRefinery = new Factory("Oil Refinery", false, 1, false);
+            Factory facElectricFurnace = new Factory("Electric Furnace", true, 2, true);
+            Factory facOffshorePump = new Factory("Offshore Pump", false, 1, false);
+            Factory facElectricMiningDrill = new Factory("Electric Mining Drill", true, 1, false);
+            Factory facFound = new Factory("Found", false, 1, false); // For wood and fish.
 
             // Images of factories.
             facAssemblingMachine.ImageString = "Images\\Assembling_machine_3.png";
@@ -441,12 +441,14 @@ namespace FactorioSolver
 
 
 
+
+
             // Not all items.
 
             StoreData(wood, facAssemblingMachine, 0.5, 2, "Wood");
             wood.Ingredients.Add(new Ingredient(rawWood, 1));
 
-            
+            StoreData(rawWood, facFound, 1, 1, "Raw_wood");
 
 
             // Intermediate Products

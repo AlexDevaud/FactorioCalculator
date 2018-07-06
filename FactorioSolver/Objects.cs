@@ -80,12 +80,14 @@ namespace FactorioSolver
         public bool UsesBelt { get; }
         public double CraftSpeed { get; }
         public string ImageString { get; set; }
+        public bool MainList { get; }
 
-        public Factory(string name, bool usesBelt, double craftSpeed)
+        public Factory(string name, bool usesBelt, double craftSpeed, bool mainList)
         {
             Name = name;
             UsesBelt = usesBelt;
             CraftSpeed = craftSpeed;
+            MainList = mainList;
         }
     }
 
