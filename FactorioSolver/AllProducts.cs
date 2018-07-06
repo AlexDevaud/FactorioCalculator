@@ -20,6 +20,27 @@ namespace FactorioSolver
             products = new List<Product>();
         }
 
+        /// <summary>
+        /// Stores all game data for the item.
+        /// Not including ingredients.
+        /// </summary>
+        /// <param name="product"></param>
+        /// <param name="factory"></param>
+        /// <param name="time"></param>
+        /// <param name="created"></param>
+        /// <param name="imageName"></param>
+        public void StoreData(Product product, Factory factory, Double time, int created, String imageName)
+        {
+            product.Producer = factory;
+            product.TimeToProduce = time;
+            product.TotalCreated = created;
+            //product.Ingredients = ingredients);
+            product.ImageString = "Images\\" + imageName + ".png";
+        }
+
+            
+            
+
         public void CreateDefaultProducts()
         {
             // Create factory types.
@@ -30,6 +51,7 @@ namespace FactorioSolver
             Factory facElectricFurnace = new Factory("Electric Furnace", true, 2);
             Factory facOffshorePump = new Factory("Offshore Pump", false, 1);
             Factory facElectricMiningDrill = new Factory("Electric Mining Drill", true, 1);
+            Factory facFound = new Factory("Found", false, 1); // For wood and fish.
 
             // Images of factories.
             facAssemblingMachine.ImageString = "Images\\Assembling_machine_3.png";
@@ -297,6 +319,9 @@ namespace FactorioSolver
             Product solidFuelFromLightOil = new Product("Solid Fuel From Light Oil");
             Product solidFuelFromPetroleumGas = new Product("Solid Fuel From Petroleum Gas");
 
+
+
+
             // Add all ingredients and stats.
             // From left to right, top to bottom.
 
@@ -347,6 +372,81 @@ namespace FactorioSolver
             expressTransportBelt.Ingredients.Add(new Ingredient(ironGearWheel, 10));
             expressTransportBelt.Ingredients.Add(new Ingredient(lubricant, 20));
             expressTransportBelt.ImageString = "Images\\Express_transport_belt.png";
+
+            StoreData(undergroundBelt, facAssemblingMachine, 1, 2, "Underground_belt");
+            undergroundBelt.Ingredients.Add(new Ingredient(ironPlate, 10));
+            undergroundBelt.Ingredients.Add(new Ingredient(transportBelt, 5));
+
+            StoreData(fastUndergroundBelt, facAssemblingMachine, 2, 2, "Fast_underground_belt");
+            fastUndergroundBelt.Ingredients.Add(new Ingredient(ironGearWheel, 40));
+            fastUndergroundBelt.Ingredients.Add(new Ingredient(undergroundBelt, 2));
+
+            StoreData(expressUndergroundBelt, facAssemblingMachine, 2, 2, "Express_underground_belt");
+            expressUndergroundBelt.Ingredients.Add(new Ingredient(fastUndergroundBelt, 2));
+            expressUndergroundBelt.Ingredients.Add(new Ingredient(ironGearWheel, 80));
+            expressUndergroundBelt.Ingredients.Add(new Ingredient(lubricant, 40));
+
+            StoreData(splitter, facAssemblingMachine, 1, 1, "Splitter");
+            splitter.Ingredients.Add(new Ingredient(electronicCircuit, 5));
+            splitter.Ingredients.Add(new Ingredient(ironPlate, 5));
+            splitter.Ingredients.Add(new Ingredient(transportBelt, 4));
+
+            StoreData(fastSplitter, facAssemblingMachine, 2, 1, "Fast_splitter");
+            fastSplitter.Ingredients.Add(new Ingredient(electronicCircuit, 10));
+            fastSplitter.Ingredients.Add(new Ingredient(ironGearWheel, 10));
+            fastSplitter.Ingredients.Add(new Ingredient(splitter, 1));
+
+            StoreData(expressSplitter, facAssemblingMachine, 2, 1, "Express_splitter");
+            expressSplitter.Ingredients.Add(new Ingredient(advancedCircuit, 10));
+            expressSplitter.Ingredients.Add(new Ingredient(fastSplitter, 1));
+            expressSplitter.Ingredients.Add(new Ingredient(ironGearWheel, 10));
+            expressSplitter.Ingredients.Add(new Ingredient(lubricant, 80));
+
+            StoreData(burnerInserter, facAssemblingMachine, 0.5, 1, "Burner_inserter");
+            burnerInserter.Ingredients.Add(new Ingredient(ironGearWheel, 1));
+            burnerInserter.Ingredients.Add(new Ingredient(ironPlate, 1));
+
+            StoreData(inserter, facAssemblingMachine, 0.5, 1, "Inserter");
+            inserter.Ingredients.Add(new Ingredient(electronicCircuit, 1));
+            inserter.Ingredients.Add(new Ingredient(ironGearWheel, 1));
+            inserter.Ingredients.Add(new Ingredient(ironPlate, 1));
+
+            StoreData(longHandedInserter, facAssemblingMachine, 0.5, 1, "Long_handed_inserter");
+            longHandedInserter.Ingredients.Add(new Ingredient(inserter, 1));
+            longHandedInserter.Ingredients.Add(new Ingredient(ironGearWheel, 1));
+            longHandedInserter.Ingredients.Add(new Ingredient(ironPlate, 1));
+
+            StoreData(fastInserter, facAssemblingMachine, 0.5, 1, "Fast_inserter");
+            fastInserter.Ingredients.Add(new Ingredient(electronicCircuit, 2));
+            fastInserter.Ingredients.Add(new Ingredient(inserter, 1));
+            fastInserter.Ingredients.Add(new Ingredient(ironPlate, 2));
+
+            StoreData(filterInserter, facAssemblingMachine, 0.5, 1, "Filter_inserter");
+            filterInserter.Ingredients.Add(new Ingredient(electronicCircuit, 4));
+            filterInserter.Ingredients.Add(new Ingredient(fastInserter, 1));
+
+            StoreData(stackInserter, facAssemblingMachine, 0.5, 1, "Stack_inserter");
+            stackInserter.Ingredients.Add(new Ingredient(advancedCircuit, 1));
+            stackInserter.Ingredients.Add(new Ingredient(electronicCircuit, 15));
+            stackInserter.Ingredients.Add(new Ingredient(fastInserter, 1));
+            stackInserter.Ingredients.Add(new Ingredient(ironGearWheel, 15));
+
+            StoreData(stackFilterInserter, facAssemblingMachine, 0.5, 1, "Stack_filter_inserter");
+            stackFilterInserter.Ingredients.Add(new Ingredient(electronicCircuit, 5));
+            stackFilterInserter.Ingredients.Add(new Ingredient(stackInserter, 1));
+
+            StoreData(smallElectricPole, facAssemblingMachine, 0.5, 2, "Small_electric_pole");
+            smallElectricPole.Ingredients.Add(new Ingredient(copperCable, 2));
+            smallElectricPole.Ingredients.Add(new Ingredient(wood, 2));
+
+
+
+            // Not all items.
+
+            StoreData(wood, facAssemblingMachine, 0.5, 2, "Wood");
+            wood.Ingredients.Add(new Ingredient(rawWood, 1));
+
+            
 
 
             // Intermediate Products
