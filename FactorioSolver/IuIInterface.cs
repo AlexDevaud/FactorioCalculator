@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace FactorioSolver
 {
-    interface IUiInterface
+    public interface IUiInterface
     {
         TextBox TextErrors { get; set; }
         TextBox TextIngredient { get; set; }

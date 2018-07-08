@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace FactorioSolver
 {
-    class Controller
+    public class Controller
     {
-        public AllProducts products;
+        private AllProducts products;
         private IUiInterface view;
         //private double craftSpeed;
         private double largestBeltLoad;

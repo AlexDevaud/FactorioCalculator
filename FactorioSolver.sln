@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactorioSolver", "FactorioSolver\FactorioSolver.csproj", "{4729108F-CA9C-4FF9-9C4E-1821CF797961}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{5E63C1F7-2B8E-453A-9F49-C4FD94CD4927}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4729108F-CA9C-4FF9-9C4E-1821CF797961}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4729108F-CA9C-4FF9-9C4E-1821CF797961}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4729108F-CA9C-4FF9-9C4E-1821CF797961}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E63C1F7-2B8E-453A-9F49-C4FD94CD4927}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E63C1F7-2B8E-453A-9F49-C4FD94CD4927}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E63C1F7-2B8E-453A-9F49-C4FD94CD4927}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E63C1F7-2B8E-453A-9F49-C4FD94CD4927}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
