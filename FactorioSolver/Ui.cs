@@ -78,6 +78,11 @@ namespace FactorioSolver
             get { return textSizeCheck; }
         }
 
+        public bool Testing
+        {
+            get { return false; }
+        }
+
         public event Action ClickCalculate;
         public event Action ClickOptimizeBeltLoad;
 

@@ -84,6 +84,11 @@ namespace UnitTests
             set { stringSize = value; }
         }
 
+        public bool Testing
+        {
+            get { return true; }
+        }
+
         // Methods to click buttons.
         public void FireCalculate()
         {
@@ -94,6 +99,8 @@ namespace UnitTests
         {
             ClickOptimizeBeltLoad?.Invoke();
         }
+
+     
 
         // Constructor
         public UIStub()

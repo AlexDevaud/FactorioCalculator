@@ -49,8 +49,12 @@ namespace FactorioSolver
                     rootNeed = CalculateGraphicalNeeds(rootNeed, totalPerSecond, rootNeed, miningNeeds, oilNeeds);
 
                     // Redraw the tree.
-                    view.G.Clear(Color.White);
-                    DisplayGraphicalReport(rootNeed, oilNeeds, miningNeeds);
+                    if (view.Testing == false)
+                    {
+                        view.G.Clear(Color.White);
+                        DisplayGraphicalReport(rootNeed, oilNeeds, miningNeeds);
+                    }
+                    
 
                 }
                 else

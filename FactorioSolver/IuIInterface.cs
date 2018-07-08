@@ -24,6 +24,9 @@ namespace FactorioSolver
         TextBox TopLeftMining { get; }
         Label StringSize { get; }
 
+        // For testing.
+        bool Testing { get; }
+
         event Action ClickCalculate;
         event Action ClickOptimizeBeltLoad;
     }

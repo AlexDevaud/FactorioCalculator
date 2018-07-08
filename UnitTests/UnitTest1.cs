@@ -22,13 +22,26 @@ namespace UnitTests
         /// Calculate electronic circuits.
         /// </summary>
         [TestMethod]
-        public void TestMethod1()
+        public void Lookup1()
         {
             // Electronic Circuit
             UIStub stub = CreateUIStub();
             stub.TextIngredient.Text = "Electronic Circuit";
             stub.FireCalculate();
             Assert.AreEqual("", stub.TextErrors.Text);
+        }
+
+        /// <summary>
+        /// Try a bat lookup
+        /// </summary>
+        [TestMethod]
+        public void FailLookup1()
+        {
+            // Electronic Circuit
+            UIStub stub = CreateUIStub();
+            stub.TextIngredient.Text = "not an item";
+            stub.FireCalculate();
+            Assert.IsTrue(stub.TextErrors.Text != "");
         }
     }
 }
