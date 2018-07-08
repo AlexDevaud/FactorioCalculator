@@ -47,6 +47,12 @@
   <ItemGroup>
     <Compile Include="AllProducts.cs" />
     <Compile Include="Controller.cs" />
+    <Compile Include="ItemSelectUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ItemSelectUI.Designer.cs">
+      <DependentUpon>ItemSelectUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ui.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -57,6 +63,9 @@
     <Compile Include="Objects.cs" />
     <Compile Include="Launcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ItemSelectUI.resx">
+      <DependentUpon>ItemSelectUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Ui.resx">
       <DependentUpon>Ui.cs</DependentUpon>
     </EmbeddedResource>
@@ -68,6 +77,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -743,6 +753,7 @@
     <Content Include="Images\Wooden_chest.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Solid_fuel_from_light_oil.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

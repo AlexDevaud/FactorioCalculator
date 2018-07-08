@@ -9,7 +9,7 @@ namespace FactorioSolver
 {
     class Controller
     {
-        private AllProducts products;
+        public AllProducts products;
         private IUiInterface view;
         //private double craftSpeed;
         private double largestBeltLoad;

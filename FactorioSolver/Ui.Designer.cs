@@ -67,7 +67,7 @@
             this.boxIngredient.Name = "boxIngredient";
             this.boxIngredient.Size = new System.Drawing.Size(177, 20);
             this.boxIngredient.TabIndex = 3;
-            this.boxIngredient.Text = "Underground Belt";
+            this.boxIngredient.Text = "Artillery Shell";
             // 
             // label1
             // 
