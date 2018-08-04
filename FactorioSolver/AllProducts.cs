@@ -441,9 +441,44 @@ namespace FactorioSolver
             smallElectricPole.Ingredients.Add(new Ingredient(copperCable, 2));
             smallElectricPole.Ingredients.Add(new Ingredient(wood, 2));
 
+            StoreData(mediumElectricPole, facAssemblingMachine, 0.5, 1, "Medium_electric_pole");
+            mediumElectricPole.Ingredients.Add(new Ingredient(copperPlate, 2));
+            mediumElectricPole.Ingredients.Add(new Ingredient(steelPlate, 2));
+
+            StoreData(bigElectricPole, facAssemblingMachine, 0.5, 1, "Big_electric_pole");
+            bigElectricPole.Ingredients.Add(new Ingredient(copperPlate, 5));
+            bigElectricPole.Ingredients.Add(new Ingredient(steelPlate, 5));
+
+            StoreData(substation, facAssemblingMachine, 0.5, 1, "Substation");
+            substation.Ingredients.Add(new Ingredient(advancedCircuit, 5));
+            substation.Ingredients.Add(new Ingredient(copperPlate, 5));
+            substation.Ingredients.Add(new Ingredient(steelPlate, 10));
+
+            StoreData(pipe, facAssemblingMachine, 0.5, 1, "Pipe");
+            pipe.Ingredients.Add(new Ingredient(ironPlate, 1));
+
+            StoreData(pipeToGround, facAssemblingMachine, 0.5, 2, "Pipe_to_ground");
+            pipeToGround.Ingredients.Add(new Ingredient(ironPlate, 5));
+            pipeToGround.Ingredients.Add(new Ingredient(pipe, 10));
+
+            StoreData(pump, facAssemblingMachine, 2, 1, "Pump");
+            pump.Ingredients.Add(new Ingredient(engineUnit, 1));
+            pump.Ingredients.Add(new Ingredient(pipe, 1));
+            pump.Ingredients.Add(new Ingredient(steelPlate, 1));
+
+            StoreData(rail, facAssemblingMachine, 0.5, 2, "Straight_rail");
+            rail.Ingredients.Add(new Ingredient(ironStick, 1));
+            rail.Ingredients.Add(new Ingredient(steelPlate, 1));
+            rail.Ingredients.Add(new Ingredient(stone, 1));
+
+            StoreData(trainStop, facAssemblingMachine, 0.5, 1, "Train_stop");
+            trainStop.Ingredients.Add(new Ingredient(electronicCircuit, 5));
+            trainStop.Ingredients.Add(new Ingredient(ironPlate, 10));
+            trainStop.Ingredients.Add(new Ingredient(steelPlate, 3));
 
 
 
+            // .Ingredients.Add(new Ingredient(
 
             // Not all items.
 
@@ -674,11 +709,7 @@ namespace FactorioSolver
             engineUnit.Ingredients.Add(new Ingredient(steelPlate, 1));
             engineUnit.ImageString = "Images\\Engine_unit.png";
 
-            pipe.Producer = facAssemblingMachine;
-            pipe.TimeToProduce = 0.5;
-            pipe.TotalCreated = 1;
-            pipe.Ingredients.Add(new Ingredient(ironPlate, 1));
-            pipe.ImageString = "Images\\Pipe.png";
+            
 
             steelPlate.Producer = facElectricFurnace;
             steelPlate.TimeToProduce = 17.5;
