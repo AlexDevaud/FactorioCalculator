@@ -15,10 +15,14 @@ namespace FactorioSolver
         private double largestBeltLoad;
         private string largestBeltProduct;
 
-
         // Contants
-        private int horizontalSpace = 80;
-        private int verticalSpace = 300;
+        private const int HORIZONTALSPACE = 80;
+        private const int VERTICALSPACE = 300;
+        private const int GRAPHICSPACING = 44;
+        private const int IMAGEDIMENSION = 32;
+        private const int SPACINGLABEL = 18;
+        private const int SPACINGROUNDEDFACS = 38;
+        private const int SPACINGBELTLOAD = 26;
 
         public Controller(IUiInterface uiInterface)
         {
@@ -296,14 +300,12 @@ namespace FactorioSolver
             }
 
             // Resize the window.
-            int windowWidth = (largestColumnUsed + 1) * horizontalSpace + view.TopLeftMain.Location.X;
+            int windowWidth = (largestColumnUsed + 1) * HORIZONTALSPACE + view.TopLeftMain.Location.X;
             Ui.ActiveForm.Width = windowWidth;
 
-            int windowHeight = maxDepth * verticalSpace;
+            int windowHeight = maxDepth * VERTICALSPACE;
             Ui.ActiveForm.Height = windowHeight;
         }
-
-
 
         /// <summary>
         /// Draws the given factory. Also call itself to draw its children.
@@ -321,15 +323,8 @@ namespace FactorioSolver
             if (thisNeed.Product.Name != "Solid Fuel")
             {
                 // Tracking where to draw in the scence.
-                int graphicSpacing = 44;
-                int imageDimension = 32;
-                
-                
-                int nextY = (maxDepth - thisDepth - 1) * verticalSpace + topLeftPoint.Y;
+                int nextY = (maxDepth - thisDepth - 1) * VERTICALSPACE + topLeftPoint.Y;
                 int topY = nextY;
-                const int spacingLabel = 18;
-                const int spacingRoundedFacs = 38;
-                const int spacingBeltLoad = 26;
 
                 // Needed images.
                 Image imageProduct = Image.FromFile(thisNeed.Product.ImageString);
@@ -340,60 +335,60 @@ namespace FactorioSolver
                 Font fontBeltLoad = new Font("Arial", 18);
                 SolidBrush brush = new SolidBrush(Color.Black);
 
-                int currentLeftX = topLeftPoint.X + largestColumnUsed * horizontalSpace;
+                int currentLeftX = topLeftPoint.X + largestColumnUsed * HORIZONTALSPACE;
 
                 // Center among all our children.
                 if (thisNeed.ChildNeeds.Count > 0)
                 {
                     int maxRowWidth = GetMaxWidthOfTree(thisNeed);
-                    currentLeftX += (maxRowWidth - 1) * horizontalSpace / 2;
+                    currentLeftX += (maxRowWidth - 1) * HORIZONTALSPACE / 2;
                 }
 
                 // Draw all the data for this set of buildings.
                 string nextString = "Build";
-                PointF nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontLabel, horizontalSpace), nextY);
+                PointF nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontLabel, HORIZONTALSPACE), nextY);
                 view.G.DrawString(nextString, fontLabel, brush, nextPoint);
-                nextY += spacingLabel;
+                nextY += SPACINGLABEL;
 
                 nextString = "" + thisNeed.RoundedFacs;
-                nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontFacs, horizontalSpace), nextY);
+                nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontFacs, HORIZONTALSPACE), nextY);
                 view.G.DrawString(nextString, fontFacs, brush, nextPoint);
-                nextY += spacingRoundedFacs;
+                nextY += SPACINGROUNDEDFACS;
 
-                nextPoint = new PointF(currentLeftX + CenterXImageOffset(imageDimension, horizontalSpace), nextY);
+                nextPoint = new PointF(currentLeftX + CenterXImageOffset(IMAGEDIMENSION, HORIZONTALSPACE), nextY);
                 view.G.DrawImage(imageProducer, nextPoint);
-                nextY += graphicSpacing;
+                nextY += GRAPHICSPACING;
 
                 nextString = "for";
-                nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontLabel, horizontalSpace), nextY);
+                nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontLabel, HORIZONTALSPACE), nextY);
                 view.G.DrawString(nextString, fontLabel, brush, nextPoint);
-                nextY += spacingLabel;
+                nextY += SPACINGLABEL;
 
-                nextPoint = new PointF(currentLeftX + CenterXImageOffset(imageDimension, horizontalSpace), nextY);
+                nextPoint = new PointF(currentLeftX + CenterXImageOffset(IMAGEDIMENSION, HORIZONTALSPACE), nextY);
                 view.G.DrawImage(imageProduct, nextPoint);
-                nextY += graphicSpacing;
+                nextY += GRAPHICSPACING;
 
                 // Drawing belt load info.
                 if (thisNeed.BeltLoad > 0)
                 {
                     nextString = "Belt load:";
-                    nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontLabel, horizontalSpace), nextY);
+                    nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontLabel, HORIZONTALSPACE), nextY);
                     view.G.DrawString(nextString, fontLabel, brush, nextPoint);
-                    nextY += spacingLabel;
+                    nextY += SPACINGLABEL;
 
                     nextString = "" + TrimDoubleLength(thisNeed.BeltLoad);
-                    nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontBeltLoad, horizontalSpace), nextY);
+                    nextPoint = new PointF(currentLeftX + CenterXStringOffset(nextString, fontBeltLoad, HORIZONTALSPACE), nextY);
                     view.G.DrawString(nextString, fontBeltLoad, brush, nextPoint);
-                    nextY += spacingBeltLoad;
+                    nextY += SPACINGBELTLOAD;
                 }
 
 
                 // Relationship lines.
-                int centerX = currentLeftX + (imageDimension / 2);
+                int centerX = currentLeftX + (IMAGEDIMENSION / 2);
 
                 // Draw a relationship line if this is not the root.
                 // This is needed to pass even if this is the root.
-                nextPoint = new PointF(currentLeftX + horizontalSpace / 2, nextY);
+                nextPoint = new PointF(currentLeftX + HORIZONTALSPACE / 2, nextY);
                 if (thisDepth > 0)
                 {
                     Pen pen = new Pen(brush, 2);
@@ -403,7 +398,7 @@ namespace FactorioSolver
                     if (thisNeed.BeltLoad == 0)
                     {
                         //This extra point extends the line to where the top normally is.
-                        Point extraPoint = new Point((int)nextPoint.X, (int)(nextPoint.Y + spacingLabel + spacingBeltLoad + 1));
+                        Point extraPoint = new Point((int)nextPoint.X, (int)(nextPoint.Y + SPACINGLABEL + SPACINGBELTLOAD + 1));
 
                         // Giving a slight overlap
                         extraPoint = new Point((int)extraPoint.X, (int)(extraPoint.Y - 1));
