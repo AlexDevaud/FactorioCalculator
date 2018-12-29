@@ -57,6 +57,7 @@
             // 
             // boxDebug
             // 
+            this.boxDebug.Enabled = false;
             this.boxDebug.Location = new System.Drawing.Point(12, 213);
             this.boxDebug.Name = "boxDebug";
             this.boxDebug.Size = new System.Drawing.Size(187, 20);
@@ -64,20 +65,21 @@
             // 
             // boxIngredient
             // 
-            this.boxIngredient.Location = new System.Drawing.Point(22, 34);
+            this.boxIngredient.Location = new System.Drawing.Point(22, 239);
             this.boxIngredient.Name = "boxIngredient";
             this.boxIngredient.Size = new System.Drawing.Size(177, 20);
             this.boxIngredient.TabIndex = 3;
             this.boxIngredient.Text = "Artillery Shell";
+            this.boxIngredient.Visible = false;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 15);
+            this.label1.Location = new System.Drawing.Point(16, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(177, 13);
+            this.label1.Size = new System.Drawing.Size(182, 13);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Enter the name of a crafting product";
+            this.label1.Text = "Select the name of a crafting product";
             // 
             // label2
             // 
@@ -175,7 +177,7 @@
             // itemsBox
             // 
             this.itemsBox.FormattingEnabled = true;
-            this.itemsBox.Location = new System.Drawing.Point(12, 239);
+            this.itemsBox.Location = new System.Drawing.Point(12, 34);
             this.itemsBox.Name = "itemsBox";
             this.itemsBox.Size = new System.Drawing.Size(187, 21);
             this.itemsBox.TabIndex = 15;

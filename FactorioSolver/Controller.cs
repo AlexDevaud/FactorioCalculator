@@ -15,6 +15,11 @@ namespace FactorioSolver
         private double largestBeltLoad;
         private string largestBeltProduct;
 
+
+        // Contants
+        private int horizontalSpace = 80;
+        private int verticalSpace = 300;
+
         public Controller(IUiInterface uiInterface)
         {
             view = uiInterface;
@@ -33,7 +38,6 @@ namespace FactorioSolver
                 {
                     view.ItemsBox.Items.Add(product.Name);
                 }
-                
             }
         }
 
@@ -291,6 +295,12 @@ namespace FactorioSolver
                 DrawThisFacNeed(thisNeed, 0, maxDepth, ref largestColumnUsed, new Point(0, 0), view.TopLeftMain.Location);
             }
 
+            // Resize the window.
+            int windowWidth = (largestColumnUsed + 1) * horizontalSpace + view.TopLeftMain.Location.X;
+            Ui.ActiveForm.Width = windowWidth;
+
+            int windowHeight = maxDepth * verticalSpace;
+            Ui.ActiveForm.Height = windowHeight;
         }
 
 
@@ -313,8 +323,8 @@ namespace FactorioSolver
                 // Tracking where to draw in the scence.
                 int graphicSpacing = 44;
                 int imageDimension = 32;
-                int horizontalSpace = 80;
-                int verticalSpace = 300;
+                
+                
                 int nextY = (maxDepth - thisDepth - 1) * verticalSpace + topLeftPoint.Y;
                 int topY = nextY;
                 const int spacingLabel = 18;
