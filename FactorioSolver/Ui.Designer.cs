@@ -42,6 +42,7 @@
             this.boxMiningProductivity = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.checkBoxBeltSplit = new System.Windows.Forms.CheckBox();
+            this.itemsBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // ButtonCalculate
@@ -171,12 +172,21 @@
             this.checkBoxBeltSplit.Text = "Split for express belts";
             this.checkBoxBeltSplit.UseVisualStyleBackColor = true;
             // 
+            // itemsBox
+            // 
+            this.itemsBox.FormattingEnabled = true;
+            this.itemsBox.Location = new System.Drawing.Point(12, 239);
+            this.itemsBox.Name = "itemsBox";
+            this.itemsBox.Size = new System.Drawing.Size(187, 21);
+            this.itemsBox.TabIndex = 15;
+            // 
             // Ui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(3036, 2134);
+            this.Controls.Add(this.itemsBox);
             this.Controls.Add(this.checkBoxBeltSplit);
             this.Controls.Add(this.boxMiningProductivity);
             this.Controls.Add(this.label3);
@@ -215,6 +225,7 @@
         private System.Windows.Forms.TextBox boxMiningProductivity;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox checkBoxBeltSplit;
+        private System.Windows.Forms.ComboBox itemsBox;
     }
 }
 

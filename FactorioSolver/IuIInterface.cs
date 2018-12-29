@@ -14,6 +14,7 @@ namespace FactorioSolver
         TextBox TextIngredient { get; set; }
         TextBox TextTotalPerSecond { get; set; }
         TextBox TextMiningProductivity { get; set; }
+        ComboBox ItemsBox { get; set; }
 
         bool CheckBoxSplitBelts { get; }
 

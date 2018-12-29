@@ -25,6 +25,16 @@ namespace FactorioSolver
 
             view.ClickCalculate += HandleCalculate;
             view.ClickOptimizeBeltLoad += HandleOptimizeBeltLoad;
+
+            // Display items in the box.
+            foreach (Product product in products.Products)
+            {
+                if (product.Ingredients.Count > 0)
+                {
+                    view.ItemsBox.Items.Add(product.Name);
+                }
+                
+            }
         }
 
         /// <summary>
@@ -32,12 +42,11 @@ namespace FactorioSolver
         /// </summary>
         private void HandleCalculate()
         {
-            
-
             view.TextErrors.Text = "";
             largestBeltLoad = 0;
 
-            if (products.Dictionary.TryGetValue(view.TextIngredient.Text, out Product product))
+            //if (products.Dictionary.TryGetValue(view.TextIngredient.Text, out Product product))
+            if (products.Dictionary.TryGetValue(view.ItemsBox.Text, out Product product))
             {
                 // Get the total needed per second.
                 if (Double.TryParse(view.TextTotalPerSecond.Text, out double totalPerSecond))
@@ -54,8 +63,6 @@ namespace FactorioSolver
                         view.G.Clear(Color.White);
                         DisplayGraphicalReport(rootNeed, oilNeeds, miningNeeds);
                     }
-                    
-
                 }
                 else
                 {

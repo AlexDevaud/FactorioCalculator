@@ -39,6 +39,12 @@ namespace FactorioSolver
             set { boxTotalPerSecond = value; }
         }
 
+        public ComboBox ItemsBox
+        {
+            get { return itemsBox; }
+            set { itemsBox = value; } 
+        }
+
         // Not being used.
         public TextBox TextMiningProductivity
         {
